@@ -49,7 +49,7 @@
                         <td>
                           <button type="button"
                           data-payload='<?php echo json_encode(['id' => $value->id, 'name' => $value->name, 'email' => $value->email])?>'
-                          class="edit-row btn btn-info btn-xs"><a href="#edit" title="Edit Administrator" data-toggle="modal" class="edit" data-payload='<?php echo json_encode(['id' => $value->id, 'name' => $value->name, 'email' => $value->email])?>'><i class="fa fa-pencil"></i></a></button>
+                          class="edit-row btn btn-info btn-xs"><a href="#edit" title="Edit Administrator" data-toggle="modal" class="edit" data-payload='<?php echo json_encode(['id' => $value->id, 'name' => $value->name, 'email' => $value->email, 'super_admin' => $value->super_admin])?>'><i class="fa fa-pencil"></i></a></button>
                           <button type="button" data-id='<?php echo $value->id; ?>' class="btn btn-delete btn-danger btn-xs"><a href="#delete" data-toggle="modal" class="delete" data-payload='<?php echo json_encode(['id' => $value->id, 'name' => $value->name, 'email' => $value->email])?>' title="Delete Administrator"><i class="fa fa-times"></i></a></button>
                           </td>
                         </tr>
@@ -173,6 +173,14 @@
             </div>
 
             <div class="form-group">
+              <label>Access Level</label>
+              <select class="form-control" name="super_admin-edit">
+                <option value="1">Super Admin</option>
+                <option value="0">Admin</option>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label >Password</label>
               <input type="password" class="form-control" name="password-edit" placeholder="New Password">
               <label style="float: right; font-size: 10px; color:red;"><b>Leave blank to leave unchanged</b></label>
@@ -204,6 +212,8 @@
       $('input[name=name-edit]').val(payload.name);
       $('input[name=email-edit]').val(payload.email);
       $('input[name=id-edit]').val(payload.id);
+      $('select[name=super_admin-edit]').val(payload.super_admin);
+      console.log(payload.super_admin);
     });
 
     $('input[name=password-add]').on('change', function(){

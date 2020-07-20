@@ -61,7 +61,8 @@ class Dashboard extends Admin_core_controller {
 
       $update_arr = array(
         'name' => $post['name-edit'], 
-        'email' => $post['email-edit']
+        'email' => $post['email-edit'],
+        'super_admin' => $post['super_admin-edit']
       );
 
       if (isset($post['password-edit']) && $post['password-edit']) {

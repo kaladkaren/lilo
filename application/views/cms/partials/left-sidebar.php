@@ -6,7 +6,7 @@
       <i class="fa fa-bars"></i>
     </div>
     <!--logo start-->
-    <a href="index.html" class="logo" >RestIgniter<span>CRUD</span></a>
+    <a href="index.html" class="logo" >LiLoApp<span>CRUD</span></a>
     <!--logo end-->
     <div class="top-nav ">
       <ul class="nav pull-right top-menu">
