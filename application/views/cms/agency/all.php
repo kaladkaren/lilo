@@ -10,7 +10,7 @@
       <div class="col-lg-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li class="active">Divisions</li>
+          <li class="active">Agency</li>
         </ul>
         <!--breadcrumbs end -->
         <!-- Improved Flashdata Start -->
@@ -46,7 +46,7 @@
               <div class="form-group" style="margin-bottom: 50px;">
                 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
                   <div class="input-group m-bot15">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Division Name" value="<?php echo @$_GET['name'] ?>">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Agency Name" value="<?php echo @$_GET['name'] ?>">
                     <div class="input-group-btn">
                       <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
@@ -92,9 +92,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (count($divisions) > 0 ): ?>
+                    <?php if (count($agency) > 0 ): ?>
 
-                      <?php $i = 1; foreach ($divisions as $key => $value): ?>
+                      <?php $i = 1; foreach ($agency as $key => $value): ?>
                         <tr style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>">
                           <th scope="row"><?php echo $i++ ?></th>
                           <td><?php echo $value->name ?></td>
@@ -125,7 +125,7 @@
               Add New Division
             </header>
             <div class="panel-body">
-              <form role="form" method="post" action="<?php echo base_url('cms/divisions/add_division/') ?>">
+              <form role="form" method="post" action="<?php echo base_url('cms/agency/add_division/') ?>">
                 <div class="form-group">
                   <label >Name</label>
                   <input type="text" class="form-control" name="name" placeholder="Name" required="">
@@ -151,7 +151,7 @@
   </section>
 </section>
 <!-- Modal -->
-<?php foreach ($divisions as $key => $value): ?>
+<?php foreach ($agency as $key => $value): ?>
   <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -160,7 +160,7 @@
           <h4 class="modal-title">Edit Division</h4>
         </div>
         <div class="panel-body">
-          <form role="form" method="post" action="<?php echo base_url('cms/divisions/update_division/'.$value->id) ?>" enctype="multipart/form-data">
+          <form role="form" method="post" action="<?php echo base_url('cms/agency/update_division/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
               <label >Name</label>
               <input type="text" class="form-control" name="name" placeholder="Name" required="" value="<?php echo $value->name ?>">

@@ -42,6 +42,12 @@
             <span>Division Management</span>
           </a>
         </li>
+        <li>
+          <a href="<?php echo base_url('cms/agency') ?>"
+            class="<?php echo (in_array($this->uri->segment(2), ['agency', 'division']))  ? 'active': ''; ?>">
+            <span>Agency Management</span>
+          </a>
+        </li>
       </ul>
       <!-- sidebar menu end-->
     </div>
