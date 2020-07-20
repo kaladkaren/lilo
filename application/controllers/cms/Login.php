@@ -33,7 +33,7 @@ class Login extends Admin_core_controller {
     $password = $this->input->post('password');
     $res = $this->login->getByEmail($email);
     
-    if($res && password_verify($password, $res->password)){
+    if($res && password_verify($password, $res->password) && $res->is_deleted == 0){
       $this->session->set_userdata([
         'role' => 'administrator', 
         'id' => $res->id, 
