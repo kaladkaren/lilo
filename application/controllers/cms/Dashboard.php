@@ -15,7 +15,7 @@ class Dashboard extends Admin_core_controller {
     if ($_SESSION['is_super_admin'] == 1) {
       $this->dashboard();
     }else{
-      redirect('cms/customers');
+      redirect('cms/divisions');
     }
   }
 
