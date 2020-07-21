@@ -63,6 +63,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['cms'] = 'cms/dashboard';
 
 # My routes
+$route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/example/(:num)'] = 'api/example/single/$1';
 
 $route['migrate/(:any)'] = 'migrate/index/$1';
