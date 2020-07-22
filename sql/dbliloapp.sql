@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 11:34 AM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Generation Time: Jul 22, 2020 at 12:44 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,10 +33,10 @@ CREATE TABLE `admin` (
   `name` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `super_admin` int(1) NOT NULL DEFAULT '0',
-  `is_deleted` int(1) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `super_admin` int(1) NOT NULL DEFAULT 0,
+  `is_deleted` int(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -57,9 +57,9 @@ INSERT INTO `admin` (`id`, `name`, `email`, `password`, `super_admin`, `is_delet
 CREATE TABLE `agency` (
   `id` int(11) NOT NULL,
   `name` varchar(300) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `is_active` int(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -81,10 +81,23 @@ CREATE TABLE `cesbie_visitors` (
   `staff_id` int(11) NOT NULL,
   `temperature` varchar(300) NOT NULL,
   `place_of_origin` varchar(300) NOT NULL,
-  `health_condition` varchar(300) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `pin_code` varchar(300) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cesbie_visitors`
+--
+
+INSERT INTO `cesbie_visitors` (`id`, `staff_id`, `temperature`, `place_of_origin`, `pin_code`, `created_at`, `updated_at`) VALUES
+(1, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:50:23', '0000-00-00 00:00:00'),
+(2, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:52:22', '0000-00-00 00:00:00'),
+(3, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:57:43', '0000-00-00 00:00:00'),
+(4, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:58:01', '0000-00-00 00:00:00'),
+(5, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:58:38', '0000-00-00 00:00:00'),
+(6, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 13:58:56', '0000-00-00 00:00:00'),
+(7, 1, '37.5', 'San Mateo, Rizal', 'zXc12365gfd', '2020-07-22 14:00:45', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -95,9 +108,9 @@ CREATE TABLE `cesbie_visitors` (
 CREATE TABLE `division` (
   `id` int(11) NOT NULL,
   `name` varchar(300) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `is_active` int(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -120,8 +133,8 @@ CREATE TABLE `feedbacks` (
   `pin_code` varchar(300) NOT NULL,
   `overall_experience` int(1) NOT NULL COMMENT '3 = good, 2 = okay, 1 = bad',
   `feedback` longtext NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -133,9 +146,9 @@ CREATE TABLE `feedbacks` (
 CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `name` varchar(300) NOT NULL,
-  `is_active` int(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `is_active` int(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -148,9 +161,16 @@ CREATE TABLE `staffs` (
   `id` int(11) NOT NULL,
   `fullname` varchar(300) NOT NULL,
   `division_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `staffs`
+--
+
+INSERT INTO `staffs` (`id`, `fullname`, `division_id`, `created_at`, `updated_at`) VALUES
+(1, 'Lorenzo Salamante', 1, '2020-07-21 11:55:58', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -164,7 +184,7 @@ CREATE TABLE `visitors` (
   `agency` int(11) NOT NULL,
   `attached_agency` int(11) NOT NULL,
   `email_address` varchar(300) NOT NULL,
-  `is_have_ecopy` int(1) NOT NULL DEFAULT '1',
+  `is_have_ecopy` int(1) NOT NULL DEFAULT 1,
   `photo` varchar(300) NOT NULL COMMENT 'filename only',
   `division_to_visit` int(11) NOT NULL,
   `purpose` int(11) NOT NULL,
@@ -174,9 +194,16 @@ CREATE TABLE `visitors` (
   `mobile_number` varchar(300) NOT NULL,
   `health_condition` varchar(300) NOT NULL,
   `pin_code` varchar(300) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `visitors`
+--
+
+INSERT INTO `visitors` (`id`, `fullname`, `agency`, `attached_agency`, `email_address`, `is_have_ecopy`, `photo`, `division_to_visit`, `purpose`, `person_to_visit`, `temperature`, `place_of_origin`, `mobile_number`, `health_condition`, `pin_code`, `created_at`, `updated_at`) VALUES
+(1, 'Elline Ocampo', 2, 1, 'edocampo@myoptimind.com', 1, '1-1595320977_5400290-polaroid-polaroid-frame-png-polaroid-template-marco-polaroid-polaroid-picture-frame-png-820_685_preview.jpg', 3, 0, 1, '36.5', 'San Mateo, Rizal', '09497912581', 'Normal', 'zXc12365gfd', '2020-07-21 12:42:57', '2020-07-21 12:42:57');
 
 --
 -- Indexes for dumped tables
@@ -250,7 +277,7 @@ ALTER TABLE `agency`
 -- AUTO_INCREMENT for table `cesbie_visitors`
 --
 ALTER TABLE `cesbie_visitors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `division`
@@ -274,13 +301,13 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

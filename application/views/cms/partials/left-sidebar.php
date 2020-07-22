@@ -48,6 +48,17 @@
             <span>Agency Management</span>
           </a>
         </li>
+        <li class="sub-menu">
+
+          <a href="javascript:;" class="<?php echo (in_array($this->uri->segment(3), ['guest-visitors', 'cesbie-visitors']))  ? 'active': ''; ?>">
+            <span>Visitors</span>
+          </a>
+          <ul class="sub" >
+            <li><a <?php echo $this->uri->segment(2) === 'all-visitors' ? 'style="color:#ff6c60"': ''; ?> href="<?php echo base_url('cms/visitors') ?>">All Visitors</a></li>
+            <li><a <?php echo ($this->uri->segment(2) === 'visitors' && $this->uri->segment(3) === 'cesbie-visitors') ? 'style="color:#ff6c60"': ''; ?> href="<?php echo base_url('cms/visitors/cesbie-visitors') ?>">Cesbie Visitors</a></li>
+            <li><a <?php echo $this->uri->segment(2) === 'visitor' && $this->uri->segment(3) === 'guest-visitors' ? 'style="color:#ff6c60"': ''; ?> href="<?php echo base_url('cms/visitors/guest-visitors') ?>">Guest Visitors</a></li>
+          </ul>
+        </li>
       </ul>
       <!-- sidebar menu end-->
     </div>
