@@ -6,6 +6,7 @@ class Visitor_model extends Crud_model
     {
         parent::__construct();
         $this->visitors = 'visitors';
+        $this->cesbie_visitors = 'cesbie_visitors';
         $this->upload_dir = 'visitors';
     }
 
@@ -43,6 +44,20 @@ class Visitor_model extends Crud_model
 		      endif;
 		    endif;
 	    endif;
+
+    	return $return;
+    }
+    public function cesbie_login($post, $files)
+    {
+	    $data = array(
+	      'staff_id' => $post['staff_id'], 
+	      'temperature' => $post['temperature'], 
+	      'place_of_origin' => $post['place_of_origin'], 
+	      'pin_code' => $post['pin_code']
+	    );
+	    $this->db->insert($this->cesbie_visitors, $data);
+
+	    $return = $this->db->insert_id();
 
     	return $return;
     }

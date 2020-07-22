@@ -12,7 +12,7 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
 ## Visitors
 
 ### Guest Login
-POST `api/visitors/geust-login/`   
+POST `api/visitors/guest-login/`   
 
 ##### Payload
 
@@ -54,8 +54,39 @@ POST `api/visitors/geust-login/`
         "pin_code": "zXc12365gfd"
     },
     "meta": {
-        "message": "Visitor login successfully",
+        "message": "Guest Visitor login successfully",
         "status": "200"
+    }
+}
+```
+
+### Guest Login
+POST `api/visitors/guest-login/`   
+
+##### Payload
+
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| staff_id        |  yes     |  int      |        id of from tbl.staff              |  1
+| temperature        |  yes     |  varchar      |        -              |  37.3
+| place_of_origin        |  yes     |  varchar      |        -              |  San Mateo, Rizal
+| pin_code        |  yes     |  varchar      |        Random Character; unique             |  zXc12365gfd
+
+
+##### Response
+```javascript
+201 OK
+{
+    "data": {
+        "staff_id": "1",
+        "place_of_origin": "San Mateo, Rizal",
+        "health_condition": "Normal",
+        "temperature": "37.5",
+        "pin_code": "zXc12365gfd"
+    },
+    "meta": {
+        "message": "Cesbie Visitor login successfully",
+        "status": "201"
     }
 }
 ```
