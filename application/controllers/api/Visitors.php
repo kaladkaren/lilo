@@ -23,6 +23,7 @@ class Visitors extends Crud_controller {
         $this->load->model("api/agency_model", 'agency_model');
         $this->load->model("api/division_model", 'division_model');
         $this->load->model("api/service_model", 'service_model');
+        $this->load->model("cms/city_model", 'city_model');
     }
 
     public function guest_login_post()
@@ -123,4 +124,22 @@ class Visitors extends Crud_controller {
         ];
         $this->response($r_return, $status);
     }
+    public function guest_login_step_three_get()
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res['place_of_origin'] = $this->city_model->get_all();
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
 }

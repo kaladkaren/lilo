@@ -11,6 +11,8 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
 
 1. **Guest Login Steps**
     + [Step 1](#step-1)
+    + [Step 2](#step-2)
+    + [Step 3](#step-3)
 
 ## Visitors
 
@@ -164,6 +166,53 @@ Get list of options for division, purpose, person to visit.
                 "id": "2",
                 "fullname": "Diane Ocampo"
             }
+        ]
+    },
+    "meta": {
+        "message": "Data found",
+        "status": "200"
+    }
+}
+```
+
+### Step 3
+GET `api/visitors/guest-login/step-3`   
+
+Get list of options for place of origin.
+
+##### Response
+```javascript
+200 OK
+{
+    "data": {
+        "place_of_origin": [
+            {
+                "name": "Aborlan, Palawan"
+            },
+            {
+                "name": "Abra de Ilog, Occidental Mindoro"
+            },
+            {
+                "name": "Abucay, Bataan"
+            },
+            {
+                "name": "Abulug, Cagayan"
+            },
+            {
+                "name": "Abuyog, Leyte"
+            },
+            {
+                "name": "Adams, Ilocos Norte"
+            },
+            {
+                "name": "Agdangan, Quezon"
+            },
+            {
+                "name": "Aglipay, Quirino"
+            }
+            ...
+            ...
+            ...
         ]
     },
     "meta": {

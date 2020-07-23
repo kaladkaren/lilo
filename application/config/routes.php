@@ -70,6 +70,7 @@ $route['cms/visitors/cesbie-visitors/index/'] = 'cms/cesbie_visitors/index/';
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';
 $route['api/visitors/guest-login/step-2'] = 'api/visitors/guest_login_step_two';
+$route['api/visitors/guest-login/step-3'] = 'api/visitors/guest_login_step_three';
 $route['api/visitors/cesbie-login'] = 'api/visitors/cesbie_login';
 $route['api/example/(:num)'] = 'api/example/single/$1';
 
