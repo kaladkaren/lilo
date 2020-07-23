@@ -21,6 +21,7 @@ class Visitors extends Crud_controller {
         $this->load->model("api/visitor_model", 'model');
         $this->load->model("api/staff_model", 'staff_model');
         $this->load->model("api/agency_model", 'agency_model');
+        $this->load->model("api/division_model", 'division_model');
     }
 
     public function guest_login_post()
@@ -92,6 +93,25 @@ class Visitors extends Crud_controller {
 
         $res['agency'] = $this->agency_model->get_all();
         $res['attached_agency'] = [];
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+    public function guest_login_step_two_get()
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res['division'] = $this->division_model->get_all();
+        $res['purpose'] = array('Meeting', 'Visit only');
+        $res['person_to_visit'] = $this->staff_model->get_all();
 
         $r_return = (object)[
             'data' => $res,

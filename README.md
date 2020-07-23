@@ -124,3 +124,45 @@ Get list of options for agency
     }
 }
 ```
+
+### Step 2
+GET `api/visitors/guest-login/step-2`   
+
+Get list of options for division, purpose, person to visit.
+
+##### Response
+```javascript
+200 OK
+{
+    "data": {
+        "division": [
+            {
+                "id": "2",
+                "name": "DFA"
+            },
+            {
+                "id": "3",
+                "name": "DepEd"
+            }
+        ],
+        "purpose": [
+            "Meeting",
+            "Visit only"
+        ],
+        "person_to_visit": [
+            {
+                "id": "1",
+                "fullname": "Lorenzo Salamante"
+            },
+            {
+                "id": "2",
+                "fullname": "Diane Ocampo"
+            }
+        ]
+    },
+    "meta": {
+        "message": "Data found",
+        "status": "200"
+    }
+}
+```
