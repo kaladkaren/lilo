@@ -5,7 +5,7 @@ class Visitor_model extends Crud_model
     public function __construct()
     {
         parent::__construct();
-        $this->visitors = 'visitors';
+        $this->visitors = 'guest_visitors';
         $this->cesbie_visitors = 'cesbie_visitors';
         $this->upload_dir = 'visitors';
     }

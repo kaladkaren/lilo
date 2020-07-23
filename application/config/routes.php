@@ -66,6 +66,7 @@ $route['cms/visitors/cesbie-visitors/index/(:any)'] = 'cms/cesbie_visitors/index
 $route['cms/visitors/cesbie-visitors/index'] = 'cms/cesbie_visitors/index/';
 $route['cms/visitors/cesbie-visitors/index/'] = 'cms/cesbie_visitors/index/';
 
+$route['cms/visitors/guest-visitors'] = 'cms/guest_visitors';
 # My routes
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';
