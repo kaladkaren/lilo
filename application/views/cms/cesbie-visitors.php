@@ -32,7 +32,7 @@
                   <form>
                     <div class="input-group m-bot15">
                       <div class="input-group-btn">
-                        <button tabindex="-1" class="btn btn-white" type="button">Filter Division</button>
+                        <button tabindex="-1" class="btn btn-white" type="button">Filter by Division</button>
                       </div>
                       <select class="form-control" name="division">
                         <option value="">All</option>
@@ -165,7 +165,7 @@
                     <?php endforeach ?>
                   <?php else: ?>
                     <tr>
-                      <td colspan="7" style="text-align: center;">
+                      <td colspan="9" style="text-align: center;">
                         No result/s found.
                       </td>
                     </tr>

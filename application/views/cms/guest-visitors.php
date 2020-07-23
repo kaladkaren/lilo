@@ -34,7 +34,7 @@
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button">Select Division Visited</button>
                       </div>
-                      <select class="form-control">
+                      <select class="form-control" name="division">
                         <option value="">All</option>
                         <?php foreach ($divisions as $key => $value): ?>
                           <option value="<?php echo $value->id ?>" <?php echo (isset($_GET['cat']) && $_GET['cat'] == $value->id) ? "selected=''":""; ?>><?php echo $value->name ?></option>
@@ -78,6 +78,50 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-6" style="padding-left: 0px;">
+                  <form>
+                    <div class="input-group m-bot15">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">Filter by Place of Origin</button>
+                      </div>
+                      <select class="form-control" name="origin">
+                        <option value="">All</option>
+                        <?php foreach ($place_of_origin as $key => $value): ?>
+                          <option value="<?php echo $value->place_of_origin ?>" <?php echo (isset($_GET['origin']) && $_GET['origin'] == $value->place_of_origin) ? "selected=''":""; ?>><?php echo $value->place_of_origin ?></option>
+                        <?php endforeach ?>
+                      </select>
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">
+                          <a href="<?php echo @$x_clear_origin ?>">X</a>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+                  <form>
+                    <div class="input-group m-bot15">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">Filter by Date Range</button>
+                      </div>
+                      <input type="date" name="from" class="form-control" value="<?php echo @$_GET['from'] ?>">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">
+                          TO
+                        </button>
+                      </div>
+                      <input type="date" name="to" class="form-control" value="<?php echo @$_GET['to'] ?>">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="submit" id="search_daterange"><i class="fa fa-search"></i></button>
+                      </div>
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">
+                          <a href="<?php echo @$x_clear_date_range ?>">X</a>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
             </div>
 
 
@@ -121,7 +165,7 @@
                     <?php endforeach ?>
                   <?php else: ?>
                     <tr>
-                      <td colspan="7" style="text-align: center;">
+                      <td colspan="9" style="text-align: center;">
                         No result/s found.
                       </td>
                     </tr>
@@ -146,7 +190,11 @@
       window.location.href='<?php echo $x_clear_keyword ?>&name='+$('input[name=name]').val();
     });
 
-    $('select').on('change', function(e){
+    $('select[name=division]').on('change', function(e){
       window.location.href='<?php echo $x_clear_cat ?>&cat='+$(this).children('option:selected').val();
+    });
+
+    $('select[name=origin]').on('change', function(e){
+      window.location.href='<?php echo $x_clear_origin ?>&origin='+$(this).children('option:selected').val();
     });
 </script>

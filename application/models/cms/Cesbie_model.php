@@ -100,6 +100,27 @@ class Cesbie_model extends Crud_model
 	      $where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
 	    endif;
 
+	    if ((isset($_GET['from']) && $_GET['from'] != '') || (isset($_GET['to']) && $_GET['to'] != '')):
+	       	if((isset($_GET['from']) && $_GET['from'] != '') && (!isset($_GET['to']) || $_GET['to'] == '' )): #from only
+	       		$from = $_GET['from'] .' 00:00:00';
+		    	$to = $_GET['from'] .' 23:59:59';
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	elseif((isset($_GET['to']) && $_GET['to'] != '') && (!isset($_GET['from']) || $_GET['from'] == '' )): #to only
+	    		$from = $_GET['to'] .' 00:00:00';
+		    	$to = $_GET['to'] .' 23:59:59';
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	else: #from and to
+		    	if ($_GET['from'] <= $_GET['to']) {
+			    	$from = $_GET['from'] .' 00:00:00';
+			    	$to = $_GET['to'] .' 23:59:59';
+		    	}else{
+		    		$from = $_GET['to'] .' 00:00:00';
+		    		$to = $_GET['from'] .' 23:59:59';
+		    	}
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	endif;
+	    endif;
+
     	return $this->db->query("
       		SELECT {$this->table}.*, 
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,

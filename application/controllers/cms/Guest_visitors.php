@@ -24,6 +24,7 @@ class Guest_visitors extends Admin_core_controller {
     $data = [];
     $data['cesbie_visitors'] = $this->guest_model->all();
     $data['divisions'] = $this->division_model->get_all();
+    $data['place_of_origin'] = $this->guest_model->get_cities();
 
     # Pagination
     $pag_conf['base_url'] = base_url("/cms/visitors/guest-visitors/index");
@@ -54,6 +55,8 @@ class Guest_visitors extends Admin_core_controller {
     $data['x_clear_stat'] = '';
     $data['x_clear_keyword'] = $this->cesbie_model->strip_param_from_url($url, 'name', base_url('cms/visitors/guest-visitors'));
     $data['x_clear_cat'] = $this->cesbie_model->strip_param_from_url($url, 'cat', base_url('cms/visitors/guest-visitors'));
+    $data['x_clear_origin'] = $this->cesbie_model->strip_param_from_url($url, 'origin', base_url('cms/visitors/guest-visitors'));
+    $data['x_clear_date_range'] = $this->cesbie_model->strip_param_from_url($url, 'from', base_url('cms/visitors/guest-visitors'));
     ### SORTING BUTTONS
     $data['order'] = $this->cesbie_model->strip_param_from_url($url, 'order', base_url('cms/visitors/guest-visitors'));
     $data['order_by'] = $this->cesbie_model->strip_param_from_url($url, 'order_by', base_url('cms/visitors/guest-visitors'));
