@@ -60,8 +60,8 @@ POST `api/visitors/guest-login/`
 }
 ```
 
-### Guest Login
-POST `api/visitors/guest-login/`   
+### Cesbie Login
+POST `api/visitors/cesbie-login/`   
 
 ##### Payload
 
