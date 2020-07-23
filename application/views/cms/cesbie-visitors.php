@@ -112,7 +112,7 @@
                       </div>
                       <input type="date" name="to" class="form-control" value="<?php echo @$_GET['to'] ?>">
                       <div class="input-group-btn">
-                        <button tabindex="-1" class="btn btn-white" type="submit" id="search_daterange"><i class="fa fa-search"></i></button>
+                        <button tabindex="-1" class="btn btn-white" type="button" id="search_daterange"><i class="fa fa-search"></i></button>
                       </div>
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button">

@@ -5,8 +5,7 @@
       <div class="col-sm-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li><a href="<?php echo base_url('cms/visitors') ?>">Visitors</a></li>
-          <li class="active">Guest Visitors</li>
+          <li class="active">All Visitors</li>
         </ul>
         <!--breadcrumbs end -->
         <section class="panel">
@@ -32,13 +31,12 @@
                   <form>
                     <div class="input-group m-bot15">
                       <div class="input-group-btn">
-                        <button tabindex="-1" class="btn btn-white" type="button">Select Division Visited</button>
+                        <button tabindex="-1" class="btn btn-white" type="button">Filter by Visitor Type</button>
                       </div>
-                      <select class="form-control" name="division">
-                        <option value="">All</option>
-                        <?php foreach ($divisions as $key => $value): ?>
-                          <option value="<?php echo $value->id ?>" <?php echo (isset($_GET['cat']) && $_GET['cat'] == $value->id) ? "selected=''":""; ?>><?php echo $value->name ?></option>
-                        <?php endforeach ?>
+                      <select class="form-control" name="visitor_type">
+                        <option <?php echo ( !isset($_GET['v_type']) || strtolower(@$_GET['v_type']) == 'all') ? 'selected=""':''; ?>value="">All</option>
+                        <option <?php echo (strtolower(@$_GET['v_type']) == 'cesbie') ? 'selected=""':''; ?>>Cesbie</option>
+                        <option <?php echo (strtolower(@$_GET['v_type']) == 'guest') ? 'selected=""':''; ?>>Guest</option>
                       </select>
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button">
@@ -48,37 +46,37 @@
                     </div>
                   </form>
                 </div>
-              <div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
-                <div class="input-group m-bot15">
-                  <input type="text" class="form-control" name="name" placeholder="Search keyword by Guest Name" value="<?php echo @$_GET['name'] ?>">
-                  <div class="input-group-btn">
-                    <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
-                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                      <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
-                        <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
-                      </li>
-                      <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
-                        <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Login Timestamp</a>
-                      </li>
-                      <li class="<?php echo (@$_GET['order_by'] == 'date_logout') ? 'active' : ''?>">
-                        <a href="<?php echo @$order_by.'&order_by=date_logout'?>">Logout Timestamp</a>
-                      </li>
-                      <li class="divider"></li>
-                      <li class="<?php echo (@$_GET['order'] == 'asc') ? 'active' : ''?>">
-                        <a href="<?php echo (@$_GET['order'] == 'asc') ? '#' : @$order.'&order=asc'?>"> Ascending</a>
-                      </li>
-                      <li class="<?php echo (@$_GET['order'] == 'desc' || !isset($_GET['order'])) ? 'active' : ''?>">
-                        <a href="<?php echo (@$_GET['order'] == 'desc') ? '#' : @$order.'&order=desc'?>"> Descending</a>
-                      </li>
-                    </ul>
-                    <button tabindex="-1" class="btn btn-white" type="button">
-                      <a href="<?php echo @$x_clear_keyword ?>">X </a>
-                    </button>
+                <div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
+                  <div class="input-group m-bot15">
+                    <input type="text" class="form-control" name="name" placeholder="Search keyword by Visitor Name" value="<?php echo @$_GET['name'] ?>">
+                    <div class="input-group-btn">
+                      <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
+                      <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
+                        </li>
+                        <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
+                          <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Login Timestamp</a>
+                        </li>
+                        <li class="<?php echo (@$_GET['order_by'] == 'date_logout') ? 'active' : ''?>">
+                          <a href="<?php echo @$order_by.'&order_by=date_logout'?>">Logout Timestamp</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="<?php echo (@$_GET['order'] == 'asc') ? 'active' : ''?>">
+                          <a href="<?php echo (@$_GET['order'] == 'asc') ? '#' : @$order.'&order=asc'?>"> Ascending</a>
+                        </li>
+                        <li class="<?php echo (@$_GET['order'] == 'desc' || !isset($_GET['order'])) ? 'active' : ''?>">
+                          <a href="<?php echo (@$_GET['order'] == 'desc') ? '#' : @$order.'&order=desc'?>"> Descending</a>
+                        </li>
+                      </ul>
+                      <button tabindex="-1" class="btn btn-white" type="button">
+                        <a href="<?php echo @$x_clear_keyword ?>">X </a>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-6" style="padding-left: 0px;">
+                <div class="col-md-6" style="padding-left: 0px;">
                   <form>
                     <div class="input-group m-bot15">
                       <div class="input-group-btn">
@@ -132,9 +130,9 @@
                   <tr>
                     <th>#</th>
                     <th>Visitor Name</th>
-                    <th>Health Condition &<br>Temperature</th>
+                    <th>Temperature</th>
                     <th>Place of <br>Origin</th>
-                    <th>Person &<br>Division Visited</th>
+                    <th>Visitor Type</th>
                     <th>Pin Code</th>
                     <th>Login<br>Timestamp</th>
                     <th>Logout<br>Timestamp</th>
@@ -147,12 +145,12 @@
                       
                       <tr>
                         <td>
-                          <?php echo @$this->uri->segment(5) + ($key + 1);  ?>
+                          <?php echo @$this->uri->segment(4) + ($key + 1);  ?>
                         </td>
-                        <td><?php echo $value->fullname   ?></td>
-                        <td><?php echo $value->health_condition.'<br>'.$value->temperature ?></td>
+                        <td><?php echo $value->staff_fullname ?></td>
+                        <td><?php echo $value->temperature ?></td>
                         <td><?php echo $value->place_of_origin ?></td>
-                        <td><?php echo $value->person_fullname_visited.'<br>/'.$value->division_name_visited ?></td>
+                        <td><?php echo $value->visitor_type ?></td>
                         <td><?php echo $value->pin_code ?></td>
                         <td><?php echo $value->f_created_at ?></td>
                         <td>
@@ -194,8 +192,8 @@
       window.location.href='<?php echo $x_clear_date_range ?>&from='+$('input[name=from]').val()+'&to='+$('input[name=to]').val();
     });
 
-    $('select[name=division]').on('change', function(e){
-      window.location.href='<?php echo $x_clear_cat ?>&cat='+$(this).children('option:selected').val();
+    $('select[name=visitor_type]').on('change', function(e){
+      window.location.href='<?php echo $x_clear_cat ?>&v_type='+$(this).children('option:selected').text();
     });
 
     $('select[name=origin]').on('change', function(e){
