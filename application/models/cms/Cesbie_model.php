@@ -13,13 +13,39 @@ class Cesbie_model extends Crud_model
     public function all()
   	{
   		$where = ' WHERE 1=1 ';
-	    if (isset($_GET['name'])):
-	      $where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
-	    endif;
-	    if (isset($_GET['cat'])):
-	      $where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    if (isset($_GET['name']) && $_GET['name'] != ''):
+	    	$where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
 	    endif;
 
+	    if (isset($_GET['cat']) && $_GET['cat'] != ''):
+	    	$where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    endif;
+
+	    if (isset($_GET['origin']) && $_GET['origin'] != ''):
+	    	$where .= "AND {$this->table}.place_of_origin = '{$_GET['origin']}' ";
+	    endif;
+
+	    if ((isset($_GET['from']) && $_GET['from'] != '') || (isset($_GET['to']) && $_GET['to'] != '')):
+	       	if((isset($_GET['from']) && $_GET['from'] != '') && (!isset($_GET['to']) || $_GET['to'] == '' )): #from only
+	       		$from = $_GET['from'] .' 00:00:00';
+		    	$to = $_GET['from'] .' 23:59:59';
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	elseif((isset($_GET['to']) && $_GET['to'] != '') && (!isset($_GET['from']) || $_GET['from'] == '' )): #to only
+	    		$from = $_GET['to'] .' 00:00:00';
+		    	$to = $_GET['to'] .' 23:59:59';
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	else: #from and to
+		    	if ($_GET['from'] <= $_GET['to']) {
+			    	$from = $_GET['from'] .' 00:00:00';
+			    	$to = $_GET['to'] .' 23:59:59';
+		    	}else{
+		    		$from = $_GET['to'] .' 00:00:00';
+		    		$to = $_GET['from'] .' 23:59:59';
+		    	}
+		    	$where .= "AND {$this->table}.created_at >= '{$from}' AND {$this->table}.created_at <= '{$to}'";
+	    	endif;
+	    endif;
+	    // var_dump($where);die();
 	    $order_str = '';
 
 	    $order_by = "{$this->table}.created_at";
@@ -67,10 +93,10 @@ class Cesbie_model extends Crud_model
   	public function all_total()
   	{
   		$where = ' WHERE 1=1 ';
-	    if (isset($_GET['name'])):
+	    if (isset($_GET['name']) && $_GET['name'] != ''):
 	      $where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
 	    endif;
-	    if (isset($_GET['cat'])):
+	    if (isset($_GET['cat']) && $_GET['cat'] != ''):
 	      $where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
 	    endif;
 
@@ -125,11 +151,22 @@ class Cesbie_model extends Crud_model
 	    $parsed_url = parse_url($url);              // Parse it 
 	    $query = @$parsed_url['query'];              // Get the query string
 	    parse_str( $query, $parameters );           // Convert Parameters into array
+	    if($param == 'from'):
+	    	unset( $parameters['to'] );               // Delete the one you want
+	    endif;
 	    unset( $parameters[$param] );               // Delete the one you want
 	    unset( $parameters['srch'] );               // Delete the one you want
 	    $new_query = http_build_query($parameters); // Rebuilt query string
 	    return $current_page.'?srch=1&'.$new_query;            // Finally url is ready
 	}
-
+	public function get_cities()
+	{
+		return $this->db->query("
+      		SELECT {$this->table}.place_of_origin
+      		FROM {$this->table}
+      		GROUP BY {$this->table}.place_of_origin
+      		ORDER BY {$this->table}.place_of_origin ASC
+      	")->result();
+	}
 
 }
