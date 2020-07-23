@@ -68,6 +68,13 @@ class Division_model extends Crud_model
           {$where}
           ")->num_rows();
     }
+    public function get_all()
+    {
+        return $this->db->query("
+          SELECT {$this->table}.*
+          FROM {$this->table}
+          ")->result();
+    }
     public function add($post)
     {
         $post['is_active'] = 0;

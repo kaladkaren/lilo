@@ -5,13 +5,14 @@
       <div class="col-sm-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li>Visitors</li>
+          <li><a href="<?php echo base_url('cms/visitors') ?>">Visitors</a></li>
           <li class="active">Cesbie Visitors</li>
         </ul>
         <!--breadcrumbs end -->
         <section class="panel">
           <header class="panel-heading">
-            <?php echo @$page_of ?><label style="float: right"><?php echo @$count_of ?></label>
+            <label><?php echo @$page_of ?></label>
+            <label style="float: right"><?php echo @$count_of ?></label>
           </header>
           <div class="panel-body">
             <!-- Improved Flashdata Start -->
@@ -26,7 +27,28 @@
               </div>
             <?php endif; ?>
             <div class="form-group">
-              <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
+              <div class="form-group">
+                <div class="col-md-6" style="padding-left: 0px;">
+                  <form>
+                    <div class="input-group m-bot15">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">Select Division</button>
+                      </div>
+                      <select class="form-control">
+                        <option value="">All</option>
+                        <?php foreach ($divisions as $key => $value): ?>
+                          <option value="<?php echo $value->id ?>" <?php echo (isset($_GET['cat']) && $_GET['cat'] == $value->id) ? "selected=''":""; ?>><?php echo $value->name ?></option>
+                        <?php endforeach ?>
+                      </select>
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">
+                          <a href="<?php echo @$x_clear_cat ?>">X</a>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              <div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
                 <div class="input-group m-bot15">
                   <input type="text" class="form-control" name="name" placeholder="Search keyword by Staff Name" value="<?php echo @$_GET['name'] ?>">
                   <div class="input-group-btn">
@@ -37,13 +59,16 @@
                         <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
                       </li>
                       <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
-                        <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
+                        <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Login Timestamp</a>
+                      </li>
+                      <li class="<?php echo (@$_GET['order_by'] == 'date_logout') ? 'active' : ''?>">
+                        <a href="<?php echo @$order_by.'&order_by=date_logout'?>">Logout Timestamp</a>
                       </li>
                       <li class="divider"></li>
-                      <li class="<?php echo (@$_GET['order'] == 'asc' || !isset($_GET['order'])) ? 'active' : ''?>">
+                      <li class="<?php echo (@$_GET['order'] == 'asc') ? 'active' : ''?>">
                         <a href="<?php echo (@$_GET['order'] == 'asc') ? '#' : @$order.'&order=asc'?>"> Ascending</a>
                       </li>
-                      <li class="<?php echo (@$_GET['order'] == 'desc') ? 'active' : ''?>">
+                      <li class="<?php echo (@$_GET['order'] == 'desc' || !isset($_GET['order'])) ? 'active' : ''?>">
                         <a href="<?php echo (@$_GET['order'] == 'desc') ? '#' : @$order.'&order=desc'?>"> Descending</a>
                       </li>
                     </ul>
@@ -61,12 +86,15 @@
               <table class="display table table-bordered table-hover">
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Staff Name</th>
                     <th>Temperature</th>
                     <th>Place of <br>Origin</th>
+                    <th>Division</th>
                     <th>Pin Code</th>
                     <th>Login<br>Timestamp</th>
                     <th>Logout<br>Timestamp</th>
+                    <th style="width: 50px;"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,19 +102,26 @@
                     <?php foreach ($cesbie_visitors as $key => $value): ?>
                       
                       <tr>
+                        <td>
+                          <?php echo @$this->uri->segment(5) + ($key + 1);  ?>
+                        </td>
                         <td><a href="<?php echo base_url('cms/staff/single/').$value->staff_id ?>"><?php echo $value->staff_fullname ?></a></td>
                         <td><?php echo $value->temperature ?></td>
                         <td><?php echo $value->place_of_origin ?></td>
+                        <td><?php echo $value->division_name ?></td>
                         <td><?php echo $value->pin_code ?></td>
                         <td><?php echo $value->f_created_at ?></td>
                         <td>
                           -
                         </td>
+                        <td>
+                          <button type="button" class="btn btn-info btn-xs"><a style="color:white;" href="<?php echo base_url('cms/visitor/details/'.$value->id) ?>" title="View Details"><i class="fa fa-eye"></i></a></button>
+                        </td>
                       </tr>
                     <?php endforeach ?>
                   <?php else: ?>
                     <tr>
-                      <td colspan="6" style="text-align: center;">
+                      <td colspan="7" style="text-align: center;">
                         No result/s found.
                       </td>
                     </tr>
