@@ -20,6 +20,7 @@ class Visitors extends Crud_controller {
         parent::__construct();
         $this->load->model("api/visitor_model", 'model');
         $this->load->model("api/staff_model", 'staff_model');
+        $this->load->model("api/agency_model", 'agency_model');
     }
 
     public function guest_login_post()
@@ -73,6 +74,24 @@ class Visitors extends Crud_controller {
             $status = "404";
         endif;
 
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+    public function guest_login_step_one_get()
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res['agency'] = $this->agency_model->get_all();
+        $res['attached_agency'] = [];
 
         $r_return = (object)[
             'data' => $res,

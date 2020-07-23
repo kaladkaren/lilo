@@ -7,7 +7,10 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
 
 1. **Visitors**
     + [Guest Login](#guest-login)
+    + [Cesbie Login](#cesbie-login)
 
+1. **Guest Login Steps**
+    + [Step 1](#step-1)
 
 ## Visitors
 
@@ -87,6 +90,37 @@ POST `api/visitors/cesbie-login/`
     "meta": {
         "message": "Cesbie Visitor login successfully",
         "status": "201"
+    }
+}
+```
+
+## Guest Login Steps
+
+### Step 1
+GET `api/visitors/guest-login/step-1`   
+
+Get list of options for agency
+
+##### Response
+```javascript
+200 OK
+{
+    "data": {
+        "agency": [
+            {
+                "id": "1",
+                "name": "DTI"
+            },
+            {
+                "id": "2",
+                "name": "DOST"
+            }
+        ],
+        "attached_agency": []
+    },
+    "meta": {
+        "message": "Data found",
+        "status": "200"
     }
 }
 ```
