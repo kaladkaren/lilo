@@ -146,8 +146,14 @@ Get list of options for division, purpose, person to visit.
             }
         ],
         "purpose": [
-            "Meeting",
-            "Visit only"
+            {
+                "id": "1",
+                "name": "Meeting"
+            },
+            {
+                "id": "2",
+                "name": "Visit"
+            }
         ],
         "person_to_visit": [
             {
