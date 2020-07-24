@@ -14,6 +14,10 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
     + [Step 2](#step-2)
     + [Step 3](#step-3)
 
+1. **Cesbie Login Steps**
+    + [Step 1](#step-1)
+
+
 ## Visitors
 
 ### Guest Login
@@ -215,6 +219,90 @@ Get list of options for place of origin.
             ...
         ]
     },
+    "meta": {
+        "message": "Data found",
+        "status": "200"
+    }
+}
+```
+
+## Cesbie Login Steps
+
+### Step 1
+GET `api/visitors/cesbie-login/`   
+
+Get list of options for cesbie fullname
+
+##### Response
+```javascript
+200 OK
+{
+    "data": [
+        {
+            "id": "3",
+            "fullname": "Abigail Emerson"
+        },
+        {
+            "id": "12",
+            "fullname": "Charissa Harrington"
+        },
+        {
+            "id": "2",
+            "fullname": "Diane Ocampo"
+        },
+        {
+            "id": "8",
+            "fullname": "Dustin Carpenter"
+        },
+        {
+            "id": "13",
+            "fullname": "Isabelle Hays"
+        },
+        {
+            "id": "14",
+            "fullname": "Kylan Powell"
+        },
+        {
+            "id": "6",
+            "fullname": "Lareina Dean"
+        },
+        {
+            "id": "17",
+            "fullname": "Leo Conley"
+        },
+        {
+            "id": "1",
+            "fullname": "Lorenzo Salamante"
+        },
+        {
+            "id": "4",
+            "fullname": "Prescott Kelly"
+        },
+        {
+            "id": "16",
+            "fullname": "Rinah Dalton"
+        },
+        {
+            "id": "10",
+            "fullname": "Tiger Gaines"
+        },
+        {
+            "id": "5",
+            "fullname": "Vaughan Nash"
+        },
+        {
+            "id": "7",
+            "fullname": "Vivien Cervantes"
+        },
+        {
+            "id": "15",
+            "fullname": "Wing Kent"
+        },
+        {
+            "id": "11",
+            "fullname": "Yen Kline"
+        }
+    ],
     "meta": {
         "message": "Data found",
         "status": "200"

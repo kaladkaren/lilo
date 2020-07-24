@@ -268,4 +268,22 @@ class Cesbie_model extends Crud_model
     	$this->db->where('id', $id);
     	return $this->db->update($this->staffs, $post);
   	}
+  	public function get_all_staff($select = '')
+    {	
+    	$select_str = "{$this->staffs}.*";
+    	if($select):
+    		$select_str = '';
+    		foreach ($select as $key => $value) {
+    			$select_str .= "{$this->staffs}.{$value}, ";
+    		}
+    		$select_str = rtrim($select_str, ', ');
+    	endif;
+
+        return $this->db->query("
+          SELECT {$select_str}
+          FROM {$this->staffs}
+          WHERE {$this->staffs}.is_active = 1
+          ORDER BY {$this->staffs}.fullname ASC
+          ")->result();
+    }
 }

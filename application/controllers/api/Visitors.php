@@ -24,6 +24,7 @@ class Visitors extends Crud_controller {
         $this->load->model("api/division_model", 'division_model');
         $this->load->model("api/service_model", 'service_model');
         $this->load->model("cms/city_model", 'city_model');
+        $this->load->model("cms/cesbie_model", 'cesbie_model');
     }
 
     public function guest_login_post()
@@ -76,6 +77,23 @@ class Visitors extends Crud_controller {
             $message = "Staff ID not found";
             $status = "404";
         endif;
+
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+    public function cesbie_login_get()
+    {
+        $select = array('id', 'fullname');
+        $res = $this->cesbie_model->get_all_staff($select);
+        $message = "Data found";
+        $status  = "200";
 
 
         $r_return = (object)[
