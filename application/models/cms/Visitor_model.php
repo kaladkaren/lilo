@@ -9,7 +9,8 @@ class Visitor_model extends Crud_model
         $this->table = 'cesbie_visitors';
         $this->staffs = 'staffs';
         $this->division = 'division';
-        $this->per_rows = 5;
+        $this->feedbacks = 'feedbacks';
+        $this->per_rows = 10;
     }
     public function all()
   	{
@@ -123,9 +124,14 @@ class Visitor_model extends Crud_model
 	      			   {$this->table}.created_at,
 	      			   {$this->table}.pin_code,
 	      			   DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
-	      			   'CESBIE' as visitor_type
+	      			   'CESBIE' as visitor_type,
+	      			   CASE
+						    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
+						    ELSE '-'
+					   END as logout_timestamp
 	      		FROM {$this->table} 
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
+	      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
 				{$where}
 
 				UNION 
@@ -137,8 +143,13 @@ class Visitor_model extends Crud_model
 					   {$this->guest_visitors}.created_at,
 					   {$this->guest_visitors}.pin_code,
 	      			   DATE_FORMAT({$this->guest_visitors}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
-	      			   'GUEST' as visitor_type
+	      			   'GUEST' as visitor_type,
+	      			   CASE
+						    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
+						    ELSE '-'
+					   END as logout_timestamp
 				FROM {$this->guest_visitors}
+				LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->guest_visitors}.pin_code
 				{$where2}
 
 				ORDER BY created_at DESC

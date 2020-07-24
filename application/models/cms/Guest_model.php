@@ -9,7 +9,7 @@ class Guest_model extends Crud_model
         $this->staffs = 'staffs';
         $this->division = 'division';
         $this->feedbacks = 'feedbacks';
-        $this->per_rows = 5;
+        $this->per_rows = 10;
     }
     public function all()
   	{
