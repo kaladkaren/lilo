@@ -91,7 +91,10 @@ class Visitors extends Crud_controller {
     public function cesbie_login_get()
     {
         $select = array('id', 'fullname');
-        $res = $this->cesbie_model->get_all_staff($select);
+        
+        $res['staff'] = $this->cesbie_model->get_all_staff($select);
+        $res['place_of_origin'] = $this->city_model->get_all();
+
         $message = "Data found";
         $status  = "200";
 
