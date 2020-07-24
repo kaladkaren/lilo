@@ -115,6 +115,11 @@
                     <?php endif; ?>
                   </tbody>
                 </table>
+                <center>
+                  <ul class="pagination">
+                    <?php echo @$pagination; ?>
+                  </ul>
+                </center>
               </div>
             </div>
           </section>

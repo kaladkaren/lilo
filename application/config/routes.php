@@ -67,6 +67,12 @@ $route['cms/visitors/cesbie-visitors/index'] = 'cms/cesbie_visitors/index/';
 $route['cms/visitors/cesbie-visitors/index/'] = 'cms/cesbie_visitors/index/';
 
 $route['cms/visitors/guest-visitors'] = 'cms/guest_visitors';
+
+$route['cms/cesbie-staffs/'] = 'cms/cesbie';
+$route['cms/cesbie-staffs'] = 'cms/cesbie';
+$route['cms/cesbie-staffs/index/(:any)'] = 'cms/cesbie/index/(:any)';
+$route['cms/cesbie-staffs/index'] = 'cms/cesbie/index/';
+$route['cms/cesbie-staffs/index/'] = 'cms/cesbie/index/';
 # My routes
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';

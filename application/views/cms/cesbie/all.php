@@ -10,7 +10,7 @@
       <div class="col-lg-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li class="active">Divisions</li>
+          <li class="active">Cesbie Management</li>
         </ul>
         <!--breadcrumbs end -->
         <!-- Improved Flashdata Start -->
@@ -25,7 +25,7 @@
             </div>
           <?php endif; ?>
         <!-- Improved Flashdata End -->
-        <div class="col-lg-6" style="padding-left: 0px;padding-right: 0px;">
+        <div class="col-lg-8" style="padding-left: 0px;padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
               <?php echo @$page_of ?><label style="float: right"><?php echo @$count_of ?></label>
@@ -46,13 +46,30 @@
               <div class="form-group" style="margin-bottom: 50px;">
                 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
                   <div class="input-group m-bot15">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Division Name" value="<?php echo @$_GET['name'] ?>">
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Filter by Division <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li class="<?php echo (@$_GET['cat'] == '' || !isset($_GET['cat'])) ? 'active' : ''?>">
+                          <a href="<?php echo @$x_clear_cat?>">All</a>
+                        </li>
+                        <li class="divider"></li>
+                        <?php foreach ($divisions as $key => $division): ?>
+                          <li class="<?php echo (@$_GET['cat'] == $division->id) ? 'active' : ''?>">
+                            <a href="<?php echo (@$_GET['cat'] == $division->id) ? '#' : @$x_clear_cat.'&cat='.$division->id ?>"> <?php echo $division->name ?></a>
+                          </li>
+                        <?php endforeach ?>
+                      </ul>
+                      <button tabindex="-1" class="btn btn-white" type="button">
+                        <a href="<?php echo @$x_clear_cat ?>">X </a>
+                      </button>
+                    </div>
+                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Fullname" value="<?php echo @$_GET['name'] ?>">
                     <div class="input-group-btn">
                       <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Fullname</a>
                         </li>
                         <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
@@ -86,18 +103,20 @@
                   <thead>
                     <tr>
                       <th style="width: 15px;">#</th>
-                      <th>Name</th>
+                      <th>Fullname</th>
+                      <th>Division</th>
                       <th style="width: 130px;">Date Created</th>
                       <th style="width: 30px;"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (count($divisions) > 0 ): ?>
+                    <?php if (count($cesbies) > 0 ): ?>
 
-                      <?php $i = 1; foreach ($divisions as $key => $value): ?>
+                      <?php $i = 1; foreach ($cesbies as $key => $value): ?>
                         <tr style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>">
-                          <th scope="row"><?php echo $i++ ?></th>
-                          <td><?php echo $value->name ?></td>
+                          <th scope="row"><?php echo @$this->uri->segment(4) + $i; $i++;?></th>
+                          <td><?php echo $value->fullname ?></td>
+                          <td><?php echo $value->division_name ?></td>
                           <td><?php echo $value->f_created_at ?></td>
                           <td>
                             <button type="button" class="btn btn-info btn-xs">
@@ -124,16 +143,25 @@
             </div>
           </section>
         </div>
-        <div class="col-lg-6" style="padding-right: 0px;">
+        <div class="col-lg-4" style="padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
-              Add New Division
+              Add New Cesbie Staff
             </header>
             <div class="panel-body">
-              <form role="form" method="post" action="<?php echo base_url('cms/divisions/add_division/') ?>">
+              <form role="form" method="post" action="<?php echo base_url('cms/cesbie/add_staff/') ?>">
                 <div class="form-group">
-                  <label >Name</label>
-                  <input type="text" class="form-control" name="name" placeholder="Name" required="">
+                  <label >Fullname</label>
+                  <input type="text" class="form-control" name="fullname" placeholder="Name" required="">
+                </div>
+                <div class="form-group">
+                  <label >Division</label>
+                  <select class="form-control" name="division" required="">
+                    <option selected="" disabled="">Select Division</option>
+                    <?php foreach ($divisions as $key => $value): ?>
+                      <option value="<?php echo $value->id ?>" <?php echo ($value->is_active == 0) ? 'disabled="" style="background: #bfbdbd;"':''; ?>><?php echo $value->name ?></option>
+                    <?php endforeach ?>
+                  </select>
                 </div>
                 <label>Active</label>
                 <div class="row m-bot15">
@@ -145,7 +173,7 @@
                     </div>
                   </div>
                 </div>
-                <input type="submit" class="form-control btn-success" value="Add Division" style="color: white;font-size: 13px;color: #ffffff!important;width: 105px;float: right;">
+                <input type="submit" class="form-control btn-success" value="Add Cesbie Staff" style="color: white;font-size: 13px;color: #ffffff!important;width: 125px;float: right;">
               </form>
             </div>
           </section>
@@ -156,19 +184,28 @@
   </section>
 </section>
 <!-- Modal -->
-<?php foreach ($divisions as $key => $value): ?>
+<?php foreach ($cesbies as $key => $value): ?>
   <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Edit Division</h4>
+          <h4 class="modal-title">Edit Cesbie Staff</h4>
         </div>
         <div class="panel-body">
-          <form role="form" method="post" action="<?php echo base_url('cms/divisions/update_division/'.$value->id) ?>" enctype="multipart/form-data">
+          <form role="form" method="post" action="<?php echo base_url('cms/cesbie/update_staff/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
               <label >Name</label>
-              <input type="text" class="form-control" name="name" placeholder="Name" required="" value="<?php echo $value->name ?>">
+              <input type="text" class="form-control" name="fullname" placeholder="Name" required="" value="<?php echo $value->fullname ?>">
+            </div>
+            <div class="form-group">
+              <label >Division</label>
+              <select class="form-control" name="division" required="">
+                <option selected="" disabled="">Select Division</option>
+                <?php foreach ($divisions as $division): ?>
+                  <option value="<?php echo $division->id ?>" <?php echo ($value->division_id == $division->id) ? 'selected=""':''; ?> <?php echo ($division->is_active == 0) ? 'disabled="" style="background: #bfbdbd;"':''; ?>><?php echo $division->name ?></option>
+                <?php endforeach ?>
+              </select>
             </div>
             <label>Active</label>
             <div class="row m-bot15">
@@ -180,7 +217,7 @@
                 </div>
               </div>
             </div>
-            <input type="submit" class="form-control btn-success" value="Update Division" style="color: white;font-size: 13px;color: #ffffff!important;width: 128px;float: right;">
+            <input type="submit" class="form-control btn-success" value="Update Cesbie Staff" style="color: white;font-size: 13px;color: #ffffff!important;width: 158px;float: right;">
           </form>
         </div>
       </div>

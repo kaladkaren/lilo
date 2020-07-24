@@ -73,6 +73,7 @@ class Division_model extends Crud_model
         return $this->db->query("
           SELECT {$this->table}.*
           FROM {$this->table}
+          ORDER BY {$this->table}.name ASC
           ")->result();
     }
     public function add($post)

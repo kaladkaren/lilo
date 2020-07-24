@@ -8,7 +8,7 @@ class Cesbie_model extends Crud_model
         $this->table = 'cesbie_visitors';
         $this->staffs = 'staffs';
         $this->division = 'division';
-        $this->per_rows = 5;
+        $this->per_rows = 10;
     }
     public function all()
   	{
@@ -130,7 +130,76 @@ class Cesbie_model extends Crud_model
       		{$where}
       	")->num_rows();
   	}
+    public function all_staff()
+  	{
+  		$where = ' WHERE 1=1 ';
+	    if (isset($_GET['name']) && $_GET['name'] != ''):
+	    	$where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
+	    endif;
 
+	    if (isset($_GET['cat']) && $_GET['cat'] != ''):
+	    	$where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    endif;
+
+	    $order_str = '';
+
+	    $order_by = "{$this->staffs}.created_at";
+	    if (isset($_GET['order_by']) && $_GET['order_by']):
+	      switch ($_GET['order_by']) {
+	        case 'name':
+	          $order_by = "{$this->staffs}.fullname";
+	          break;
+	        case 'date_reg':
+	        default:
+	          $order_by = "{$this->staffs}.created_at";
+	          break;
+	          break;
+	      }
+	    endif;
+
+	    $order = 'DESC';
+	    if (isset($_GET['order']) && $_GET['order']):
+	      if ($_GET['order'] == 'asc'):
+	        $order = 'ASC';
+	      endif;
+	    endif;
+
+	    $order_str = "ORDER BY {$order_by} {$order}";
+
+	    $limit_str = '';
+
+	    $limit = 0;
+	    if($this->uri->segment(4) !== NULL){
+	      $limit = $this->uri->segment(4);
+	    }
+	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
+    	return $this->db->query("
+      		SELECT {$this->staffs}.*, 
+            	DATE_FORMAT({$this->staffs}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
+            	{$this->division}.name as division_name
+      		FROM {$this->staffs}
+
+      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+      		{$where} {$order_str} {$limit_str}
+      	")->result();
+  	}
+  	public function all_staff_total()
+  	{
+  		$where = ' WHERE 1=1 ';
+	    if (isset($_GET['name']) && $_GET['name'] != ''):
+	      $where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
+	    endif;
+	    if (isset($_GET['cat']) && $_GET['cat'] != ''):
+	      $where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    endif;
+
+    	return $this->db->query("
+      		SELECT {$this->staffs}.*, 
+            	DATE_FORMAT({$this->staffs}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at
+      		FROM {$this->staffs}
+      		{$where}
+      	")->num_rows();
+  	}
   	public function displayPageData($total)
 	{
 	    if ($total) {
@@ -190,4 +259,13 @@ class Cesbie_model extends Crud_model
       	")->result();
 	}
 
+	public function add_staff($post)
+	{
+		return $this->db->insert($this->staffs, $post);
+	}
+	public function update_staff($post, $id)
+  	{
+    	$this->db->where('id', $id);
+    	return $this->db->update($this->staffs, $post);
+  	}
 }

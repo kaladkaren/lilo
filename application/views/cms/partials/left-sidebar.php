@@ -32,19 +32,19 @@
       <ul class="sidebar-menu" id="nav-accordion">
         <li>
           <a href="<?php echo base_url('cms') ?>"
-            class="<?php echo $this->uri->segment(1) === 'cms' && ($this->uri->segment(2) === null || $this->uri->segment(2) === 'dashboard') ? 'active': ''; ?>">
+            <?php echo $this->uri->segment(1) === 'cms' && ($this->uri->segment(2) === null || $this->uri->segment(2) === 'dashboard') ? 'class="active" style="color:#ff6c60"': ''; ?>>
             <span>Admin Management</span>
           </a>
         </li>
         <li>
           <a href="<?php echo base_url('cms/divisions') ?>"
-            class="<?php echo (in_array($this->uri->segment(2), ['divisions', 'division']))  ? 'active': ''; ?>">
+            <?php echo (in_array($this->uri->segment(2), ['divisions', 'division']))  ? 'class="active" style="color:#ff6c60"': ''; ?>>
             <span>Division Management</span>
           </a>
         </li>
         <li>
           <a href="<?php echo base_url('cms/agency') ?>"
-            class="<?php echo (in_array($this->uri->segment(2), ['agency', 'division']))  ? 'active': ''; ?>">
+            <?php echo (in_array($this->uri->segment(2), ['agency']))  ? 'class="active" style="color:#ff6c60"': ''; ?>>
             <span>Agency Management</span>
           </a>
         </li>
@@ -58,6 +58,12 @@
             <li><a <?php echo ($this->uri->segment(2) === 'visitors' && $this->uri->segment(3) === 'cesbie-visitors') ? 'style="color:#ff6c60"': ''; ?> href="<?php echo base_url('cms/visitors/cesbie-visitors') ?>">Cesbie Visitors</a></li>
             <li><a <?php echo $this->uri->segment(2) === 'visitors' && $this->uri->segment(3) === 'guest-visitors' ? 'style="color:#ff6c60"': ''; ?> href="<?php echo base_url('cms/visitors/guest-visitors') ?>">Guest Visitors</a></li>
           </ul>
+        </li>
+        <li>
+          <a href="<?php echo base_url('cms/cesbie-staffs') ?>"
+            <?php echo (in_array($this->uri->segment(2), ['cesbie-staffs']))  ? 'class="active" style="color:#ff6c60"': ''; ?>>
+            <span>Cesbie Management</span>
+          </a>
         </li>
       </ul>
       <!-- sidebar menu end-->
