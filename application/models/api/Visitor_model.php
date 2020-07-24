@@ -167,6 +167,7 @@ class Visitor_model extends Crud_model
 
 	public function calculate_duration($login, $logout)
 	{
+		$return_str = '';
 		$seconds = strtotime($logout) - strtotime($login);
 
 		$days = floor($seconds / 86400);
@@ -176,10 +177,10 @@ class Visitor_model extends Crud_model
 		$days_str = ($days == 1) ? 'day':'days';
 		$hours_str = ($hours == 1) ? 'hour':'hours';
 		if($days):
-			$return_str = $days .' days, ';
+			$return_str = $days ." {$days_str}, ";
 		endif;
 		if($hours):
-			$return_str = $hours .' hours, ';
+			$return_str .= $hours ." {$hours_str}, ";
 		endif;
 
 		return rtrim($return_str, ', ');

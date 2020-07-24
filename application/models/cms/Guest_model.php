@@ -8,6 +8,7 @@ class Guest_model extends Crud_model
         $this->table = 'guest_visitors';
         $this->staffs = 'staffs';
         $this->division = 'division';
+        $this->feedbacks = 'feedbacks';
         $this->per_rows = 5;
     }
     public function all()
@@ -81,10 +82,15 @@ class Guest_model extends Crud_model
       		SELECT {$this->table}.*, 
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
             	{$this->staffs}.fullname as person_fullname_visited,
-            	{$this->division}.name as division_name_visited
+            	{$this->division}.name as division_name_visited,
+            	CASE
+				    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
+				    ELSE '-'
+				END as logout_timestamp
       		FROM {$this->table}
       		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.person_to_visit
       		LEFT JOIN {$this->division} ON {$this->division}.id={$this->table}.division_to_visit
+      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
       		{$where} {$order_str} {$limit_str}
       	")->result();
   	}

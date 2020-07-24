@@ -156,7 +156,7 @@
                         <td><?php echo $value->pin_code ?></td>
                         <td><?php echo $value->f_created_at ?></td>
                         <td>
-                          -
+                          <?php echo $value->logout_timestamp ?>
                         </td>
                         <td>
                           <button type="button" class="btn btn-info btn-xs"><a style="color:white;" href="<?php echo base_url('cms/visitor/details/'.$value->id) ?>" title="View Details"><i class="fa fa-eye"></i></a></button>

@@ -8,6 +8,7 @@ class Cesbie_model extends Crud_model
         $this->table = 'cesbie_visitors';
         $this->staffs = 'staffs';
         $this->division = 'division';
+        $this->feedbacks = 'feedbacks';
         $this->per_rows = 10;
     }
     public function all()
@@ -83,10 +84,15 @@ class Cesbie_model extends Crud_model
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
             	{$this->staffs}.fullname as staff_fullname,
             	{$this->staffs}.division_id as division,
-            	{$this->division}.name as division_name
+            	{$this->division}.name as division_name,
+            	CASE
+				    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
+				    ELSE '-'
+				END as logout_timestamp
       		FROM {$this->table}
       		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
       		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
       		{$where} {$order_str} {$limit_str}
       	")->result();
   	}
