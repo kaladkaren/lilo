@@ -80,4 +80,18 @@ class Visitor_model extends Crud_model
 	      return [];
 	    }
 	}
+
+	public function search_pin_validity($pin_code)
+	{
+		$visitor_type = '';
+		$cesbie_visitor = $return = $this->db->get_where($this->cesbie_visitors, array('pin_code' => $pin_code))->row();
+		if(!$cesbie_visitor):
+			$visitor = $return = $this->db->get_where($this->visitors, array('pin_code' => $pin_code))->row();
+			$visitor_type = 'guest_visitors';
+		else:
+			$visitor_type = 'cesbie_visitors';
+		endif;
+
+		return ($return == null) ? []:$visitor_type;
+	}
 }
