@@ -17,6 +17,8 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
 1. **Cesbie Login Steps**
     + [Step 1](#step-1)
 
+1. **Logout Steps**
+    + [Step 1](#step-1)
 
 ## Visitors
 
@@ -346,6 +348,64 @@ Get list of options for cesbie fullname, and place of origin.
     },
     "meta": {
         "message": "Data found",
+        "status": "200"
+    }
+}
+```
+
+## Logout Steps
+
+### Step 1
+POST `api/visitors/logout/step-1`   
+
+Check the pin_code if valid.
+
+Returns in the data response the visitor type.
+
+##### Payload
+
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
+
+
+##### Response
+```javascript
+200 OK
+{
+    "data": "guest_visitors",
+    "meta": {
+        "message": "Valid pin code",
+        "status": "200"
+    }
+}
+```
+
+### Step 2
+POST `api/visitors/logout/step-2`   
+
+Check the pin_code if valid.
+
+##### Payload
+
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
+| overall_experience        |  yes     |  int      |        1 = bad, 2 = okay, 3 = good              |  1
+| feedback        |       |  varchar      |       feedback message of visitor              |  Lorem ipsum dolor sit amet, consecteturdipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+##### Response
+```javascript
+201 OK
+{
+    "data": {
+        "pin_code": "zXc12365gfd123asd",
+        "overall_experience": "2",
+        "feedback": "Lorem ipsum dolor sit amet, consecteturdipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    },
+    "meta": {
+        "message": "Logout successfully",
         "status": "200"
     }
 }

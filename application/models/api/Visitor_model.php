@@ -7,6 +7,7 @@ class Visitor_model extends Crud_model
         parent::__construct();
         $this->visitors = 'guest_visitors';
         $this->cesbie_visitors = 'cesbie_visitors';
+        $this->feedbacks = 'feedbacks';
         $this->upload_dir = 'visitors';
     }
 
@@ -83,6 +84,11 @@ class Visitor_model extends Crud_model
 
 	public function search_pin_validity($pin_code)
 	{
+		$feedbacks = $this->db->get_where($this->feedbacks, array('pin_code' => $pin_code))->row();
+		if($feedbacks):
+			return [];
+		endif;
+
 		$visitor_type = '';
 		$cesbie_visitor = $return = $this->db->get_where($this->cesbie_visitors, array('pin_code' => $pin_code))->row();
 		if(!$cesbie_visitor):
@@ -93,5 +99,10 @@ class Visitor_model extends Crud_model
 		endif;
 
 		return ($return == null) ? []:$visitor_type;
+	}
+
+	public function logout($post)
+	{
+		return $this->db->insert($this->feedbacks, $post);
 	}
 }
