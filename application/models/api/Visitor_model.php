@@ -6,7 +6,12 @@ class Visitor_model extends Crud_model
     {
         parent::__construct();
         $this->visitors = 'guest_visitors';
+        $this->guest_visitors = 'guest_visitors';
         $this->cesbie_visitors = 'cesbie_visitors';
+        $this->agency = 'agency';
+        $this->division = 'division';
+        $this->staffs = 'staffs';
+        $this->services = 'services';
         $this->feedbacks = 'feedbacks';
         $this->upload_dir = 'visitors';
     }
@@ -82,11 +87,13 @@ class Visitor_model extends Crud_model
 	    }
 	}
 
-	public function search_pin_validity($pin_code)
-	{
-		$feedbacks = $this->db->get_where($this->feedbacks, array('pin_code' => $pin_code))->row();
-		if($feedbacks):
-			return [];
+	public function search_pin_validity($pin_code, $valid = '')
+	{	
+		if($valid == ''):
+			$feedbacks = $this->db->get_where($this->feedbacks, array('pin_code' => $pin_code))->row();
+			if($feedbacks):
+				return [];
+			endif;
 		endif;
 
 		$visitor_type = '';
@@ -104,5 +111,77 @@ class Visitor_model extends Crud_model
 	public function logout($post)
 	{
 		return $this->db->insert($this->feedbacks, $post);
+	}
+
+	public function print($pin_code)
+	{
+		$visitor_type = $this->search_pin_validity($pin_code, true);
+		if($visitor_type == 'guest_visitors'):
+			$sql = "
+	      		SELECT 
+	            	DATE_FORMAT({$this->$visitor_type}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format,
+	            	{$this->$visitor_type}.fullname,
+	            	{$this->agency}.name as agency,
+	            	{$this->agency}.name as attached_agency,
+	            	{$this->$visitor_type}.email_address,
+	            	{$this->division}.name as division,
+	            	{$this->staffs}.fullname as person_visited,
+	            	{$this->services}.name as purpose,
+	            	{$this->$visitor_type}.temperature,
+	            	{$this->$visitor_type}.place_of_origin,
+	            	{$this->$visitor_type}.created_at as login_time,
+	            	{$this->feedbacks}.created_at as logout_time
+	      		FROM {$this->$visitor_type}
+	      		LEFT JOIN {$this->agency} ON {$this->agency}.id={$this->$visitor_type}.agency
+	      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->$visitor_type}.division_to_visit
+	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->$visitor_type}.person_to_visit
+	      		LEFT JOIN {$this->services} ON {$this->services}.id={$this->$visitor_type}.purpose
+	      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->$visitor_type}.pin_code
+	      		WHERE {$this->$visitor_type}.pin_code = '{$pin_code}'
+	      	";
+		elseif($visitor_type == 'cesbie_visitors'):
+			$sql = "
+	      		SELECT 
+	            	DATE_FORMAT({$this->$visitor_type}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format,
+	            	{$this->division}.name as division,
+	            	{$this->staffs}.fullname,
+	            	{$this->staffs}.email_address,
+	            	{$this->$visitor_type}.temperature,
+	            	{$this->$visitor_type}.place_of_origin,
+	            	{$this->$visitor_type}.created_at as login_time,
+	            	{$this->feedbacks}.created_at as logout_time
+	      		FROM {$this->$visitor_type}
+	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->$visitor_type}.staff_id
+	      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+	      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->$visitor_type}.pin_code
+	      		WHERE {$this->$visitor_type}.pin_code = '{$pin_code}'
+	      	";
+	    else:
+	    	return $visitor_type;
+		endif;
+
+		$res = $this->db->query($sql)->row();
+		$res->duration = $this->calculate_duration($res->login_time, $res->logout_time);
+		return $res;
+	}
+
+	public function calculate_duration($login, $logout)
+	{
+		$seconds = strtotime($logout) - strtotime($login);
+
+		$days = floor($seconds / 86400);
+		$hours = floor(($seconds - ($days * 86400)) / 3600);
+		$minutes = floor(($seconds - ($days * 86400) - ($hours * 3600))/60);
+
+		$days_str = ($days == 1) ? 'day':'days';
+		$hours_str = ($hours == 1) ? 'hour':'hours';
+		if($days):
+			$return_str = $days .' days, ';
+		endif;
+		if($hours):
+			$return_str = $hours .' hours, ';
+		endif;
+
+		return rtrim($return_str, ', ');
 	}
 }

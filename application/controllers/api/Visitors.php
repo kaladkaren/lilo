@@ -84,6 +84,34 @@ class Visitors extends Crud_controller {
         ];
         $this->response($r_return, $status);
     }
+
+    public function logout_print_post()
+    {
+        $post = $this->post();
+        $res = array();
+        $message = "Bad request";
+        $status  = "400";
+
+
+        $res = $this->model->print($post['pin_code']);
+
+        if ($res):
+            $message = "Data found";
+            $status = "200";
+        else:
+            $message = "Invalid pin code";
+            $status = "404";
+        endif;
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
     public function guest_login_post()
     {
         $post = $this->post();

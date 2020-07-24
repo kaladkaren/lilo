@@ -19,6 +19,8 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
 
 1. **Logout Steps**
     + [Step 1](#step-1)
+    + [Step 2](#step-2)
+    + [Print](#print)
 
 ## Visitors
 
@@ -406,6 +408,64 @@ Check the pin_code if valid.
     },
     "meta": {
         "message": "Logout successfully",
+        "status": "200"
+    }
+}
+```
+
+### Step 2
+POST `api/visitors/logout/print`
+
+##### Payload
+
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
+
+
+##### Response of Guest Visitor
+```javascript
+200 OK
+{
+    "data": {
+        "login_time_format": "7/23/2020 | 11:38 AM",
+        "fullname": "Diane Ocampo",
+        "agency": "DOST",
+        "attached_agency": "DOST",
+        "email_address": "edocampo@myoptimind.com",
+        "division": "Dost",
+        "person_visited": "Diane Ocampo",
+        "purpose": "Visit",
+        "temperature": "36.5",
+        "place_of_origin": "Quezon City",
+        "login_time": "2020-07-23 11:38:07",
+        "logout_time": "2020-07-24 11:31:41",
+        "duration": "23 hours"
+    },
+    "meta": {
+        "message": "Data found",
+        "status": "200"
+    }
+}
+```
+
+##### Response of Cesbie Visitor
+```javascript
+200 OK
+{
+    "data": {
+        "login_time_format": "7/22/2020 | 1:50 PM",
+        "division": "Dost",
+        "fullname": "Lorenzo Salamante",
+        "email_address": "enzo@enzo.com",
+        "temperature": "37.5",
+        "place_of_origin": "San Mateo, Rizal",
+        "login_time": "2020-07-22 13:50:23",
+        "logout_time": "2020-07-24 12:13:36",
+        "duration": "22 hours"
+    },
+    "meta": {
+        "message": "Data found",
         "status": "200"
     }
 }
