@@ -36,6 +36,14 @@ class Visitors extends Admin_core_controller {
     // prev (<) link
     $pag_conf['prev_tag_open'] = '<li>';
     $pag_conf['prev_tag_close'] = '</li>';
+
+    // next (>) link
+    $pag_conf['first_tag_open'] = '<li>';
+    $pag_conf['first_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['last_tag_open'] = '<li>';
+    $pag_conf['last_tag_close'] = '</li>';
+
     // current active pagination
     $pag_conf['cur_tag_open'] = '<li class="active"><a href="#">';
     $pag_conf['cur_tag_close'] = '</a></li>';

@@ -11,7 +11,9 @@ class Guest_model extends Crud_model
         $this->feedbacks = 'feedbacks';
         $this->services = 'services';
         $this->agency = 'agency';
+        $this->attached_agency = 'attached_agency';
         $this->per_rows = 10;
+        $this->uploade_dir_visitors = 'visitors';
     }
     public function all()
   	{
@@ -24,7 +26,7 @@ class Guest_model extends Crud_model
 	    endif;
 
 	    if (isset($_GET['origin']) && $_GET['origin'] != ''):
-	    	$where .= "AND {$this->table}.place_of_origin = '{$_GET['origin']}' ";
+	    	$where .= "AND ({$this->table}.place_of_origin = '{$_GET['origin']}' OR CONCAT({$this->table}.region, ' - ', {$this->table}.city) = '{$_GET['origin']}')  ";
 	    endif;
 
 	    if ((isset($_GET['from']) && $_GET['from'] != '') || (isset($_GET['to']) && $_GET['to'] != '')):
@@ -54,7 +56,10 @@ class Guest_model extends Crud_model
 	    if (isset($_GET['order_by']) && $_GET['order_by']):
 	      switch ($_GET['order_by']) {
 	        case 'name':
-	          $order_by = "{$this->staffs}.fullname";
+	          $order_by = "{$this->table}.fullname";
+	          break;
+	        case 'date_logout':
+	        	$order_by = "logout_created_at";
 	          break;
 	        case 'date_reg':
 	        default:
@@ -80,14 +85,34 @@ class Guest_model extends Crud_model
 	      $limit = $this->uri->segment(5);
 	    }
 	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
+	    $upload_photo = base_url('uploads/'.$this->uploade_dir_visitors.'/');
+	    $expi_png = base_url('public/admin/img/');
     	return $this->db->query("
       		SELECT {$this->table}.*, 
+      			CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			   	END as place_of_origin,
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
             	{$this->staffs}.fullname as person_fullname_visited,
             	{$this->division}.name as division_name_visited,
             	{$this->agency}.name as agency_name,
-            	{$this->agency}.name as att_agency_name,
+            	{$this->attached_agency}.name as att_agency_name,
             	{$this->services}.name as purpose_name,
+            	REPLACE(CONCAT('{$upload_photo}', {$this->table}.photo), ' ', '_') as photo,
+            	CASE
+				    WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Stressed'
+				    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Okay'
+				    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Good'
+				    ELSE ''
+				END as overall_experience,
+				CASE
+				    WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'Stressed.png')
+				    WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Okay.png')
+				    WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Happy.png')
+				    ELSE ''
+				END as overall_experience_png,
+            	{$this->feedbacks}.feedback as feedback,
             	CASE
 				    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
 				    ELSE '-'
@@ -100,6 +125,7 @@ class Guest_model extends Crud_model
       		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.person_to_visit
       		LEFT JOIN {$this->division} ON {$this->division}.id={$this->table}.division_to_visit
       		LEFT JOIN {$this->agency} ON {$this->agency}.id={$this->table}.agency
+      		LEFT JOIN {$this->attached_agency} ON {$this->attached_agency}.id={$this->table}.attached_agency
       		LEFT JOIN {$this->services} ON {$this->services}.id={$this->table}.purpose
       		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
       		{$where} {$order_str} {$limit_str}
@@ -116,7 +142,7 @@ class Guest_model extends Crud_model
 	    endif;
 
 	    if (isset($_GET['origin']) && $_GET['origin'] != ''):
-	    	$where .= "AND {$this->table}.place_of_origin = '{$_GET['origin']}' ";
+	    	$where .= "AND ({$this->table}.place_of_origin = '{$_GET['origin']}' OR CONCAT({$this->table}.region, ' - ', {$this->table}.city) = '{$_GET['origin']}')  ";
 	    endif;
 
     	return $this->db->query("
@@ -131,10 +157,14 @@ class Guest_model extends Crud_model
   	public function get_cities()
 	{
 		return $this->db->query("
-      		SELECT {$this->table}.place_of_origin
+      		SELECT 
+      			CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			   	END as place_of_origin
       		FROM {$this->table}
-      		GROUP BY {$this->table}.place_of_origin
-      		ORDER BY {$this->table}.place_of_origin ASC
+      		GROUP BY  CONCAT({$this->table}.region, ' - ', {$this->table}.city), {$this->table}.place_of_origin
+      		ORDER BY place_of_origin ASC
       	")->result();
 	}
 }

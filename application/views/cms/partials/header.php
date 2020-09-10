@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="author" content="Mosaddek">
-  <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <meta name='robots' content='noindex,nofollow' />
   <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
 
   <title>LiLoApp CRUD</title>
@@ -33,6 +32,33 @@
   <script type="text/javascript">
     const base_url = '<?php echo base_url(); ?>';
   </script>
+  <style type="text/css">
+    .has-switch span.switch-left {
+        /*border-radius: 30px 0 0 30px;*/
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #afafaf;
+        padding-right: 10px;
+    }
+    .has-switch > div.switch-on label {
+        background-color: #a9ccc9;
+        border-color: #a9ccc9;
+    }
+
+    .switch-square label {
+        border-radius: 0 6px 6px 0;
+        border-color: #c2c2c2;
+        border: 2px solid #c2c2c2;
+    }
+    .breadcrumb>li {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 17px;
+    }
+    input[type="date"].form-control, input[type="time"].form-control, input[type="datetime-local"].form-control, input[type="month"].form-control {
+        line-height: 15px;
+    }
+  </style>
 </head>
 
 <body>

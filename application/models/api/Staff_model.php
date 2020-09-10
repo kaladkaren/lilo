@@ -14,6 +14,7 @@ class Staff_model extends Crud_model
           		 {$this->table}.fullname
           FROM {$this->table}
           WHERE {$this->table}.is_active = 1
+          ORDER BY {$this->table}.fullname ASC
           ")->result();
     }
 }

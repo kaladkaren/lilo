@@ -770,12 +770,12 @@ abstract class REST_Controller extends \CI_Controller {
     {
       // So as to be safe later on in the process
       $http_code = (int) $http_code;
-      
+
       # Forbidden / Unauthorized message
-      if($http_code == 401 || $http_code == 403 || $this->input->request_headers()['x-api-key'] != getenv('API_TOKEN')){
+      if($http_code == 401 || $http_code == 403){
         header("Content-type:application/json");
         http_response_code($http_code);
-        $msg = array('message' => ($http_code == 401 || $this->input->request_headers()['x-api-key'] != getenv('API_TOKEN')) ? "Unauthorized" : "Forbidden");
+        $msg = array('message' => ($http_code == 401) ? "Unauthorized" : "Forbidden");
         $this->output->_display(json_encode($msg));
         exit;
       }

@@ -8,6 +8,11 @@
     <!-- page start-->
     <div class="row">
       <div class="col-lg-12">
+        <!--breadcrumbs start -->
+        <ul class="breadcrumb">
+          <li class="active">Administrators</li>
+        </ul>
+        <!--breadcrumbs end -->
         <!-- Improved Flashdata Start -->
           <?php
             $alert_msg = $this->session->flashdata('alert_msg');
@@ -22,7 +27,8 @@
         <!-- Improved Flashdata End -->
         <section class="panel">
           <header class="panel-heading">
-            Administrators
+            <label><?php echo @$page_of ?></label>
+            <label style="float: right"><?php echo @$count_of ?></label>
           </header>
           <div class="panel-body">
             <p>
@@ -35,13 +41,13 @@
                     <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php if (count($res) > 0 ): ?>
 
-                    <?php $i = 1; foreach ($res as $key => $value): ?>
+                    <?php $i = ($this->uri->segment(3) !== NULL) ? $this->uri->segment(3) + 1 : 1; foreach ($res as $key => $value): ?>
                       <tr>
                         <th scope="row"><?php echo $i++ ?></th>
                         <td><?php echo $value->name ?></td>
@@ -63,6 +69,11 @@
                     <?php endif; ?>
                   </tbody>
                 </table>
+                <center>
+                <ul class="pagination">
+                  <?php echo @$pagination; ?>
+                </ul>
+                </center>
               </div>
             </div>
           </section>
@@ -85,11 +96,11 @@
           <form role="form" method="post" action="<?php echo base_url('cms/dashboard') ?>" id="add-user">
             <div class="form-group">
               <label >Name</label>
-              <input type="text" class="form-control" name="name" placeholder="Name" required="">
+              <input type="text" class="form-control" name="name" required="">
             </div>
             <div class="form-group">
               <label >Email address</label>
-              <input type="email" class="form-control" name="email" placeholder="Email" required="">
+              <input type="email" class="form-control" name="email" required="">
             </div>
 
             <div class="form-group">
@@ -102,11 +113,11 @@
             
             <div class="form-group">
               <label >Password</label>
-              <input type="password" class="form-control" name="password-add" placeholder="New Password" required="">
+              <input type="password" class="form-control" name="password-add" required="">
             </div>
             <div class="form-group">
               <label >Confirm Password</label>
-              <input type="password" class="form-control" id="confirm_password" name="c_password-add" placeholder="Confirm New Password" required="">
+              <input type="password" class="form-control" id="confirm_password" name="c_password-add" required="">
             </div>
 
           </div>
@@ -182,12 +193,12 @@
 
             <div class="form-group">
               <label >Password</label>
-              <input type="password" class="form-control" name="password-edit" placeholder="New Password">
+              <input type="password" class="form-control" name="password-edit">
               <label style="float: right; font-size: 10px; color:red;"><b>Leave blank to leave unchanged</b></label>
             </div>
             <div class="form-group">
               <label >Confirm Password</label>
-              <input type="password" class="form-control" id="confirm_password" name="c_password-edit" placeholder="Confirm New Password">
+              <input type="password" class="form-control" id="confirm_password" name="c_password-edit">
             </div>
           </div>
           <div class="modal-footer">

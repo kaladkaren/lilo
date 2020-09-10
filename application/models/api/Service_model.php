@@ -14,6 +14,7 @@ class Service_model extends Crud_model
           		 {$this->table}.name
           FROM {$this->table}
           WHERE {$this->table}.is_active = 1
+          ORDER BY {$this->table}.name ASC
           ")->result();
     }
 }

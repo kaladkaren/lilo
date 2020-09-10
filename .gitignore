@@ -6,3 +6,4 @@ uploads/*
 .env.development
 .env.testing
 .env.production
+liloapp.zip

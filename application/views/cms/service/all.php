@@ -10,7 +10,7 @@
       <div class="col-lg-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li class="active">Agency</li>
+          <li class="active">Services</li>
         </ul>
         <!--breadcrumbs end -->
         <!-- Improved Flashdata Start -->
@@ -46,22 +46,22 @@
               <div class="form-group" style="margin-bottom: 50px;">
                 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
                   <div class="input-group m-bot15">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Agency Name" value="<?php echo @$_GET['name'] ?>">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Service Name" value="<?php echo @$_GET['name'] ?>">
                     <div class="input-group-btn">
                       <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
-                        <li class="<?php echo (@$_GET['order_by'] == 'name' || !isset($_GET['order_by'])) ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Agency Name</a>
+                        <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Service Name</a>
                         </li>
-                        <li class="<?php echo (@$_GET['order_by'] == 'date_reg') ? 'active' : ''?>">
+                        <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
                         </li>
                         <li class="divider"></li>
-                        <li class="<?php echo (@$_GET['order'] == 'asc'  || !isset($_GET['order'])) ? 'active' : ''?>">
+                        <li class="<?php echo (@$_GET['order'] == 'asc') ? 'active' : ''?>">
                           <a href="<?php echo (@$_GET['order'] == 'asc') ? '#' : @$order.'&order=asc'?>"> Ascending</a>
                         </li>
-                        <li class="<?php echo (@$_GET['order'] == 'desc') ? 'active' : ''?>">
+                        <li class="<?php echo (@$_GET['order'] == 'desc'  || !isset($_GET['order'])) ? 'active' : ''?>">
                           <a href="<?php echo (@$_GET['order'] == 'desc') ? '#' : @$order.'&order=desc'?>"> Descending</a>
                         </li>
                       </ul>
@@ -83,15 +83,15 @@
                   <thead>
                     <tr>
                       <th style="width: 15px;">#</th>
-                      <th>Agency Name</th>
+                      <th>Service Name</th>
                       <th style="width: 130px;">Date Created</th>
                       <th style="width: 30px;">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (count($agency) > 0 ): ?>
+                    <?php if (count($service) > 0 ): ?>
 
-                      <?php $i = 1; foreach ($agency as $key => $value): ?>
+                      <?php $i = 1; foreach ($service as $key => $value): ?>
                         <tr style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>">
                           <th scope="row" style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>"><?php echo @$this->uri->segment(4) + ($key + 1);  ?></th>
                           <td><?php echo $value->name ?></td>
@@ -124,12 +124,12 @@
         <div class="col-lg-6" style="padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
-              Add New Agency
+              Add New Service
             </header>
             <div class="panel-body">
-              <form role="form" method="post" action="<?php echo base_url('cms/agency/add_agency/') ?>">
+              <form role="form" method="post" action="<?php echo base_url('cms/services/add_service/') ?>">
                 <div class="form-group">
-                  <label >Agency Name</label>
+                  <label >Service Name</label>
                   <input type="text" class="form-control" name="name" required="">
                 </div>
                 <label>Active</label>
@@ -142,7 +142,7 @@
                     </div>
                   </div>
                 </div>
-                <input type="submit" class="form-control btn-success" value="Add Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 105px;float: right;">
+                <input type="submit" class="form-control btn-success" value="Add Service" style="color: white;font-size: 13px;color: #ffffff!important;width: 105px;float: right;">
               </form>
             </div>
           </section>
@@ -153,18 +153,18 @@
   </section>
 </section>
 <!-- Modal -->
-<?php foreach ($agency as $key => $value): ?>
+<?php foreach ($service as $key => $value): ?>
   <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Edit Agency</h4>
+          <h4 class="modal-title">Edit Service</h4>
         </div>
         <div class="panel-body">
-          <form role="form" method="post" action="<?php echo base_url('cms/agency/update_agency/'.$value->id) ?>" enctype="multipart/form-data">
+          <form role="form" method="post" action="<?php echo base_url('cms/services/update_service/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
-              <label >Agency Name</label>
+              <label >Service Name</label>
               <input type="text" class="form-control" name="name" required="" value="<?php echo $value->name ?>">
             </div>
             <label>Active</label>
@@ -177,7 +177,7 @@
                 </div>
               </div>
             </div>
-            <input type="submit" class="form-control btn-success" value="Update Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 128px;float: right;">
+            <input type="submit" class="form-control btn-success" value="Update Service" style="color: white;font-size: 13px;color: #ffffff!important;width: 128px;float: right;">
           </form>
         </div>
       </div>

@@ -6220,3 +6220,14 @@ header.blue-bg .search:focus {
 .note-editor .note-editable ul li {
     list-style: disc;
 }
+
+
+/*FIREFOX SELECT FIX*/
+@-moz-document url-prefix() { 
+    .form-group .col-md-12:nth-child(2) .input-group.m-bot15:after {
+        position: absolute; width: 14px; height: 29px; content: ''; top: 3px; right: 51.5px; background: white; z-index: 11;
+    }
+    .panel-body .form-group:first-child .form-group:first-child .col-md-4:nth-child(3):after {
+        position: absolute; width: 14px; height: 29px; content: ''; top: 3px; right: 66px; background: white; z-index: 11;
+    }
+}

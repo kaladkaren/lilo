@@ -6,6 +6,7 @@ class Agency_model extends Crud_model
     {
         parent::__construct();
         $this->table = 'agency';
+        $this->attached_agency = 'attached_agency';
     }
     public function get_all()
     {
@@ -14,6 +15,17 @@ class Agency_model extends Crud_model
           		 {$this->table}.name
           FROM {$this->table}
           WHERE {$this->table}.is_active = 1
+          ORDER BY {$this->table}.name ASC
+          ")->result();
+    }
+    public function get_options($agency_id)
+    {
+        return $this->db->query("
+          SELECT {$this->attached_agency}.id, 
+               {$this->attached_agency}.name
+          FROM {$this->attached_agency}
+          WHERE {$this->attached_agency}.is_active = 1 AND {$this->attached_agency}.agency_id = '{$agency_id}'
+          ORDER BY {$this->attached_agency}.name ASC
           ")->result();
     }
 }

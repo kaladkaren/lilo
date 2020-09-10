@@ -1,11 +1,11 @@
 <?php
 
-class Division_model extends Crud_model
+class Service_model extends Crud_model
 {   
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'division';
+        $this->table = 'services';
         $this->per_rows = 10;
     }
 
@@ -57,7 +57,6 @@ class Division_model extends Crud_model
           {$where} {$order_str} {$limit_str}
           ";
 
-        // var_dump($sql); die();
         $query = $this->db->query($sql);
         $res = $query->result();
         return $res;
@@ -74,20 +73,11 @@ class Division_model extends Crud_model
           {$where}
           ")->num_rows();
     }
-    public function get_all()
-    {
-        return $this->db->query("
-          SELECT {$this->table}.*
-          FROM {$this->table}
-          ORDER BY {$this->table}.name ASC
-          ")->result();
-    }
     public function add($post)
     {
+        $post['is_active'] = 0;
         if(isset($post['is_active'])):
             $post['is_active'] = 1;
-        else:
-            $post['is_active'] = 0;
         endif;
 
         return $this->db->insert($this->table, $post);

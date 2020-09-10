@@ -1,3 +1,10 @@
+<?php 
+$arrayName = array('Government Procurement Policy Board - Technical Support Office', ); 
+
+foreach ($arrayName as $key => $value) {
+  // echo "INSERT INTO `attached_agency` (`id`, `agency_id`, `name`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES (NULL, '2', '{$value}', '1', CURRENT_TIMESTAMP, '0000-00-00 00:00:00.000000', '');";
+}
+?>
 <style type="text/css">
   div.none{
     display: none;
@@ -10,7 +17,7 @@
       <div class="col-lg-12">
         <!--breadcrumbs start -->
         <ul class="breadcrumb">
-          <li class="active">Agency</li>
+          <li class="active">Attached Agency</li>
         </ul>
         <!--breadcrumbs end -->
         <!-- Improved Flashdata Start -->
@@ -46,19 +53,19 @@
               <div class="form-group" style="margin-bottom: 50px;">
                 <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
                   <div class="input-group m-bot15">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Agency Name" value="<?php echo @$_GET['name'] ?>">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Attached Agency Name" value="<?php echo @$_GET['name'] ?>">
                     <div class="input-group-btn">
                       <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="<?php echo (@$_GET['order_by'] == 'name' || !isset($_GET['order_by'])) ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Agency Name</a>
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Attached Agency Name</a>
                         </li>
                         <li class="<?php echo (@$_GET['order_by'] == 'date_reg') ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
                         </li>
                         <li class="divider"></li>
-                        <li class="<?php echo (@$_GET['order'] == 'asc'  || !isset($_GET['order'])) ? 'active' : ''?>">
+                        <li class="<?php echo (@$_GET['order'] == 'asc' || !isset($_GET['order'])) ? 'active' : ''?>">
                           <a href="<?php echo (@$_GET['order'] == 'asc') ? '#' : @$order.'&order=asc'?>"> Ascending</a>
                         </li>
                         <li class="<?php echo (@$_GET['order'] == 'desc') ? 'active' : ''?>">
@@ -71,8 +78,29 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                    <form>
+                      <div class="input-group m-bot15">
+                        <div class="input-group-btn">
+                          <button tabindex="-1" class="btn btn-white" type="button">Filter by Agency</button>
+                        </div>
+                        <select class="form-control" name="cat_agency">
+                          <option value="">All</option>
+                          <?php foreach ($mother_agency as $key => $value): ?>
+                            <option value="<?php echo $value->id ?>" <?php echo (isset($_GET['cat_agency']) && $_GET['cat_agency'] == $value->id) ? "selected=''":""; ?>><?php echo $value->name ?></option>
+                          <?php endforeach ?>
+                        </select>
+                        <div class="input-group-btn">
+                          <button tabindex="-1" class="btn btn-white" type="button">
+                            <a href="<?php echo @$x_clear_cat_agency ?>">X</a>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
               </div>
-              <div class="alert alert-info fade in">
+              <div class="alert alert-info fade in" style="margin-top: 100px;">
                 <p><strong style="margin-right: 10px;">Legend: </strong>
                   <span class="label label-danger" style="background-color: #fff;color: black;">ACTIVE</span>
                   <span class="label label-warning" style="background-color: #8a8a8a;">INACTIVE</span>
@@ -83,7 +111,7 @@
                   <thead>
                     <tr>
                       <th style="width: 15px;">#</th>
-                      <th>Agency Name</th>
+                      <th>Attached Agency Name</th>
                       <th style="width: 130px;">Date Created</th>
                       <th style="width: 30px;">Action</th>
                     </tr>
@@ -124,12 +152,22 @@
         <div class="col-lg-6" style="padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
-              Add New Agency
+              Add New Attached Agency
             </header>
             <div class="panel-body">
-              <form role="form" method="post" action="<?php echo base_url('cms/agency/add_agency/') ?>">
+              <form role="form" method="post" action="<?php echo base_url('cms/attached_agency/add_agency/') ?>">
                 <div class="form-group">
-                  <label >Agency Name</label>
+                  <label >Agency</label>
+                  <select name="agency_id" class="form-control" required="">
+                    <option value="" disabled="" selected="">Select Agency</option>
+                    <?php foreach ($mother_agency as $key => $value): ?>
+                      <option <?php echo ($value->is_active) ? '':'disabled="disabled" style="background-color:gray;color:white;"'; ?> value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
+                    <?php endforeach ?>
+                  </select>
+
+                </div>
+                <div class="form-group">
+                  <label >Attached Agency Name</label>
                   <input type="text" class="form-control" name="name" required="">
                 </div>
                 <label>Active</label>
@@ -142,7 +180,7 @@
                     </div>
                   </div>
                 </div>
-                <input type="submit" class="form-control btn-success" value="Add Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 105px;float: right;">
+                <input type="submit" class="form-control btn-success" value="Add Attached Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 150px;float: right;">
               </form>
             </div>
           </section>
@@ -162,10 +200,20 @@
           <h4 class="modal-title">Edit Agency</h4>
         </div>
         <div class="panel-body">
-          <form role="form" method="post" action="<?php echo base_url('cms/agency/update_agency/'.$value->id) ?>" enctype="multipart/form-data">
+          <form role="form" method="post" action="<?php echo base_url('cms/attached_agency/update_agency/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
-              <label >Agency Name</label>
-              <input type="text" class="form-control" name="name" required="" value="<?php echo $value->name ?>">
+              <label >Agency</label>
+              <select name="agency_id" class="form-control" required="">
+                <option value="" disabled="" selected="">Select Agency</option>
+                <?php foreach ($mother_agency as $agency): ?>
+                  <option <?php echo ($agency->id == $value->agency_id) ? 'selected=""':''; ?> value="<?php echo $agency->id ?>"><?php echo $agency->name ?></option>
+                <?php endforeach ?>
+              </select>
+
+            </div>
+            <div class="form-group">
+              <label >Attached Agency Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Name" required="" value="<?php echo $value->name ?>">
             </div>
             <label>Active</label>
             <div class="row m-bot15">
@@ -177,7 +225,7 @@
                 </div>
               </div>
             </div>
-            <input type="submit" class="form-control btn-success" value="Update Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 128px;float: right;">
+            <input type="submit" class="form-control btn-success" value="Update Attached Agency" style="color: white;font-size: 13px;color: #ffffff!important;width: 170px;float: right;">
           </form>
         </div>
       </div>
@@ -193,6 +241,9 @@
     }
     $('button#search_keyword').on('click', function(e){
       window.location.href='<?php echo $x_clear_keyword ?>&name='+$('input[name=keyword]').val();
+    });
+    $('select[name=cat_agency]').on('change', function(e){
+      window.location.href='<?php echo $x_clear_cat_agency ?>&cat_agency='+$(this).children('option:selected').val();
     });
   });
 </script>

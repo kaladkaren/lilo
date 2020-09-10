@@ -1,29 +1,29 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Divisions extends Admin_core_controller {
+class Services extends Admin_core_controller {
 
   public function __construct()
   {
     parent::__construct();
 
-    $this->load->model('cms/division_model', 'division_model');
+    $this->load->model('cms/service_model', 'service_model');
     $this->load->helper('url');
     $this->load->library("pagination");
   }
 
   public function index()
   {
-    $this->divisions();
+    $this->service();
   }
 
-  public function divisions()
+  public function service()
   {
-    $data['divisions'] = $this->division_model->all();
+    $data['service'] = $this->service_model->all();
     # Pagination
-    $pag_conf['base_url'] = base_url("/cms/divisions/index");
-    $pag_conf['total_rows'] = $data['total_results'] = $this->division_model->all_total();
-    $pag_conf['per_page'] = $this->division_model->per_rows;
+    $pag_conf['base_url'] = base_url("/cms/services/index");
+    $pag_conf['total_rows'] = $data['total_results'] = $this->service_model->all_total();
+    $pag_conf['per_page'] = $this->service_model->per_rows;
 
     // next (>) link
     $pag_conf['next_tag_open'] = '<li>';
@@ -31,7 +31,7 @@ class Divisions extends Admin_core_controller {
     // prev (<) link
     $pag_conf['prev_tag_open'] = '<li>';
     $pag_conf['prev_tag_close'] = '</li>';
-        // next (>) link
+    // next (>) link
     $pag_conf['last_tag_open'] = '<li>';
     $pag_conf['last_tag_close'] = '</li>';
     // prev (<) link
@@ -48,17 +48,17 @@ class Divisions extends Admin_core_controller {
     $data["pagination"] = $this->pagination->create_links();
     ### / Pagination
 
-    $data['page_of'] = $this->division_model->displayPageData($pag_conf['total_rows']);
-    $data['count_of'] = $this->division_model->displayCountingData($pag_conf['total_rows']);
+    $data['page_of'] = $this->service_model->displayPageData($pag_conf['total_rows']);
+    $data['count_of'] = $this->service_model->displayCountingData($pag_conf['total_rows']);
 
     $url = '';
     $data['x_clear_stat'] = '';
-    $data['x_clear_keyword'] = $this->division_model->strip_param_from_url($url, 'name', base_url('cms/divisions'));
+    $data['x_clear_keyword'] = $this->service_model->strip_param_from_url($url, 'name', base_url('cms/services'));
     ### SORTING BUTTONS
-    $data['order'] = $this->division_model->strip_param_from_url($url, 'order', base_url('cms/divisions'));
-    $data['order_by'] = $this->division_model->strip_param_from_url($url, 'order_by', base_url('cms/divisions'));
+    $data['order'] = $this->service_model->strip_param_from_url($url, 'order', base_url('cms/services'));
+    $data['order_by'] = $this->service_model->strip_param_from_url($url, 'order_by', base_url('cms/services'));
     ### / SORTING BUTTONS
-    $this->wrapper('cms/divisions/all', $data);
+    $this->wrapper('cms/service/all', $data);
   }
 
   public function add_new()
@@ -66,19 +66,19 @@ class Divisions extends Admin_core_controller {
     $data = [];
     $data['cities'] = $this->city_model->all();
 
-    $this->wrapper('cms/divisions/add', $data);
+    $this->wrapper('cms/service/add', $data);
   }
 
-  public function add_division()
+  public function add_service()
   {
     $msg_data = array('alert_msg' => 'Something went wrong. Please try again.', 'alert_class' => 'alert-danger');
 
     $post = $this->input->post();
 
-    $add = $this->division_model->add($post);
+    $add = $this->service_model->add($post);
 
     if($add):
-        $msg_data = array('alert_msg' => 'Division added successfully.', 'alert_class' => 'alert-success');
+        $msg_data = array('alert_msg' => 'Service added successfully.', 'alert_class' => 'alert-success');
     endif;
 
     $this->session->set_flashdata($msg_data);
@@ -86,16 +86,16 @@ class Divisions extends Admin_core_controller {
     redirect($_SERVER['HTTP_REFERER']);
   }
 
-  public function update_division($id)
+  public function update_service($id)
   {
     $msg_data = array('alert_msg' => 'Something went wrong. Please try again.', 'alert_class' => 'alert-danger');
 
     $post = $this->input->post();
 
-    $update = $this->division_model->update($post, $id);
+    $update = $this->service_model->update($post, $id);
 
     if($update):
-        $msg_data = array('alert_msg' => 'Division updated successfully.', 'alert_class' => 'alert-success');
+        $msg_data = array('alert_msg' => 'Service updated successfully.', 'alert_class' => 'alert-success');
     endif;
 
     $this->session->set_flashdata($msg_data);

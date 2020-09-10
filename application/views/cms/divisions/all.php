@@ -28,7 +28,7 @@
         <div class="col-lg-6" style="padding-left: 0px;padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
-              <?php echo @$page_of ?><label style="float: right"><?php echo @$count_of ?></label>
+              <label><?php echo @$page_of ?></label><label style="float: right"><?php echo @$count_of ?></label>
             </header>
             <div class="panel-body">
               <!-- Improved Flashdata Start -->
@@ -52,7 +52,7 @@
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Division Name</a>
                         </li>
                         <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
@@ -73,9 +73,6 @@
                 </div>
               </div>
               <div class="alert alert-info fade in">
-                <button data-dismiss="alert" class="close close-sm" type="button">
-                  <i class="fa fa-times"></i>
-                </button>
                 <p><strong style="margin-right: 10px;">Legend: </strong>
                   <span class="label label-danger" style="background-color: #fff;color: black;">ACTIVE</span>
                   <span class="label label-warning" style="background-color: #8a8a8a;">INACTIVE</span>
@@ -86,9 +83,9 @@
                   <thead>
                     <tr>
                       <th style="width: 15px;">#</th>
-                      <th>Name</th>
+                      <th>Division Name</th>
                       <th style="width: 130px;">Date Created</th>
-                      <th style="width: 30px;"></th>
+                      <th style="width: 30px;">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -96,7 +93,7 @@
 
                       <?php $i = 1; foreach ($divisions as $key => $value): ?>
                         <tr style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>">
-                          <th scope="row"><?php echo $i++ ?></th>
+                          <th style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>" scope="row"><?php echo @$this->uri->segment(4) + ($key + 1);  ?></th>
                           <td><?php echo $value->name ?></td>
                           <td><?php echo $value->f_created_at ?></td>
                           <td>
@@ -132,8 +129,8 @@
             <div class="panel-body">
               <form role="form" method="post" action="<?php echo base_url('cms/divisions/add_division/') ?>">
                 <div class="form-group">
-                  <label >Name</label>
-                  <input type="text" class="form-control" name="name" placeholder="Name" required="">
+                  <label >Division Name</label>
+                  <input type="text" class="form-control" name="name"  required="">
                 </div>
                 <label>Active</label>
                 <div class="row m-bot15">
@@ -167,8 +164,8 @@
         <div class="panel-body">
           <form role="form" method="post" action="<?php echo base_url('cms/divisions/update_division/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
-              <label >Name</label>
-              <input type="text" class="form-control" name="name" placeholder="Name" required="" value="<?php echo $value->name ?>">
+              <label >Division Name</label>
+              <input type="text" class="form-control" name="name" required="" value="<?php echo $value->name ?>">
             </div>
             <label>Active</label>
             <div class="row m-bot15">

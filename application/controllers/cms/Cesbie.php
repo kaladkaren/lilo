@@ -114,4 +114,43 @@ class Cesbie extends Admin_core_controller {
       
     redirect($_SERVER['HTTP_REFERER']);
   }
+
+  public function single($id)
+  {
+    $data = [];
+    $data['cesbie'] = $cesbie = $this->cesbie_model->get($id);
+
+    # Pagination
+    $pag_conf['base_url'] = base_url("/cms/staff/single/{$id}/index");
+    $pag_conf['total_rows'] = $data['total_results'] = $this->cesbie_model->all_logs_total($id);
+    $pag_conf['per_page'] = $this->cesbie_model->per_rows;
+
+    // next (>) link
+    $pag_conf['next_tag_open'] = '<li>';
+    $pag_conf['next_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['prev_tag_open'] = '<li>';
+    $pag_conf['prev_tag_close'] = '</li>';
+    // first (<) link
+    $pag_conf['first_tag_open'] = '<li>';
+    $pag_conf['first_tag_close'] = '</li>';
+    // last (<) link
+    $pag_conf['last_tag_open'] = '<li>';
+    $pag_conf['last_tag_close'] = '</li>';
+    // current active pagination
+    $pag_conf['cur_tag_open'] = '<li class="active"><a href="#">';
+    $pag_conf['cur_tag_close'] = '</a></li>';
+
+    $pag_conf['num_tag_open'] = '<li>';
+    $pag_conf['num_tag_close'] = '</li>';
+    $pag_conf['reuse_query_string'] = true;
+    $this->pagination->initialize($pag_conf);
+    $data["pagination"] = $this->pagination->create_links();
+    ### / Pagination
+    
+    $data['page_of'] = $this->cesbie_model->displayPageData_($pag_conf['total_rows']);
+    $data['count_of'] = $this->cesbie_model->displayCountingData_($pag_conf['total_rows']);
+
+    $this->wrapper('cms/cesbie/single', $data);
+  }
 }

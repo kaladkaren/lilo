@@ -11,6 +11,61 @@ class Cesbie_model extends Crud_model
         $this->feedbacks = 'feedbacks';
         $this->per_rows = 10;
     }
+    public function get($id)
+    {
+    	$limit_str = '';
+
+	    $limit = 0;
+	    if($this->uri->segment(6) !== NULL){
+	      $limit = $this->uri->segment(6);
+	    }
+	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
+
+    	return $this->db->query("
+      		SELECT {$this->staffs}.*, 
+            	DATE_FORMAT({$this->staffs}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
+            	{$this->division}.name as division_name,
+            	{$this->table}.health_condition,
+            	{$this->table}.temperature,
+            	CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			   	END as place_of_origin,
+            	{$this->table}.created_at as login,
+            	{$this->table}.logout_at as logout,
+            	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as login_timestamp,
+            	DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y <br>%l:%i:%S %p') as logout_timestamp
+      		FROM {$this->staffs}
+      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+      		LEFT JOIN {$this->table} ON {$this->table}.staff_id={$this->staffs}.id
+      		WHERE {$this->staffs}.id = '{$id}' 
+      		ORDER BY  {$this->table}.created_at DESC
+      		{$limit_str}
+      	")->result();
+    }
+
+    public function all_logs_total($id)
+    {
+    	return $this->db->query("
+      		SELECT {$this->staffs}.*, 
+            	DATE_FORMAT({$this->staffs}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
+            	{$this->division}.name as division_name,
+            	{$this->table}.temperature,
+            	CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			   END as place_of_origin,
+            	{$this->table}.created_at as login,
+            	{$this->table}.logout_at as logout,
+            	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y %l:%i:%S %p') as login_timestamp,
+            	DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y %l:%i:%S %p') as logout_timestamp
+      		FROM {$this->staffs}
+
+      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+      		LEFT JOIN {$this->table} ON {$this->table}.staff_id={$this->staffs}.id
+      		WHERE {$this->staffs}.id = '{$id}'
+      	")->num_rows();
+    }
     public function all()
   	{
   		$where = ' WHERE 1=1 ';
@@ -23,7 +78,7 @@ class Cesbie_model extends Crud_model
 	    endif;
 
 	    if (isset($_GET['origin']) && $_GET['origin'] != ''):
-	    	$where .= "AND {$this->table}.place_of_origin = '{$_GET['origin']}' ";
+	    	$where .= "AND ({$this->table}.place_of_origin = '{$_GET['origin']}' OR CONCAT({$this->table}.region, ' - ', {$this->table}.city) = '{$_GET['origin']}')  ";
 	    endif;
 
 	    if ((isset($_GET['from']) && $_GET['from'] != '') || (isset($_GET['to']) && $_GET['to'] != '')):
@@ -81,12 +136,17 @@ class Cesbie_model extends Crud_model
 	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
     	return $this->db->query("
       		SELECT {$this->table}.*, 
+      			CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			    END as place_of_origin,
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
             	{$this->staffs}.fullname as staff_fullname,
             	{$this->staffs}.division_id as division,
             	{$this->division}.name as division_name,
+            	{$this->table}.logout_at as logout_created_at,
             	CASE
-				    WHEN {$this->feedbacks}.created_at != '' THEN DATE_FORMAT({$this->feedbacks}.created_at, '%M %d, %Y <br>%l:%i:%S %p')
+				    WHEN {$this->table}.logout_at != '' THEN DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y <br>%l:%i:%S %p')
 				    ELSE '-'
 				END as logout_timestamp
       		FROM {$this->table}
@@ -100,10 +160,15 @@ class Cesbie_model extends Crud_model
   	{
   		$where = ' WHERE 1=1 ';
 	    if (isset($_GET['name']) && $_GET['name'] != ''):
-	      $where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
+	    	$where .= "AND {$this->staffs}.fullname LIKE '%{$_GET['name']}%' ";
 	    endif;
+
 	    if (isset($_GET['cat']) && $_GET['cat'] != ''):
-	      $where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    	$where .= "AND {$this->staffs}.division_id = '{$_GET['cat']}' ";
+	    endif;
+
+	    if (isset($_GET['origin']) && $_GET['origin'] != ''):
+	    	$where .= "AND ({$this->table}.place_of_origin = '{$_GET['origin']}' OR CONCAT({$this->table}.region, ' - ', {$this->table}.city) = '{$_GET['origin']}')  ";
 	    endif;
 
 	    if ((isset($_GET['from']) && $_GET['from'] != '') || (isset($_GET['to']) && $_GET['to'] != '')):
@@ -130,9 +195,18 @@ class Cesbie_model extends Crud_model
     	return $this->db->query("
       		SELECT {$this->table}.*, 
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
-            	{$this->staffs}.fullname as staff_fullname
+            	{$this->staffs}.fullname as staff_fullname,
+            	{$this->staffs}.division_id as division,
+            	{$this->division}.name as division_name,
+            	{$this->table}.logout_at as logout_created_at,
+            	CASE
+				    WHEN {$this->table}.logout_at != '' THEN DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y <br>%l:%i:%S %p')
+				    ELSE '-'
+				END as logout_timestamp
       		FROM {$this->table}
       		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
+      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
+      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
       		{$where}
       	")->num_rows();
   	}
@@ -210,9 +284,9 @@ class Cesbie_model extends Crud_model
 	{
 	    if ($total) {
 	      $from = 1;
-	      if($this->uri->segment(5))
+	      if($this->uri->segment(4))
 	      {
-	        $from = ($this->uri->segment(5)/$this->per_rows)+1;
+	        $from = ($this->uri->segment(4)/$this->per_rows)+1;
 	      }
 	      $total = ceil($total/$this->per_rows);
 	    }else{
@@ -228,9 +302,77 @@ class Cesbie_model extends Crud_model
 	    $to = 0;
 	    if ($total) {
 	      # code...
+	      if($this->uri->segment(4) !== FALSE)
+	      {
+	        $from = $this->uri->segment(4);
+	      }
+	      $to = $from + $this->per_rows;
+	      if ($to > $total) {
+	        $to = $total;
+	      }
+	      $from +=1;
+	    }
+	    return 'Displaying '.$from.'-'.$to.' of '.$total;
+  	}
+  	public function displayPageData__($total)
+	{
+	    if ($total) {
+	      $from = 1;
+	      if($this->uri->segment(5))
+	      {
+	        $from = ($this->uri->segment(5)/$this->per_rows)+1;
+	      }
+	      $total = ceil($total/$this->per_rows);
+	    }else{
+	      $from = 0;
+	    }
+	    return 'Page '.$from.' of '. $total;
+
+  	}
+
+  	public function displayCountingData__($total)
+ 	{
+	    $from = 0;
+	    $to = 0;
+	    if ($total) {
+	      # code...
 	      if($this->uri->segment(5) !== FALSE)
 	      {
 	        $from = $this->uri->segment(5);
+	      }
+	      $to = $from + $this->per_rows;
+	      if ($to > $total) {
+	        $to = $total;
+	      }
+	      $from +=1;
+	    }
+	    return 'Displaying '.$from.'-'.$to.' of '.$total;
+  	}
+  	public function displayPageData_($total)
+	{
+	    if ($total) {
+	      $from = 1;
+	      if($this->uri->segment(6))
+	      {
+	        $from = ($this->uri->segment(6)/$this->per_rows)+1;
+	      }
+	      $total = ceil($total/$this->per_rows);
+	    }else{
+	      $from = 0;
+	    }
+	    return 'Page '.$from.' of '. $total;
+
+  	}
+
+  	public function displayCountingData_($total)
+ 	{
+	    $from = 0;
+	    $to = 0;
+	    if ($total) {
+	      # code...
+	      if($this->uri->segment(6) !== FALSE)
+	      {
+	        $from = $this->uri->segment(6);
 	      }
 	      $to = $from + $this->per_rows;
 	      if ($to > $total) {
@@ -258,10 +400,15 @@ class Cesbie_model extends Crud_model
 	public function get_cities()
 	{
 		return $this->db->query("
-      		SELECT {$this->table}.place_of_origin
+      		SELECT 
+      			-- {$this->table}.place_of_origin,
+      			CASE
+				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
+				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+			    END as place_of_origin
       		FROM {$this->table}
-      		GROUP BY {$this->table}.place_of_origin
-      		ORDER BY {$this->table}.place_of_origin ASC
+      		GROUP BY {$this->table}.place_of_origin, CONCAT({$this->table}.region, ' - ', {$this->table}.city)
+      		ORDER BY place_of_origin  ASC
       	")->result();
 	}
 

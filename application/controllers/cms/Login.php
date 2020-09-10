@@ -32,18 +32,23 @@ class Login extends Admin_core_controller {
     $email = $this->input->post('email');
     $password = $this->input->post('password');
     $res = $this->login->getByEmail($email);
-    
-    if($res && password_verify($password, $res->password) && $res->is_deleted == 0){
-      $this->session->set_userdata([
-        'role' => 'administrator', 
-        'id' => $res->id, 
-        'name' => $res->name, 
-        'is_super_admin' => $res->super_admin
-      ]);
-      redirect('cms/dashboard');
-    } else {
-      $this->session->set_flashdata('login_msg', ['message' => 'Incorrect email or password', 'color' => 'red']);
-      redirect('cms/login');
+    $recaptcha = $this->input->post('g-recaptcha-response');
+    if ($recaptcha) {
+      if($res && password_verify($password, $res->password) && $res->is_deleted == 0){
+        $this->session->set_userdata([
+          'role' => 'administrator', 
+          'id' => $res->id, 
+          'name' => $res->name, 
+          'is_super_admin' => $res->super_admin
+        ]);
+        redirect('cms/dashboard');
+      } else {
+        $this->session->set_flashdata('login_msg', ['message' => 'Incorrect email or password', 'color' => 'red']);
+        redirect('cms/login');
+      }
+    }else{
+      $this->session->set_flashdata('login_msg', ['message' => 'Recaptcha Required', 'color' => 'red']);
+        redirect('cms/login');
     }
 
   }

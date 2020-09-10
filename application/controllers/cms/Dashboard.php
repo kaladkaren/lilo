@@ -8,6 +8,9 @@ class Dashboard extends Admin_core_controller {
     parent::__construct();
 
     $this->load->model('cms/admin_model', 'admin_model');
+    $this->load->model('cms/cesbie_model', 'cesbie_model');
+    $this->load->helper('url');
+    $this->load->library("pagination");
   }
 
   public function index()
@@ -24,6 +27,40 @@ class Dashboard extends Admin_core_controller {
     $res = $this->admin_model->all();
 
     $data['res'] = $res;
+
+    # Pagination
+    $pag_conf['base_url'] = base_url("/cms/index");
+    $pag_conf['total_rows'] = $pag_conf['total_rows'] =  $this->admin_model->all_total();
+    $pag_conf['per_page'] = $this->admin_model->per_rows;
+
+    // next (>) link
+    $pag_conf['next_tag_open'] = '<li>';
+    $pag_conf['next_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['prev_tag_open'] = '<li>';
+    $pag_conf['prev_tag_close'] = '</li>';
+
+    // next (>) link
+    $pag_conf['first_tag_open'] = '<li>';
+    $pag_conf['first_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['last_tag_open'] = '<li>';
+    $pag_conf['last_tag_close'] = '</li>';
+
+    // current active pagination
+    $pag_conf['cur_tag_open'] = '<li class="active"><a href="#">';
+    $pag_conf['cur_tag_close'] = '</a></li>';
+
+    $pag_conf['num_tag_open'] = '<li>';
+    $pag_conf['num_tag_close'] = '</li>';
+    $pag_conf['reuse_query_string'] = true;
+    $this->pagination->initialize($pag_conf);
+    $data["pagination"] = $this->pagination->create_links();
+    ### / Pagination
+
+
+    $data['page_of'] = $this->admin_model->displayPageData($pag_conf['total_rows']);
+    $data['count_of'] = $this->admin_model->displayCountingData($pag_conf['total_rows']);
 
 
     $post = $this->input->post();

@@ -25,6 +25,9 @@ class Visitors extends Crud_controller {
         $this->load->model("api/service_model", 'service_model');
         $this->load->model("cms/city_model", 'city_model');
         $this->load->model("cms/cesbie_model", 'cesbie_model');
+        if(@$this->input->request_headers()['X-Api-Key'] != getenv('API_TOKEN')):
+            $this->response((object)array('message' => "Unauthorized"), 401);
+        endif;
     }
     public function logout_step_one_post()
     {
@@ -36,7 +39,7 @@ class Visitors extends Crud_controller {
 
         $res = $this->model->search_pin_validity($post['pin_code']);
 
-        if ($res):
+        if ($res && $post['pin_code']):
             $message = "Valid pin code";
             $status = "200";
         else:
@@ -60,13 +63,17 @@ class Visitors extends Crud_controller {
         $res = array();
         $message = "Bad request";
         $status  = "400";
+        $ecopy_sent = '';
 
         $res = $this->model->search_pin_validity($post['pin_code']);
 
         if ($res):
             $logout = $this->model->logout($post);
             if($logout):
-                $res = $post;
+                $res = $this->model->print($post['pin_code']);
+                if ($res->is_have_ecopy) {
+                    $ecopy_sent = $this->model->send_logout_details($res);
+                }
                 $message = "Logout successfully";
                 $status = "200";
             endif;
@@ -78,6 +85,8 @@ class Visitors extends Crud_controller {
         $r_return = (object)[
             'data' => $res,
             'meta' => (object)[
+                'post' => $post,
+                'ecopy' => $ecopy_sent,
                 'message' => $message,
                 'status' => $status
             ]
@@ -150,8 +159,7 @@ class Visitors extends Crud_controller {
         if($staff):
             $res = $this->model->cesbie_login($post, $_FILES);
             if ($res):
-                $post['staff_id'] = $staff;
-                $res = $post;
+                $res->staff = $staff;
                 $message = "Cesbie Visitor login successfully";
                 $status = "201";
             else:
@@ -236,7 +244,50 @@ class Visitors extends Crud_controller {
         $message = "Data found";
         $status  = "200";
 
-        $res['place_of_origin'] = $this->city_model->get_all();
+        $res['place_of_origin'] = $this->city_model->get_regions();
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
+    public function cesbie_logout_post()
+    {
+        $post = $this->input->post();
+        $res = array();
+        $message = "Cesbie logout successfully";
+        $status  = "200";
+
+        $res = $this->model->cesbie_logout($post['staff_id']);
+
+        if($res == null):
+            $res = array();
+            $status  = "201";
+            $message = "User hasn't logged in yet";
+        endif;
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
+    public function attached_agency_get($agency_id)
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res = $this->agency_model->get_options($agency_id);
 
         $r_return = (object)[
             'data' => $res,

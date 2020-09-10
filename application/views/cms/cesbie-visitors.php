@@ -1,3 +1,32 @@
+<?php 
+function calculate_duration($login, $logout)
+{
+  $return_str = '';
+  $seconds = strtotime($logout) - strtotime($login);
+
+  $days = floor($seconds / 86400);
+  $hours = floor(($seconds - ($days * 86400)) / 3600);
+  $minutes = floor(($seconds - ($days * 86400) - ($hours * 3600))/60);
+
+  $days_str = ($days == 1) ? 'day':'days';
+  $hours_str = ($hours == 1) ? 'hour':'hours';
+  $mins_str = ($minutes == 1) ? 'min':'mins';
+  if($days):
+    $return_str = $days ." {$days_str}, ";
+  endif;
+  if($hours):
+    $return_str .= $hours ." {$hours_str}, ";
+  endif;
+  if($minutes == 0):
+    $secs_str = ($seconds == 1) ? 'sec':'secs';
+    $return_str .= $seconds ." {$secs_str}, ";
+  else:
+    $return_str .= $minutes ." {$mins_str}, ";
+  endif;
+
+  return rtrim($return_str, ', ');
+}
+?>
 <section id="main-content">
   <section class="wrapper">
     <!-- page start-->
@@ -56,7 +85,7 @@
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Name</a>
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Staff Name</a>
                         </li>
                         <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Login Timestamp</a>
@@ -78,7 +107,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6" style="padding-left: 0px;">
+                <div class="col-md-4" style="padding-left: 0px;">
                   <form>
                     <div class="input-group m-bot15">
                       <div class="input-group-btn">
@@ -98,19 +127,19 @@
                     </div>
                   </form>
                 </div>
-                <div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-8" style="padding-left: 0px;padding-right: 0px;">
                   <form>
                     <div class="input-group m-bot15">
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button">Filter by Date Range</button>
                       </div>
-                      <input type="date" name="from" class="form-control" value="<?php echo @$_GET['from'] ?>">
+                      <input type="date" name="from" class="form-control" value="<?php echo @$_GET['from'] ?>" max="<?php echo date('Y-m-d') ?>">
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button">
                           TO
                         </button>
                       </div>
-                      <input type="date" name="to" class="form-control" value="<?php echo @$_GET['to'] ?>">
+                      <input type="date" name="to" class="form-control" value="<?php echo @$_GET['to'] ?>" max="<?php echo date('Y-m-d') ?>">
                       <div class="input-group-btn">
                         <button tabindex="-1" class="btn btn-white" type="button" id="search_daterange"><i class="fa fa-search"></i></button>
                       </div>
@@ -132,13 +161,12 @@
                   <tr>
                     <th>#</th>
                     <th>Staff Name</th>
-                    <th>Temperature</th>
-                    <th>Place of <br>Origin</th>
+                    <th style="width: 145px;">Health Condition &<br>Temperature</th>
+                    <th>Place of Origin</th>
                     <th>Division</th>
-                    <th>Pin Code</th>
                     <th>Login<br>Timestamp</th>
                     <th>Logout<br>Timestamp</th>
-                    <th style="width: 50px;"></th>
+                    <th style="width: 50px;">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,16 +178,16 @@
                           <?php echo @$this->uri->segment(5) + ($key + 1);  ?>
                         </td>
                         <td><a href="<?php echo base_url('cms/staff/single/').$value->staff_id ?>"><?php echo $value->staff_fullname ?></a></td>
-                        <td><?php echo $value->temperature ?></td>
+                        <?php $value->health_condition = ($value->health_condition)?:'-'; ?>
+                        <td><?php echo $value->health_condition.'<br>'.$value->temperature.'°C' ?></td>
                         <td><?php echo $value->place_of_origin ?></td>
                         <td><?php echo $value->division_name ?></td>
-                        <td><?php echo $value->pin_code ?></td>
                         <td><?php echo $value->f_created_at ?></td>
                         <td>
                           <?php echo $value->logout_timestamp ?>
                         </td>
                         <td>
-                          <button type="button" class="btn btn-info btn-xs"><a style="color:white;" href="<?php echo base_url('cms/visitor/details/'.$value->id) ?>" title="View Details"><i class="fa fa-eye"></i></a></button>
+                         <button type="button" class="btn btn-info btn-xs"><a style="color:white;" title="View Details" href="#edit-<?php echo $key ?>" data-toggle="modal"><i class="fa fa-eye"></i></a></button>
                         </td>
                       </tr>
                     <?php endforeach ?>
@@ -185,13 +213,71 @@
     <!-- page end-->
   </section>
 </section>
+<?php foreach ($cesbie_visitors as $key => $value): ?>
+  <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Visit Details</h4>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Login Timestamp</label>
+                <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->f_created_at) ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Logout Timestamp</label>
+                <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->logout_timestamp) ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Duration</label>
+                <?php if ($value->logout_created_at): ?>
+                <input type="text" class="form-control" value="<?php echo ($value->logout_created_at != '0000-00-00 00:00:00')? calculate_duration($value->created_at, $value->logout_created_at) : '-'?>" disabled="">
+                <?php else: ?>
+                <input type="text" class="form-control" value="-" disabled="">
+                <?php endif ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <hr>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Place of Origin</label>
+                <input type="text" class="form-control" value="<?php echo $value->place_of_origin ?>" disabled="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal -->
+<?php endforeach ?>
 <script type="text/javascript">
     $('button#search_keyword').on('click', function(e){
       window.location.href='<?php echo $x_clear_keyword ?>&name='+$('input[name=name]').val();
     });
 
     $('button#search_daterange').on('click', function(e){
-      window.location.href='<?php echo $x_clear_date_range ?>&from='+$('input[name=from]').val()+'&to='+$('input[name=to]').val();
+      if($('input[name=from]').val() && $('input[name=to]').val()){
+        if (new Date($('input[name=from]').val()) > new Date($('input[name=to]').val())) {
+          alert('Please input valid date range');
+        }else{
+          window.location.href='<?php echo $x_clear_date_range ?>&from='+$('input[name=from]').val()+'&to='+$('input[name=to]').val();
+        }
+      }else{
+        alert('Please input valid date range');
+      }
     });
 
     $('select[name=division]').on('change', function(e){

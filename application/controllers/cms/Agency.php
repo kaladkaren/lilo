@@ -31,6 +31,12 @@ class agency extends Admin_core_controller {
     // prev (<) link
     $pag_conf['prev_tag_open'] = '<li>';
     $pag_conf['prev_tag_close'] = '</li>';
+        // next (>) link
+    $pag_conf['last_tag_open'] = '<li>';
+    $pag_conf['last_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['first_tag_open'] = '<li>';
+    $pag_conf['first_tag_close'] = '</li>';
     // current active pagination
     $pag_conf['cur_tag_open'] = '<li class="active"><a href="#">';
     $pag_conf['cur_tag_close'] = '</a></li>';
@@ -63,7 +69,7 @@ class agency extends Admin_core_controller {
     $this->wrapper('cms/agency/add', $data);
   }
 
-  public function add_division()
+  public function add_agency()
   {
     $msg_data = array('alert_msg' => 'Something went wrong. Please try again.', 'alert_class' => 'alert-danger');
 
@@ -72,7 +78,24 @@ class agency extends Admin_core_controller {
     $add = $this->agency_model->add($post);
 
     if($add):
-        $msg_data = array('alert_msg' => 'Division added successfully.', 'alert_class' => 'alert-success');
+        $msg_data = array('alert_msg' => 'Agency added successfully.', 'alert_class' => 'alert-success');
+    endif;
+
+    $this->session->set_flashdata($msg_data);
+      
+    redirect($_SERVER['HTTP_REFERER']);
+  }
+
+  public function update_agency($id)
+  {
+    $msg_data = array('alert_msg' => 'Something went wrong. Please try again.', 'alert_class' => 'alert-danger');
+
+    $post = $this->input->post();
+
+    $update = $this->agency_model->update($post, $id);
+
+    if($update):
+        $msg_data = array('alert_msg' => 'Agency updated successfully.', 'alert_class' => 'alert-success');
     endif;
 
     $this->session->set_flashdata($msg_data);

@@ -37,6 +37,14 @@ class Guest_visitors extends Admin_core_controller {
     // prev (<) link
     $pag_conf['prev_tag_open'] = '<li>';
     $pag_conf['prev_tag_close'] = '</li>';
+
+    // next (>) link
+    $pag_conf['first_tag_open'] = '<li>';
+    $pag_conf['first_tag_close'] = '</li>';
+    // prev (<) link
+    $pag_conf['last_tag_open'] = '<li>';
+    $pag_conf['last_tag_close'] = '</li>';
+
     // current active pagination
     $pag_conf['cur_tag_open'] = '<li class="active"><a href="#">';
     $pag_conf['cur_tag_close'] = '</a></li>';
@@ -48,8 +56,8 @@ class Guest_visitors extends Admin_core_controller {
     $data["pagination"] = $this->pagination->create_links();
     ### / Pagination
 
-    $data['page_of'] = $this->cesbie_model->displayPageData($pag_conf['total_rows']);
-    $data['count_of'] = $this->cesbie_model->displayCountingData($pag_conf['total_rows']);
+    $data['page_of'] = $this->cesbie_model->displayPageData__($pag_conf['total_rows']);
+    $data['count_of'] = $this->cesbie_model->displayCountingData__($pag_conf['total_rows']);
 
     $url = '';
     $data['x_clear_stat'] = '';

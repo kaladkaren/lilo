@@ -4,12 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="author" content="Mosaddek">
-  <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <meta name='robots' content='noindex,nofollow' />
   <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
 
   <title>CMS Login</title>
-
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <!-- Bootstrap core CSS -->
   <link href="<?php echo base_url('public/admin/') ?>css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url('public/admin/') ?>css/bootstrap-reset.css" rel="stylesheet">
@@ -65,6 +64,7 @@
       <div class="login-wrap">
         <input type="text" name="email" class="form-control" placeholder="Email" autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password">
+        <div class="g-recaptcha" data-sitekey="6Ld2OL4ZAAAAANzcDD3sHeOqB8xQxxo6st23nuX1"></div>
         <?php if ($login_msg = $this->session->login_msg): ?>
           <p style="color: <?php echo $login_msg['color'] ?>"><?php echo $login_msg['message'] ?></p>
         <?php endif; ?>

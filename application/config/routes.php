@@ -61,23 +61,43 @@ $route['translate_uri_dashes'] = FALSE;
 
 # name of route, url, etc. -------------------- controller path #
 $route['cms'] = 'cms/dashboard';
+$route['cms/index'] = 'cms/dashboard';
+$route['cms/index/'] = 'cms/dashboard';
+$route['cms/index/(:any)'] = 'cms/dashboard/index/$1';
 $route['cms/visitors/cesbie-visitors'] = 'cms/cesbie_visitors';
 $route['cms/visitors/cesbie-visitors/index/(:any)'] = 'cms/cesbie_visitors/index/(:any)';
 $route['cms/visitors/cesbie-visitors/index'] = 'cms/cesbie_visitors/index/';
 $route['cms/visitors/cesbie-visitors/index/'] = 'cms/cesbie_visitors/index/';
 
 $route['cms/visitors/guest-visitors'] = 'cms/guest_visitors';
+$route['cms/visitors/guest-visitors/index/(:any)'] = 'cms/guest_visitors/index/(:any)';
+$route['cms/visitors/guest-visitors/index'] = 'cms/guest_visitors/index/';
+$route['cms/visitors/guest-visitors/index/'] = 'cms/guest_visitors/index/';
+
+$route['cms/attached-agency'] = 'cms/attached_agency';
+$route['cms/attached-agency/index/(:any)'] = 'cms/attached_agency/index/(:any)';
+$route['cms/attached-agency/index'] = 'cms/attached_agency/index/';
+$route['cms/attached-agency/index/'] = 'cms/attached_agency/index/';
+
 
 $route['cms/cesbie-staffs/'] = 'cms/cesbie';
 $route['cms/cesbie-staffs'] = 'cms/cesbie';
 $route['cms/cesbie-staffs/index/(:any)'] = 'cms/cesbie/index/(:any)';
 $route['cms/cesbie-staffs/index'] = 'cms/cesbie/index/';
 $route['cms/cesbie-staffs/index/'] = 'cms/cesbie/index/';
+
+$route['cms/staff/single/(:any)'] = 'cms/cesbie/single/$1';
+$route['cms/staff/single/(:any)/index/'] = 'cms/cesbie/single/$1/';
+$route['cms/staff/single/(:any)/index'] = 'cms/cesbie/single/$1/';
+$route['cms/staff/single/(:any)/index/(:any)'] = 'cms/cesbie/single/$1/index/$2';
 # My routes
 $route['api/visitors/logout/step-1'] = 'api/visitors/logout_step_one';
 $route['api/visitors/logout/step-2'] = 'api/visitors/logout_step_two';
 $route['api/visitors/logout/print'] = 'api/visitors/logout_print';
+$route['api/visitors/cesbie-logout'] = 'api/visitors/cesbie_logout';
+$route['api/visitors/attached-agency/(:any)'] = 'api/visitors/attached_agency/$1';
 
+$route['api/get-cities'] = 'api/cities/cities';
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';
 $route['api/visitors/guest-login/step-2'] = 'api/visitors/guest_login_step_two';

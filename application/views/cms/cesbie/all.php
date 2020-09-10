@@ -28,7 +28,7 @@
         <div class="col-lg-8" style="padding-left: 0px;padding-right: 0px;">
           <section class="panel">
             <header class="panel-heading">
-              <?php echo @$page_of ?><label style="float: right"><?php echo @$count_of ?></label>
+              <label><?php echo @$page_of ?></label><label style="float: right"><?php echo @$count_of ?></label>
             </header>
             <div class="panel-body">
               <!-- Improved Flashdata Start -->
@@ -63,13 +63,13 @@
                         <a href="<?php echo @$x_clear_cat ?>">X </a>
                       </button>
                     </div>
-                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Fullname" value="<?php echo @$_GET['name'] ?>">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search keyword by Staff Name" value="<?php echo @$_GET['name'] ?>">
                     <div class="input-group-btn">
                       <button tabindex="-1" class="btn btn-white" type="submit" id="search_keyword">Search</button>
                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Sort by <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li class="<?php echo (@$_GET['order_by'] == 'name') ? 'active' : ''?>">
-                          <a href="<?php echo @$order_by.'&order_by=name'?>">Fullname</a>
+                          <a href="<?php echo @$order_by.'&order_by=name'?>">Staff Name</a>
                         </li>
                         <li class="<?php echo (@$_GET['order_by'] == 'date_reg' || !isset($_GET['order_by'])) ? 'active' : ''?>">
                           <a href="<?php echo @$order_by.'&order_by=date_reg'?>">Date Created</a>
@@ -90,9 +90,6 @@
                 </div>
               </div>
               <div class="alert alert-info fade in">
-                <button data-dismiss="alert" class="close close-sm" type="button">
-                  <i class="fa fa-times"></i>
-                </button>
                 <p><strong style="margin-right: 10px;">Legend: </strong>
                   <span class="label label-danger" style="background-color: #fff;color: black;">ACTIVE</span>
                   <span class="label label-warning" style="background-color: #8a8a8a;">INACTIVE</span>
@@ -103,10 +100,10 @@
                   <thead>
                     <tr>
                       <th style="width: 15px;">#</th>
-                      <th>Fullname</th>
+                      <th>Staff Name</th>
                       <th>Division</th>
                       <th style="width: 130px;">Date Created</th>
-                      <th style="width: 30px;"></th>
+                      <th style="width: 80px;">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -114,14 +111,19 @@
 
                       <?php $i = 1; foreach ($cesbies as $key => $value): ?>
                         <tr style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>">
-                          <th scope="row"><?php echo @$this->uri->segment(4) + $i; $i++;?></th>
+                          <th scope="row" style="<?php echo ($value->is_active == 0) ? 'background-color: #8a8a8a;color: white;':''; ?>"><?php echo @$this->uri->segment(4) + $i; $i++;?></th>
                           <td><?php echo $value->fullname ?></td>
                           <td><?php echo $value->division_name ?></td>
                           <td><?php echo $value->f_created_at ?></td>
                           <td>
                             <button type="button" class="btn btn-info btn-xs">
-                              <a id="<?php echo $value->id?>" href="#edit-<?php echo $key ?>" title="Edit Category" class="edit" style="color:white;" data-id="<?php echo $value->id ?>" data-toggle="modal">
+                              <a id="<?php echo $value->id?>" href="#edit-<?php echo $key ?>" title="Edit Cesbie" class="edit" style="color:white;" data-id="<?php echo $value->id ?>" data-toggle="modal">
                                 <i class="fa fa-pencil"></i>
+                              </a>
+                            </button>
+                            <button type="button" class="btn btn-success btn-xs">
+                              <a href="<?php echo base_url('cms/staff/single/'.$value->id) ?>" title="View Cesbie" style="color:white;">
+                                <i class="fa fa-eye"></i>
                               </a>
                             </button>
                           </td>
@@ -129,7 +131,7 @@
                       <?php endforeach; ?>
                     <?php else: ?>
                       <tr>
-                        <td colspan="4" style="text-align:center">Empty table data</td>
+                        <td colspan="5" style="text-align:center">Empty table data</td>
                       </tr>
                     <?php endif; ?>
                   </tbody>
@@ -151,17 +153,21 @@
             <div class="panel-body">
               <form role="form" method="post" action="<?php echo base_url('cms/cesbie/add_staff/') ?>">
                 <div class="form-group">
-                  <label >Fullname</label>
-                  <input type="text" class="form-control" name="fullname" placeholder="Name" required="">
+                  <label >Staff Name</label>
+                  <input type="text" class="form-control" name="fullname" required="">
                 </div>
                 <div class="form-group">
                   <label >Division</label>
                   <select class="form-control" name="division" required="">
-                    <option selected="" disabled="">Select Division</option>
+                    <option selected="" disabled="" value="">Select Division</option>
                     <?php foreach ($divisions as $key => $value): ?>
                       <option value="<?php echo $value->id ?>" <?php echo ($value->is_active == 0) ? 'disabled="" style="background: #bfbdbd;"':''; ?>><?php echo $value->name ?></option>
                     <?php endforeach ?>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label >Email</label>
+                  <input type="email" class="form-control" name="email_address" required="">
                 </div>
                 <label>Active</label>
                 <div class="row m-bot15">
@@ -195,8 +201,8 @@
         <div class="panel-body">
           <form role="form" method="post" action="<?php echo base_url('cms/cesbie/update_staff/'.$value->id) ?>" enctype="multipart/form-data">
             <div class="form-group">
-              <label >Name</label>
-              <input type="text" class="form-control" name="fullname" placeholder="Name" required="" value="<?php echo $value->fullname ?>">
+              <label >Staff Name</label>
+              <input type="text" class="form-control" name="fullname" required="" value="<?php echo $value->fullname ?>">
             </div>
             <div class="form-group">
               <label >Division</label>
@@ -206,6 +212,10 @@
                   <option value="<?php echo $division->id ?>" <?php echo ($value->division_id == $division->id) ? 'selected=""':''; ?> <?php echo ($division->is_active == 0) ? 'disabled="" style="background: #bfbdbd;"':''; ?>><?php echo $division->name ?></option>
                 <?php endforeach ?>
               </select>
+            </div>
+            <div class="form-group">
+              <label >Email</label>
+              <input type="email" class="form-control" name="email_address" required="" value="<?php echo $value->email_address ?>">
             </div>
             <label>Active</label>
             <div class="row m-bot15">
