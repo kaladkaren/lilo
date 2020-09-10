@@ -1,7 +1,7 @@
 # liloapp
-URL : http://localhost/liloapp/api/
+URL : http://lilo.blitzworx.com/api/
 
-x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
+x-api-key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 
 ## Table of contents
 
@@ -10,17 +10,21 @@ x-api-key `SyoGQGcPwaR4yxIUXwbo_THeKZkL#@$8X8&8z`
     + [Cesbie Login](#cesbie-login)
 
 1. **Guest Login Steps**
+    + [Get Attached Agency](#get-attached-agency)
     + [Step 1](#step-1)
     + [Step 2](#step-2)
-    + [Step 3](#step-3)
+    + [Get Regions - Step 3](#step-3)
+    + [Get Cities](#get-cities)
 
 1. **Cesbie Login Steps**
     + [Step 1](#step-1)
 
-1. **Logout Steps**
+1. **Guest Logout Steps**
     + [Step 1](#step-1)
     + [Step 2](#step-2)
-    + [Print](#print)
+
+1. **Cesbie Logout**
+    + [Cesbie Logout](#cesbie-logout)
 
 ## Visitors
 
@@ -38,13 +42,13 @@ POST `api/visitors/guest-login/`
 | is_have_ecopy        |       |  varchar      |        0 = none, 1 = yes              |  1
 | photo       |  yes     |  file |      |  testing.pmg
 | division_to_visit        |  yes     |  varchar      |        id of from tbl.division              |  2
-| purpose        |  yes     |  varchar      |        -              |  Meeting
+| purpose        |  yes     |  int      |        -              |  id of from tbl.services
 | person_to_visit        |  yes     |  varchar      |        id of from tbl.staffs             |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
-| place_of_origin        |  yes     |  varchar      |        -              |  San Mateo, Rizal
+| region        |  yes     |  varchar      |        -              |  I
+| city        |  yes     |  varchar      |        -              |  I
 | mobile_number       |  yes     |  varchar |      |  09497912581
 | health_condition        |  yes     |  varchar      |                      |  Normal
-| pin_code        |  yes     |  varchar      |        Random Character; unique             |  zXc12365gfd
 
 
 ##### Response
@@ -52,23 +56,29 @@ POST `api/visitors/guest-login/`
 201 OK
 {
     "data": {
-        "fullname": "Elline Ocampo",
-        "agency": "2",
-        "attached_agency": "1",
+        "id": "41",
+        "fullname": "Ocampo diane",
+        "agency": "DTI",
+        "attached_agency": "DTI",
         "email_address": "edocampo@myoptimind.com",
         "is_have_ecopy": "1",
-        "division_to_visit": "3",
+        "photo": "41-1596005665_product-20332-t-764.png",
+        "division_to_visit": "Dost",
         "purpose": "Meeting",
-        "person_to_visit": "1",
-        "temperature": "36.5",
-        "place_of_origin": "San Mateo, Rizal",
-        "mobile_number": "09497912581",
+        "person_to_visit": "Lorenzo Salamante",
+        "temperature": "37.0",
+        "place_of_origin": "Quezon City",
+        "mobile_number": "091111111",
         "health_condition": "Normal",
-        "pin_code": "zXc12365gfd"
+        "pin_code": "200729025425",
+        "created_at": "2020-07-29 14:54:25",
+        "updated_at": "2020-07-29 14:54:25",
+        "deleted_at": "0000-00-00 00:00:00",
+        "login_time_format": "7/29/2020 | 2:54 PM"
     },
     "meta": {
         "message": "Guest Visitor login successfully",
-        "status": "200"
+        "status": "201"
     }
 }
 ```
@@ -82,8 +92,9 @@ POST `api/visitors/cesbie-login/`
 |----------------|----------|-----------|-----------------------|-----------------------
 | staff_id        |  yes     |  int      |        id of from tbl.staff              |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
-| place_of_origin        |  yes     |  varchar      |        -              |  San Mateo, Rizal
-| pin_code        |  yes     |  varchar      |        Random Character; unique             |  zXc12365gfd
+| health_condition        |  yes     |  varchar      |        -              |  Normal
+| region        |  yes     |  varchar      |        -              |  IV-B
+| city        |  yes     |  varchar      |        -              |  San Mateo, Rizal
 
 
 ##### Response
@@ -91,11 +102,25 @@ POST `api/visitors/cesbie-login/`
 201 OK
 {
     "data": {
+        "id": "18",
         "staff_id": "1",
-        "place_of_origin": "San Mateo, Rizal",
-        "health_condition": "Normal",
-        "temperature": "37.5",
-        "pin_code": "zXc12365gfd"
+        "temperature": "37.0",
+        "place_of_origin": "Quezon City",
+        "pin_code": "AN412500018C",
+        "created_at": "2020-07-29 15:41:25",
+        "updated_at": "2020-07-29 15:41:25",
+        "deleted_at": "0000-00-00 00:00:00",
+        "login_time_format": "7/29/2020 | 3:41 PM",
+        "staff": {
+            "id": "1",
+            "fullname": "Lorenzo Salamante",
+            "email_address": "enzo@enzo.com",
+            "division_id": "1",
+            "is_active": "1",
+            "created_at": "2020-07-21 11:55:58",
+            "updated_at": "2020-07-24 12:12:43",
+            "deleted_at": "0000-00-00 00:00:00"
+        }
     },
     "meta": {
         "message": "Cesbie Visitor login successfully",
@@ -106,6 +131,131 @@ POST `api/visitors/cesbie-login/`
 
 ## Guest Login Steps
 
+### Get attached agency
+GET `api/visitors/attached-agency/{agency_id}`   
+
+Get list of attached agency options under agency
+
+##### Response
+```javascript
+200 OK
+{
+    "data": [
+        {
+            "id": "48",
+            "name": "Amang Rodriguez Medical Center"
+        },
+        {
+            "id": "49",
+            "name": "Bureau of Health Devices and Technology"
+        },
+        {
+            "id": "50",
+            "name": "Bureau of Health Facilities and Services"
+        },
+        {
+            "id": "51",
+            "name": "Bureau of International Health Cooperation"
+        },
+        {
+            "id": "52",
+            "name": "Bureau of Local Health Systems and Development"
+        },
+        {
+            "id": "53",
+            "name": "Bureau of Quarantine"
+        },
+        {
+            "id": "54",
+            "name": "Commission on Population"
+        },
+        {
+            "id": "55",
+            "name": "East Avenue Medical Center"
+        },
+        {
+            "id": "56",
+            "name": "Food and Drug Administration"
+        },
+        {
+            "id": "57",
+            "name": "Jose Fabella Memorial Medical Center"
+        },
+        {
+            "id": "58",
+            "name": "Jose Reyes Memorial Medical Center"
+        },
+        {
+            "id": "59",
+            "name": "Jose Rodriguez Memorial Hospital"
+        },
+        {
+            "id": "60",
+            "name": "National Center for Health Promotion"
+        },
+        {
+            "id": "61",
+            "name": "National Center for Mental Health"
+        },
+        {
+            "id": "62",
+            "name": "National Children s Hospital"
+        },
+        {
+            "id": "63",
+            "name": "National Kidney and Transplant Institute"
+        },
+        {
+            "id": "64",
+            "name": "National Nutrition Council"
+        },
+        {
+            "id": "65",
+            "name": "Philippine Health Insurance Corporation"
+        },
+        {
+            "id": "66",
+            "name": "Philippine Institute of Traditional and Alternative Healthcare"
+        },
+        {
+            "id": "67",
+            "name": "Philippine Orthopedic Center"
+        },
+        {
+            "id": "68",
+            "name": "Quirino Memorial Medical Center"
+        },
+        {
+            "id": "69",
+            "name": "Research Institute for Tropical Medicine"
+        },
+        {
+            "id": "70",
+            "name": "Rizal Medical Center"
+        },
+        {
+            "id": "71",
+            "name": "San Lazaro Hospital"
+        },
+        {
+            "id": "72",
+            "name": "San Lorenzo Ruiz Women s Hospital"
+        },
+        {
+            "id": "73",
+            "name": "Talisay District Hospital"
+        },
+        {
+            "id": "74",
+            "name": "Tondo Medical Center"
+        }
+    ],
+    "meta": {
+        "message": "Data found",
+        "status": "200"
+    }
+}
+```
 ### Step 1
 GET `api/visitors/guest-login/step-1`   
 
@@ -195,37 +345,143 @@ Get list of options for place of origin.
     "data": {
         "place_of_origin": [
             {
-                "name": "Aborlan, Palawan"
+                "name": "ARMM",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/ARMM"
             },
             {
-                "name": "Abra de Ilog, Occidental Mindoro"
+                "name": "CAR",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/CAR"
             },
             {
-                "name": "Abucay, Bataan"
+                "name": "I",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/I"
             },
             {
-                "name": "Abulug, Cagayan"
+                "name": "II",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/II"
             },
             {
-                "name": "Abuyog, Leyte"
+                "name": "III",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/III"
             },
             {
-                "name": "Adams, Ilocos Norte"
+                "name": "IV-A",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IV-A"
             },
             {
-                "name": "Agdangan, Quezon"
+                "name": "IV-B",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IV-B"
             },
             {
-                "name": "Aglipay, Quirino"
+                "name": "IX",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IX"
+            },
+            {
+                "name": "NCR",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/NCR"
+            },
+            {
+                "name": "V",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/V"
+            },
+            {
+                "name": "VI",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VI"
+            },
+            {
+                "name": "VII",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VII"
+            },
+            {
+                "name": "VIII",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VIII"
+            },
+            {
+                "name": "X",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/X"
+            },
+            {
+                "name": "XI",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XI"
+            },
+            {
+                "name": "XII",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XII"
+            },
+            {
+                "name": "XIII",
+                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XIII"
             }
-            ...
-            ...
-            ...
         ]
     },
     "meta": {
         "message": "Data found",
         "status": "200"
+    }
+}
+```
+
+### Get Cities
+GET `api/get-cities/{region}`   
+
+Get list of city options under a region.
+
+##### Response
+```javascript
+200 OK
+{
+    "data": {
+        "cities": [
+            {
+                "name": "Agdangan, Quezon",
+                "region": "IV-A",
+                "key_abbr": "QUE"
+            },
+            {
+                "name": "Agoncillo, Batangas",
+                "region": "IV-A",
+                "key_abbr": "BTG"
+            },
+            {
+                "name": "Alabat, Quezon",
+                "region": "IV-A",
+                "key_abbr": "QUE"
+            },
+            {
+                "name": "Alaminos, Laguna",
+                "region": "IV-A",
+                "key_abbr": "LAG"
+            },
+            {
+                "name": "Alfonso, Cavite",
+                "region": "IV-A",
+                "key_abbr": "CAV"
+            },
+            {
+                "name": "Alitagtag, Batangas",
+                "region": "IV-A",
+                "key_abbr": "BTG"
+            },
+            {
+                "name": "Amadeo, Cavite",
+                "region": "IV-A",
+                "key_abbr": "CAV"
+            },
+            {
+                "name": "Angono, Rizal",
+                "region": "IV-A",
+                "key_abbr": "RIZ"
+            },
+            {
+                "name": "Antipolo City",
+                "region": "IV-A",
+                "key_abbr": "RIZ"
+            },
+            ...
+            ...
+            ...
+            ...
+        ]
     }
 }
 ```
@@ -355,7 +611,7 @@ Get list of options for cesbie fullname, and place of origin.
 }
 ```
 
-## Logout Steps
+## Guest Logout Steps
 
 ### Step 1
 POST `api/visitors/logout/step-1`   
@@ -402,71 +658,74 @@ Check the pin_code if valid.
 201 OK
 {
     "data": {
-        "pin_code": "zXc12365gfd123asd",
-        "overall_experience": "2",
-        "feedback": "Lorem ipsum dolor sit amet, consecteturdipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "login_time_format": "7/29/2020 | 3:44 PM",
+        "logout_time_format": "7/29/2020 | 6:08 PM",
+        "fullname": "Ocampo diane",
+        "agency": "DTI",
+        "attached_agency": "DTI",
+        "email_address": "edocampo@myoptimind.com",
+        "division": "Dost",
+        "person_visited": "Lorenzo Salamante",
+        "purpose": "Meeting",
+        "temperature": "37.0",
+        "place_of_origin": "Quezon City",
+        "login_time": "2020-07-29 15:44:36",
+        "logout_time": "2020-07-29 18:08:21",
+        "duration": "2 hours"
     },
     "meta": {
+        "post": {
+            "pin_code": "CA443600052G",
+            "feedback": "HAppy +",
+            "overall_experience": "2"
+        },
         "message": "Logout successfully",
         "status": "200"
     }
 }
 ```
 
-### Step 2
-POST `api/visitors/logout/print`
+## Cesbie Logout
+
+### Cesbie Logout
+POST `api/visitors/cesbie-logout/`   
 
 ##### Payload
 
 |      Name      | Required |   Type    |    Description        |    Sample Data 
 |----------------|----------|-----------|-----------------------|-----------------------
-| pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
+| staff_id        |  yes     |  varchar      |        id from tbl.staffs              |  1
 
 
-##### Response of Guest Visitor
+##### Response
 ```javascript
 200 OK
 {
     "data": {
-        "login_time_format": "7/23/2020 | 11:38 AM",
-        "fullname": "Diane Ocampo",
-        "agency": "DOST",
-        "attached_agency": "DOST",
-        "email_address": "edocampo@myoptimind.com",
+        "fullname": "Lorenzo Salamante",
         "division": "Dost",
-        "person_visited": "Diane Ocampo",
-        "purpose": "Visit",
-        "temperature": "36.5",
+        "temperature": "37.0",
         "place_of_origin": "Quezon City",
-        "login_time": "2020-07-23 11:38:07",
-        "logout_time": "2020-07-24 11:31:41",
-        "duration": "23 hours"
+        "login_time_format": "8/04/2020 | 12:06 PM",
+        "logout_time_format": "8/04/2020 | 12:07 PM",
+        "login_time": "2020-08-04 12:06:17",
+        "logout_time": "2020-08-04 12:07:34",
+        "duration": "1 min"
     },
     "meta": {
-        "message": "Data found",
+        "message": "Cesbie logout successfully",
         "status": "200"
     }
 }
 ```
-
-##### Response of Cesbie Visitor
+##### Response
 ```javascript
-200 OK
+404 Data not found
 {
-    "data": {
-        "login_time_format": "7/22/2020 | 1:50 PM",
-        "division": "Dost",
-        "fullname": "Lorenzo Salamante",
-        "email_address": "enzo@enzo.com",
-        "temperature": "37.5",
-        "place_of_origin": "San Mateo, Rizal",
-        "login_time": "2020-07-22 13:50:23",
-        "logout_time": "2020-07-24 12:13:36",
-        "duration": "22 hours"
-    },
+    "data": [],
     "meta": {
-        "message": "Data found",
-        "status": "200"
+        "message": "Data not found",
+        "status": "404"
     }
 }
 ```
