@@ -1,7 +1,7 @@
 # liloapp
 URL : http://lilo.blitzworx.com/api/
 
-x-api-key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
+X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 
 ## Table of contents
 
@@ -37,13 +37,13 @@ POST `api/visitors/guest-login/`
 |----------------|----------|-----------|-----------------------|-----------------------
 | fullname        |  yes     |  varchar      |        -              |  Elline Ocampo
 | agency        |       |  varchar      |        id of from tbl.agency              |  1
-| attached_agency        |       |  varchar      |        -              |  
+| attached_agency        |       |  varchar      |        id of from tbl.agency              |   1
 | email_address        |  yes     |  varchar      |        -              |  edocampo@myoptimind.com
 | is_have_ecopy        |       |  varchar      |        0 = none, 1 = yes              |  1
 | photo       |  yes     |  file |      |  testing.pmg
-| division_to_visit        |  yes     |  varchar      |        id of from tbl.division              |  2
-| purpose        |  yes     |  int      |        -              |  id of from tbl.services
-| person_to_visit        |  yes     |  varchar      |        id of from tbl.staffs             |  1
+| division_to_visit        |  only if services     |  varchar      |        id of from tbl.division              |  2
+| purpose[]        |  yes only if services    |  array      |id of from tbl.services  | 1  
+| person_to_visit[]        |  yes only if person   |  array      |        id of from tbl.staffs             |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
 | region        |  yes     |  varchar      |        -              |  I
 | city        |  yes     |  varchar      |        -              |  I

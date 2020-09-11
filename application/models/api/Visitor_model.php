@@ -74,8 +74,8 @@ class Visitor_model extends Crud_model
 	      'email_address' => @$post['email_address'], 
 	      'is_have_ecopy' => $post['is_have_ecopy'], 
 	      'division_to_visit' => $post['division_to_visit'], 
-	      'purpose' => $post['purpose'], 
-	      'person_to_visit' => $post['person_to_visit'], 
+	      'purpose' => @implode(",", @$post['purpose'])?:"", 
+	      'person_to_visit' => @implode(",", @$post['person_to_visit'])?:"", 
 	      'temperature' => $this->is_decimal($post['temperature']), 
 	      'region' => $post['region'], 
 	      'city' => $post['city'], 
@@ -103,8 +103,8 @@ class Visitor_model extends Crud_model
 	    			CONCAT({$this->visitors}.temperature, '°C') as temperature,
 	    			{$this->agency}.name as agency,
 	            	{$this->division}.name as division_to_visit,
-	            	{$this->staffs}.fullname as person_to_visit,
-	            	{$this->services}.name as purpose,
+	            	{$this->visitors}.person_to_visit as person_to_visit,
+	            	{$this->visitors}.purpose as purpose,
 	    			DATE_FORMAT({$this->visitors}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format 
 	    		FROM {$this->visitors} 
 	    		LEFT JOIN {$this->agency} ON {$this->agency}.id={$this->visitors}.agency
@@ -114,6 +114,9 @@ class Visitor_model extends Crud_model
 	    		WHERE {$this->visitors}.id = '{$visitor_id}'";
 				$return = $this->db->query($sql)->row();
 				$return->attached_agency = $this->get_attach_agency_name($return->attached_agency);
+				// var_dump($return->purpose, $return->person_to_visit); die();
+				$return->purpose = $this->get_purpose_concat($return->purpose);
+				$return->person_to_visit = $this->get_person_to_visit_concat($return->person_to_visit);
 		    	if ($post['is_have_ecopy'] == 1 && $post['email_address']) {
 		    		$send = $this->send_details($return);
 		    	}
@@ -123,6 +126,34 @@ class Visitor_model extends Crud_model
 
     	return $return;
     }
+
+    public function get_purpose_concat($ids){
+    	$ids = explode(',', $ids);
+    	$this->db->select('name');
+    	$this->db->where_in('id', $ids);
+    	$services = $this->db->get('services')->result();
+    	$ret = '';
+    	foreach ($services as $value) {
+    		$ret .= $value->name . ", ";
+    	}
+    	return rtrim($ret, ", ");
+    }
+	
+	public function get_person_to_visit_concat($ids)
+	{
+    	$ids = explode(',', $ids);
+    	$this->db->select('fullname');
+    	$this->db->where_in('id', $ids);
+    	$services = $this->db->get('staffs')->result();
+    	$ret = '';
+
+    	// var_dump($services); die();
+    	foreach ($services as $value) {
+    		$ret .= $value->fullname . ", ";
+    	}
+    	return rtrim($ret, ", ");
+	}
+
     public function get_attach_agency_name($agency_id)
     {
     	$sql = "SELECT {$this->attached_agency}.*
@@ -357,8 +388,8 @@ class Visitor_model extends Crud_model
 	            	{$this->$visitor_type}.email_address,
 	            	{$this->division}.name as division,
 	            	{$this->$visitor_type}.is_have_ecopy,
-	            	{$this->staffs}.fullname as person_visited,
-	            	{$this->services}.name as purpose,
+	            	{$this->$visitor_type}.person_to_visit as person_visited,
+	            	{$this->$visitor_type}.purpose as purpose,
 	            	CONCAT({$this->$visitor_type}.temperature, '°C') as temperature,
 	            	{$this->$visitor_type}.place_of_origin,
 	            	{$this->$visitor_type}.region,
@@ -399,6 +430,8 @@ class Visitor_model extends Crud_model
 		$res = $this->db->query($sql)->row();
 		if ($visitor_type == 'guest_visitors') {
 			$res->attached_agency = $this->get_attach_agency_name($res->attached_agency);
+			$res->purpose = $this->get_purpose_concat($res->purpose);
+			$res->person_to_visit = $this->get_person_to_visit_concat($res->person_visited);
 		}
 		$res->duration = $this->calculate_duration($res->login_time, $res->logout_time);
 		return $res;
