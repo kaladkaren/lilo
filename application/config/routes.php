@@ -98,6 +98,7 @@ $route['api/visitors/cesbie-logout'] = 'api/visitors/cesbie_logout';
 $route['api/visitors/attached-agency/(:any)'] = 'api/visitors/attached_agency/$1';
 
 $route['api/get-cities'] = 'api/cities/cities';
+$route['api/get-provinces-cities'] = 'api/cities/provinces_cities';
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';
 $route['api/visitors/guest-login/step-2'] = 'api/visitors/guest_login_step_two';

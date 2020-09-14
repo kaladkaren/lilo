@@ -35,6 +35,22 @@ class City_model extends Admin_core_model
     ")->result();
   }
 
+  /**
+   * get City OR Province
+   * @param  [type]  $region  [description]
+   * @param  integer $is_city [description]
+   * @return [type]           [description]
+   */
+  function get_cp($region, $is_city = 0)
+  {
+    $this->db->select('cities.name as name');
+    $this->db->order_by('cities.name', 'asc');
+    $this->db->where('provinces.region', $region);
+    $this->db->where('cities.is_city', $is_city);
+    $this->db->join('provinces', 'cities.province_of = provinces.key_abbr', 'left');
+    return $this->db->get('cities')->result();
+  }
+
   public function get_cities($region)
   {
     return $this->db->query("

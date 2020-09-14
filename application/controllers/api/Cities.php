@@ -43,4 +43,23 @@ class Cities extends Crud_controller {
         ];
         $this->response($r_return, $status);
     }
+    public function provinces_cities_post()
+    {
+        $region = $this->post()['region'];
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res['provinces'] = $this->city_model->get_cp($region, 0); # get province only
+        $res['cities'] = $this->city_model->get_cp($region, 1); # city only
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
 }

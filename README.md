@@ -14,7 +14,8 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
-    + [Get Cities](#get-cities)
+    + [Get Cities](#get-cities) **(DEPRECATED)**
+    + [Get Provinces & Cities](#get-provinces-cities) **(NEW)**
 
 1. **Cesbie Login Steps**
     + [Step 1](#step-1)
@@ -45,9 +46,15 @@ POST `api/visitors/guest-login/`
 | purpose[]        |  yes only if services    |  array      |id of from tbl.services  | 1  
 | person_to_visit[]        |  yes only if person   |  array      |        id of from tbl.staffs             |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
-| region        |  yes     |  varchar      |        -              |  I
-| city        |  yes     |  varchar      |        -              |  I
+| home_address        |  yes     |  text      |        -              |  My home
+| region        |  yes     |  varchar      |        -              |  Rizal
+| province        |  no     |  varchar      |        -              |  
+| city        |  yes     |  varchar      |        -              |  Hello city
 | mobile_number       |  yes     |  varchar |      |  09497912581
+| is_recent_contact        |  yes     |  bool      |                      |  1
+| recent_contact_details        | optional |  text      |                      |  ha
+| is_travelled_locally        |  yes     |  bool      |                      |  1
+| travelled_locally_details |  optional     |  text      |                      |  how you like that
 | health_condition        |  yes     |  varchar      |                      |  Normal
 
 
@@ -342,147 +349,127 @@ Get list of options for place of origin.
 ```javascript
 200 OK
 {
-    "data": {
-        "place_of_origin": [
-            {
-                "name": "ARMM",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/ARMM"
-            },
-            {
-                "name": "CAR",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/CAR"
-            },
-            {
-                "name": "I",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/I"
-            },
-            {
-                "name": "II",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/II"
-            },
-            {
-                "name": "III",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/III"
-            },
-            {
-                "name": "IV-A",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IV-A"
-            },
-            {
-                "name": "IV-B",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IV-B"
-            },
-            {
-                "name": "IX",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/IX"
-            },
-            {
-                "name": "NCR",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/NCR"
-            },
-            {
-                "name": "V",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/V"
-            },
-            {
-                "name": "VI",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VI"
-            },
-            {
-                "name": "VII",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VII"
-            },
-            {
-                "name": "VIII",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/VIII"
-            },
-            {
-                "name": "X",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/X"
-            },
-            {
-                "name": "XI",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XI"
-            },
-            {
-                "name": "XII",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XII"
-            },
-            {
-                "name": "XIII",
-                "get_cities": "http://lilo.blitzworx.com/api/get-cities/XIII"
-            }
-        ]
-    },
-    "meta": {
-        "message": "Data found",
-        "status": "200"
-    }
+  "data": {
+    "place_of_origin": [
+      {
+        "name": "National Capital Region (NCR)"
+      },
+      {
+        "name": "Cordillera Administrative Region (CAR)"
+      },
+      {
+        "name": "Ilocos (Region I)"
+      },
+      {
+        "name": "Cagayan Valley (Region II)"
+      },
+      {
+        "name": "Central Luzon (Region III)"
+      },
+      {
+        "name": "CALABARZON (Region IV-A)"
+      },
+      {
+        "name": "MIMAROPA (Region IV-B)"
+      },
+      {
+        "name": "Bicol (Region V)"
+      },
+      {
+        "name": "Western Visayas (Region VI)"
+      },
+      {
+        "name": "Central Visayas (Region VII)"
+      },
+      {
+        "name": "Eastern Visayas (Region VIII)"
+      },
+      {
+        "name": "Zamboanga Peninsula (Region IX)"
+      },
+      {
+        "name": "Northern Mindanao (Region X)"
+      },
+      {
+        "name": "Davao (Region XI)"
+      },
+      {
+        "name": "SOCCSKSARGEN (Region XII)"
+      },
+      {
+        "name": "Caraga (Region XIII)"
+      },
+      {
+        "name": "Bangsamoro (BARMM)"
+      }
+    ]
+  },
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
 }
 ```
 
-### Get Cities
-GET `api/get-cities/{region}`   
+### Get Provinces Cities
+POST `api/get-provinces-cities`   
 
-Get list of city options under a region.
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| region        |  yes     |  text      |        -              |  Bangsamoro (BARMM)
+
+Get list of cities and provinces options under a region.
 
 ##### Response
 ```javascript
 200 OK
 {
-    "data": {
-        "cities": [
-            {
-                "name": "Agdangan, Quezon",
-                "region": "IV-A",
-                "key_abbr": "QUE"
-            },
-            {
-                "name": "Agoncillo, Batangas",
-                "region": "IV-A",
-                "key_abbr": "BTG"
-            },
-            {
-                "name": "Alabat, Quezon",
-                "region": "IV-A",
-                "key_abbr": "QUE"
-            },
-            {
-                "name": "Alaminos, Laguna",
-                "region": "IV-A",
-                "key_abbr": "LAG"
-            },
-            {
-                "name": "Alfonso, Cavite",
-                "region": "IV-A",
-                "key_abbr": "CAV"
-            },
-            {
-                "name": "Alitagtag, Batangas",
-                "region": "IV-A",
-                "key_abbr": "BTG"
-            },
-            {
-                "name": "Amadeo, Cavite",
-                "region": "IV-A",
-                "key_abbr": "CAV"
-            },
-            {
-                "name": "Angono, Rizal",
-                "region": "IV-A",
-                "key_abbr": "RIZ"
-            },
-            {
-                "name": "Antipolo City",
-                "region": "IV-A",
-                "key_abbr": "RIZ"
-            },
-            ...
-            ...
-            ...
-            ...
-        ]
-    }
+  "data": {
+    "provinces": [
+      {
+        "name": "Agoncillo"
+      },
+      {
+        "name": "Alitagtag"
+      },
+      {
+        "name": "Balayan"
+      },
+      {
+        "name": "Balete"
+      },
+      {
+        "name": "Bauan"
+      },
+      {
+        "name": "Calaca"
+      },
+      {
+        "name": "Calatagan"
+      },
+      ...
+    ],
+    "cities": [
+      {
+        "name": "Batangas"
+      },
+      {
+        "name": "Lipa"
+      },
+      {
+        "name": "Tanauan"
+      },
+      {
+        "name": "Bacoor"
+      },
+      {
+      ...
+    ]
+  },
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
 }
 ```
 
