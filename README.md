@@ -6,7 +6,7 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 ## Table of contents
 
 1. **Visitors**
-    + [Guest Login](#guest-login)
+    + [Guest Login](#guest-login) **(UPDATED)**
     + [Cesbie Login](#cesbie-login)
 
 1. **Guest Login Steps**
