@@ -78,9 +78,14 @@ class Visitor_model extends Crud_model
 	      'person_to_visit' => @implode(",", @$post['person_to_visit'])?:"", 
 	      'temperature' => $this->is_decimal($post['temperature']), 
 	      'region' => $post['region'], 
+	      'province' => @$post['province'] ?: "", 
 	      'city' => $post['city'], 
 	      'mobile_number' => $post['mobile_number'], 
-	      'health_condition' => $post['health_condition']
+	      'health_condition' => $post['health_condition'],
+	      'is_recent_contact' => $post['is_recent_contact'],
+	      'recent_contact_details' => @$post['recent_contact_details'] ?: "",
+	      'is_travelled_locally' => $post['is_travelled_locally'],
+	      'travelled_locally_details' => @$post['travelled_locally_details'] ?: ""
 	    );
 	    $this->db->insert($this->visitors, $data);  
 	    $visitor_id = $this->db->insert_id();
@@ -393,6 +398,7 @@ class Visitor_model extends Crud_model
 	            	CONCAT({$this->$visitor_type}.temperature, '°C') as temperature,
 	            	{$this->$visitor_type}.place_of_origin,
 	            	{$this->$visitor_type}.region,
+	            	{$this->$visitor_type}.province,
 	            	{$this->$visitor_type}.city,
 	            	{$this->$visitor_type}.created_at as login_time,
 	            	{$this->feedbacks}.created_at as logout_time,
@@ -432,9 +438,24 @@ class Visitor_model extends Crud_model
 			$res->attached_agency = $this->get_attach_agency_name($res->attached_agency);
 			$res->purpose = $this->get_purpose_concat($res->purpose);
 			$res->person_to_visit = $this->get_person_to_visit_concat($res->person_visited);
+			$res->place_of_origin = $this->get_place_of_origin($res->region, $res->province, $res->city);
 		}
 		$res->duration = $this->calculate_duration($res->login_time, $res->logout_time);
 		return $res;
+	}
+
+	function get_place_of_origin($region, $province, $city)
+	{
+		$array = [];
+		if ($region != "") 
+			$array[] = $region;
+		if ($province != "") 
+			$array[] = $province;
+		if ($city != "") 
+			$array[] = $city;
+
+		$str = implode(', ', $array);
+		return $str;
 	}
 
 	public function calculate_duration($login, $logout)

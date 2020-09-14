@@ -43,7 +43,11 @@ class City_model extends Admin_core_model
    */
   function get_cp($region, $is_city = 0)
   {
-    $this->db->select('cities.name as name');
+    if ($is_city) {
+      $this->db->select('CONCAT(cities.name, " City") as name');
+    } else {
+      $this->db->select('cities.name as name');
+    }
     $this->db->order_by('cities.name', 'asc');
     $this->db->where('provinces.region', $region);
     $this->db->where('cities.is_city', $is_city);

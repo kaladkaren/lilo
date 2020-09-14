@@ -14,7 +14,6 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
-    + [Get Cities](#get-cities) **(DEPRECATED)**
     + [Get Provinces & Cities](#get-provinces-cities) **(NEW)**
 
 1. **Cesbie Login Steps**
@@ -22,7 +21,7 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 
 1. **Guest Logout Steps**
     + [Step 1](#step-1)
-    + [Step 2](#step-2)
+    + [Step 2](#step-2) **(UPDATED)**
 
 1. **Cesbie Logout**
     + [Cesbie Logout](#cesbie-logout)
@@ -62,31 +61,38 @@ POST `api/visitors/guest-login/`
 ```javascript
 201 OK
 {
-    "data": {
-        "id": "41",
-        "fullname": "Ocampo diane",
-        "agency": "DTI",
-        "attached_agency": "DTI",
-        "email_address": "edocampo@myoptimind.com",
-        "is_have_ecopy": "1",
-        "photo": "41-1596005665_product-20332-t-764.png",
-        "division_to_visit": "Dost",
-        "purpose": "Meeting",
-        "person_to_visit": "Lorenzo Salamante",
-        "temperature": "37.0",
-        "place_of_origin": "Quezon City",
-        "mobile_number": "091111111",
-        "health_condition": "Normal",
-        "pin_code": "200729025425",
-        "created_at": "2020-07-29 14:54:25",
-        "updated_at": "2020-07-29 14:54:25",
-        "deleted_at": "0000-00-00 00:00:00",
-        "login_time_format": "7/29/2020 | 2:54 PM"
-    },
-    "meta": {
-        "message": "Guest Visitor login successfully",
-        "status": "201"
-    }
+  "data": {
+    "id": "298",
+    "fullname": "enzo",
+    "agency": "Department of Agrarian Reform Adjudication Board",
+    "attached_agency": "Department of Agrarian Reform Adjudication Board",
+    "email_address": "l@l.com",
+    "is_have_ecopy": "0",
+    "photo": "298-1600069404_zey7w0okowf51.png",
+    "division_to_visit": null,
+    "purpose": "",
+    "person_to_visit": "Lorenzo Salamante, Diane Ocampo",
+    "temperature": "33.3°C",
+    "place_of_origin": "",
+    "region": "National Capital Region (NCR)",
+    "city": "Marikina City",
+    "province": "",
+    "is_recent_contact": "0",
+    "recent_contact_details": "",
+    "is_travelled_locally": "1",
+    "travelled_locally_details": "travelled recently hehe",
+    "mobile_number": "0999999999",
+    "health_condition": "Normal",
+    "pin_code": "SA9EB7",
+    "created_at": "2020-09-14 15:43:23",
+    "updated_at": null,
+    "deleted_at": "0000-00-00 00:00:00",
+    "login_time_format": "9\/14\/2020 | 3:43 PM"
+  },
+  "meta": {
+    "message": "Guest Visitor login successfully",
+    "status": "201"
+  }
 }
 ```
 
@@ -644,31 +650,38 @@ Check the pin_code if valid.
 ```javascript
 201 OK
 {
-    "data": {
-        "login_time_format": "7/29/2020 | 3:44 PM",
-        "logout_time_format": "7/29/2020 | 6:08 PM",
-        "fullname": "Ocampo diane",
-        "agency": "DTI",
-        "attached_agency": "DTI",
-        "email_address": "edocampo@myoptimind.com",
-        "division": "Dost",
-        "person_visited": "Lorenzo Salamante",
-        "purpose": "Meeting",
-        "temperature": "37.0",
-        "place_of_origin": "Quezon City",
-        "login_time": "2020-07-29 15:44:36",
-        "logout_time": "2020-07-29 18:08:21",
-        "duration": "2 hours"
+  "data": {
+    "login_time_format": "9\/14\/2020 | 4:28 PM",
+    "logout_time_format": "9\/14\/2020 | 4:28 PM",
+    "fullname": "enzo",
+    "agency": "Department of Agrarian Reform Adjudication Board",
+    "attached_agency": "Department of Agrarian Reform Adjudication Board",
+    "email_address": "l@l.com",
+    "division": null,
+    "is_have_ecopy": "0",
+    "person_visited": "1,2",
+    "purpose": "",
+    "temperature": "33.3°C",
+    "place_of_origin": "National Capital Region (NCR), Test, Marikina City",
+    "region": "National Capital Region (NCR)",
+    "province": "Test",
+    "city": "Marikina City",
+    "login_time": "2020-09-14 16:28:23",
+    "logout_time": "2020-09-14 16:28:36",
+    "pin_code": "DP5D4B",
+    "person_to_visit": "Lorenzo Salamante, Diane Ocampo",
+    "duration": "13 secs"
+  },
+  "meta": {
+    "post": {
+      "pin_code": "DP5D4B",
+      "overall_experience": "1",
+      "feedback": ""
     },
-    "meta": {
-        "post": {
-            "pin_code": "CA443600052G",
-            "feedback": "HAppy +",
-            "overall_experience": "2"
-        },
-        "message": "Logout successfully",
-        "status": "200"
-    }
+    "ecopy": "",
+    "message": "Logout successfully",
+    "status": "200"
+  }
 }
 ```
 
