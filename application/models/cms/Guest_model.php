@@ -14,6 +14,8 @@ class Guest_model extends Crud_model
         $this->attached_agency = 'attached_agency';
         $this->per_rows = 10;
         $this->uploade_dir_visitors = 'visitors';
+
+        $this->load->model('api/visitor_model');
     }
     public function all()
   	{
@@ -87,7 +89,7 @@ class Guest_model extends Crud_model
 	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
 	    $upload_photo = base_url('uploads/'.$this->uploade_dir_visitors.'/');
 	    $expi_png = base_url('public/admin/img/');
-    	return $this->db->query("
+    	$res = $this->db->query("
       		SELECT {$this->table}.*, 
       			CASE
 				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
@@ -130,6 +132,12 @@ class Guest_model extends Crud_model
       		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
       		{$where} {$order_str} {$limit_str}
       	")->result();
+
+    	foreach ($res as $value) {
+      		$value->person_fullname_visited = $this->visitor_model->get_person_to_visit_concat($value->person_to_visit);
+      		$value->purpose_name = $this->visitor_model->get_purpose_concat($value->purpose);
+    	}
+      	return $res;
   	}
   	public function all_total()
   	{

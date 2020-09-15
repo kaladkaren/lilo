@@ -87,6 +87,8 @@ class Visitor_model extends Crud_model
 	      'is_travelled_locally' => $post['is_travelled_locally'],
 	      'travelled_locally_details' => @$post['travelled_locally_details'] ?: ""
 	    );
+		$data['place_of_origin'] = $this->get_place_of_origin($data['region'], $data['province'], $data['city']);
+
 	    $this->db->insert($this->visitors, $data);  
 	    $visitor_id = $this->db->insert_id();
 
@@ -133,6 +135,9 @@ class Visitor_model extends Crud_model
     }
 
     public function get_purpose_concat($ids){
+    	if (!$ids) {
+			return "";
+		}
     	$ids = explode(',', $ids);
     	$this->db->select('name');
     	$this->db->where_in('id', $ids);
@@ -146,6 +151,9 @@ class Visitor_model extends Crud_model
 	
 	public function get_person_to_visit_concat($ids)
 	{
+		if (!$ids) {
+			return "";
+		}
     	$ids = explode(',', $ids);
     	$this->db->select('fullname');
     	$this->db->where_in('id', $ids);

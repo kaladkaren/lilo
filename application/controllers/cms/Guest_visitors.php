@@ -23,6 +23,7 @@ class Guest_visitors extends Admin_core_controller {
   {
     $data = [];
     $data['cesbie_visitors'] = $this->guest_model->all();
+    // var_dump($data['cesbie_visitors']); die();
     $data['divisions'] = $this->division_model->get_all();
     $data['place_of_origin'] = $this->guest_model->get_cities();
 
