@@ -24,15 +24,33 @@ class Cities extends Crud_controller {
         endif;
     }
 
-    public function cities_post()
+    // public function cities_post()
+    // {
+    //     $region = $this->post()['region'];
+    //     $res = array();
+    //     $message = "Data found";
+    //     $status  = "200";
+
+    //     $res['cities'] = $this->city_model->get_cities($region);
+    //     $res['region'] = $region;
+
+    //     $r_return = (object)[
+    //         'data' => $res,
+    //         'meta' => (object)[
+    //             'message' => $message,
+    //             'status' => $status
+    //         ]
+    //     ];
+    //     $this->response($r_return, $status);
+    // }
+    public function provinces_post()
     {
         $region = $this->post()['region'];
         $res = array();
         $message = "Data found";
         $status  = "200";
 
-        $res['cities'] = $this->city_model->get_cities($region);
-        $res['region'] = $region;
+        $res['provinces'] = $this->city_model->get_provinces($region); # get province only
 
         $r_return = (object)[
             'data' => $res,
@@ -42,16 +60,16 @@ class Cities extends Crud_controller {
             ]
         ];
         $this->response($r_return, $status);
-    }
-    public function provinces_cities_post()
+    }    
+
+    public function cities_post()
     {
-        $region = $this->post()['region'];
+        $region = $this->post()['province'];
         $res = array();
         $message = "Data found";
         $status  = "200";
 
-        $res['provinces'] = $this->city_model->get_cp($region, 0); # get province only
-        $res['cities'] = $this->city_model->get_cp($region, 1); # city only
+        $res['cities'] = $this->city_model->get_cities($region); # city only
 
         $r_return = (object)[
             'data' => $res,

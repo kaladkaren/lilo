@@ -23,6 +23,26 @@ class Visitors extends Admin_core_controller {
   {
     $data = [];
     $data['cesbie_visitors'] = $this->visitor_model->all();
+
+    foreach ($data['cesbie_visitors'] as &$value) {
+        if ($value->visitor_type == 'GUEST') {
+            $this->db->where('id', $value->id);
+            $visitor = $this->db->get('guest_visitors')->row();
+            // var_dump($visitor->purpose, $visitor->person_to_visit); die();
+            $value->attached_agency = $this->visitor_model->get_attach_agency_name($visitor->attached_agency);
+            $value->purpose_name = $this->visitor_model->get_purpose_concat($visitor->purpose);
+            $value->person_fullname_visited = $this->visitor_model->get_person_to_visit_concat($visitor->person_to_visit);
+            $value->place_of_origin = $this->visitor_model->get_place_of_origin($visitor->region, $visitor->province, $visitor->city);  
+
+            $value->is_recent_contact = $visitor->is_recent_contact;      
+            $value->recent_contact_details = $visitor->recent_contact_details;      
+            $value->is_travelled_locally = $visitor->is_travelled_locally;      
+            $value->travelled_locally_details = $visitor->travelled_locally_details;      
+            $value->home_address = $visitor->home_address;      
+        }    
+    }
+
+    // var_dump($data['cesbie_visitors']); die();
     $data['place_of_origin'] = $this->visitor_model->get_cities();
 
     # Pagination

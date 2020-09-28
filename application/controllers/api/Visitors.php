@@ -74,7 +74,7 @@ class Visitors extends Crud_controller {
                 if ($res->is_have_ecopy) {
                     $ecopy_sent = $this->model->send_logout_details($res);
                 }
-                $message = "Logout successfully";
+                $message = "THANK YOU! For visiting CESB";
                 $status = "200";
             endif;
         else:
@@ -132,7 +132,7 @@ class Visitors extends Crud_controller {
         $res = $this->model->login($post, $_FILES);
 
         if ($res):
-            $message = "Guest Visitor login successfully";
+            $message = "THANK YOU! For visiting CESB";
             $status = "201";
         else:
             $message = "Error";
@@ -160,7 +160,7 @@ class Visitors extends Crud_controller {
             $res = $this->model->cesbie_login($post, $_FILES);
             if ($res):
                 $res->staff = $staff;
-                $message = "Cesbie Visitor login successfully";
+                $message = "THANK YOU! For visiting CESB";
                 $status = "201";
             else:
                 $message = "Error";
@@ -260,7 +260,7 @@ class Visitors extends Crud_controller {
     {
         $post = $this->input->post();
         $res = array();
-        $message = "Cesbie logout successfully";
+        $message = "THANK YOU! For visiting CESB";
         $status  = "200";
 
         $res = $this->model->cesbie_logout($post['staff_id']);

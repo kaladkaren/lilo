@@ -41,33 +41,48 @@ class City_model extends Admin_core_model
    * @param  integer $is_city [description]
    * @return [type]           [description]
    */
-  function get_cp($region, $is_city = 0)
+  function get_cp($region)
   {
-    if ($is_city) {
-      $this->db->select('CONCAT(cities.name, " City") as name');
-    } else {
+    // if ($is_city) {
+    // $this->db->select('CONCAT(cities.name, " City") as name');
+    // } else {
       $this->db->select('cities.name as name');
-    }
+    // }
     $this->db->order_by('cities.name', 'asc');
     $this->db->where('provinces.region', $region);
-    $this->db->where('cities.is_city', $is_city);
+    // $this->db->where('cities.is_city', $is_city);
     $this->db->join('provinces', 'cities.province_of = provinces.key_abbr', 'left');
     return $this->db->get('cities')->result();
+  } 
+
+  function get_provinces($region)
+  {
+    $this->db->select('name');
+    $this->db->order_by('name', 'asc');
+    $this->db->where('region', $region);
+    return $this->db->get('provinces')->result();
   }
 
-  public function get_cities($region)
+  public function get_cities($province)
   {
-    return $this->db->query("
-      SELECT  {$this->provinces}.name,
-              {$this->provinces}.region, 
-              {$this->provinces}.key_abbr, 
-              CASE WHEN {$this->table}.is_city = 1 THEN CONCAT({$this->table}.name, ' City') 
-              ELSE CONCAT({$this->table}.name, ', ', {$this->provinces}.name) 
-              END as name 
-      FROM {$this->provinces} 
-      JOIN {$this->table} ON {$this->table}.province_of = {$this->provinces}.key_abbr 
-      WHERE {$this->provinces}.region = '$region'
-      ORDER BY name ASC
-    ")->result();
+    $this->db->where('name', $province);
+    $key_abbr = $this->db->get('provinces')->row()->key_abbr;
+
+    $this->db->select('name');
+    $this->db->order_by('name', 'asc');
+    $this->db->where('province_of', $key_abbr);
+    return $this->db->get('cities')->result();
+    // return $this->db->query("
+    //   SELECT  {$this->provinces}.name,
+    //           {$this->provinces}.region, 
+    //           {$this->provinces}.key_abbr, 
+    //           CASE WHEN {$this->table}.is_city = 1 THEN CONCAT({$this->table}.name, ' City') 
+    //           ELSE CONCAT({$this->table}.name, ', ', {$this->provinces}.name) 
+    //           END as name 
+    //   FROM {$this->provinces} 
+    //   JOIN {$this->table} ON {$this->table}.province_of = {$this->provinces}.key_abbr 
+    //   WHERE {$this->provinces}.region = '$region'
+    //   ORDER BY name ASC
+    // ")->result();
   }
 }

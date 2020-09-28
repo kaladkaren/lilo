@@ -184,7 +184,7 @@ function calculate_duration($login, $logout)
                         <?php $value->health_condition = ($value->health_condition)?:'-'; ?>
                         <td><?php echo $value->health_condition.'<br>'.$value->temperature.'°C' ?></td>
                         <td><?php echo $value->place_of_origin ?></td>
-                        <td><?php echo $value->person_fullname_visited.'<br>/'.$value->division_name_visited ?></td>
+                        <td><?php echo $value->person_fullname_visited.''.($value->division_name_visited ?  $value->division_name_visited : '') ?></td>
                         <td><?php echo $value->pin_code ?></td>
                         <td><?php echo $value->f_created_at ?></td>
                         <td>
@@ -343,6 +343,38 @@ function calculate_duration($login, $logout)
             </div>
           </div>
           <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you had any contact with any PUI/PUM in the last 14 days?</label>
+                <input type="text" class="form-control" value="<?php echo $value->is_recent_contact? 'Yes' :'No' ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Details,</label>
+                <input type="text" class="form-control" value="<?php echo $value->recent_contact_details ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you travelled locally / internationally in the last 14 days??</label>
+                <input type="text" class="form-control" value="<?php echo $value->is_travelled_locally? 'Yes' :'No' ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Details,</label>
+                <input type="text" class="form-control" value="<?php echo $value->travelled_locally_details ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Complete Address</label>
+                <input type="text" class="form-control" value="<?php echo $value->home_address ?>" disabled="">
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label>Place of Origin</label>

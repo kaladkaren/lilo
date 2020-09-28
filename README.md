@@ -6,7 +6,7 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 ## Table of contents
 
 1. **Visitors**
-    + [Guest Login](#guest-login) **(UPDATED)**
+    + [Guest Login](#guest-login) 
     + [Cesbie Login](#cesbie-login)
 
 1. **Guest Login Steps**
@@ -14,14 +14,15 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
-    + [Get Provinces & Cities](#get-provinces-cities) **(NEW)**
+    + [Get Provinces](#get-provinces) **(NEW)**
+    + [Get Cities](#get-cities) **(NEW)**
 
 1. **Cesbie Login Steps**
     + [Step 1](#step-1)
 
 1. **Guest Logout Steps**
     + [Step 1](#step-1)
-    + [Step 2](#step-2) **(UPDATED)**
+    + [Step 2](#step-2) 
 
 1. **Cesbie Logout**
     + [Cesbie Logout](#cesbie-logout)
@@ -417,8 +418,8 @@ Get list of options for place of origin.
 }
 ```
 
-### Get Provinces Cities
-POST `api/get-provinces-cities`   
+### Get Provinces 
+POST `api/get-provinces`   
 
 |      Name      | Required |   Type    |    Description        |    Sample Data 
 |----------------|----------|-----------|-----------------------|-----------------------
@@ -454,22 +455,46 @@ Get list of cities and provinces options under a region.
         "name": "Calatagan"
       },
       ...
-    ],
+    ]
+  },
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
+}
+```
+
+### Get Cities 
+POST `api/get-cities`   
+
+|      Name      | Required |   Type    |    Description        |    Sample Data 
+|----------------|----------|-----------|-----------------------|-----------------------
+| province        |  yes     |  text      |        -              |  Albay
+
+Get list of cities and provinces options under a region.
+
+##### Response
+```javascript
+200 OK
+{
+  "data": {
     "cities": [
       {
-        "name": "Batangas"
+        "name": "Bacacay"
       },
       {
-        "name": "Lipa"
+        "name": "Camalig"
       },
       {
-        "name": "Tanauan"
+        "name": "Daraga"
       },
       {
-        "name": "Bacoor"
+        "name": "Guinobatan"
       },
       {
-      ...
+        "name": "Jovellar"
+      },
+     ...
     ]
   },
   "meta": {

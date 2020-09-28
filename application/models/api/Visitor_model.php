@@ -16,11 +16,11 @@ class Visitor_model extends Crud_model
         $this->feedbacks = 'feedbacks';
         $this->upload_dir = 'visitors';
 
-        $config_mail['protocol']='smtp';
-		$config_mail['smtp_host']='smtp-relay.sendinblue.com';
-		$config_mail['smtp_port']='587';
-		$config_mail['smtp_user']='edocampo@myoptimind.com';
-		$config_mail['smtp_pass']='H9E3hPLApTC05jng';
+        $config_mail['protocol'] = getenv('MAIL_PROTOCOL');
+		$config_mail['smtp_host'] = getenv('SMTP_HOST');
+		$config_mail['smtp_port'] = getenv('SMTP_PORT');
+		$config_mail['smtp_user'] = getenv('SMTP_EMAIL');
+		$config_mail['smtp_pass'] = getenv('SMTP_PASS');
 		$config_mail['charset']='utf-8';
 		$config_mail['newline']="\r\n";
 		$config_mail['wordwrap'] = TRUE;
@@ -73,10 +73,11 @@ class Visitor_model extends Crud_model
 	      'attached_agency' => $post['attached_agency'], 
 	      'email_address' => @$post['email_address'], 
 	      'is_have_ecopy' => $post['is_have_ecopy'], 
-	      'division_to_visit' => $post['division_to_visit'], 
+	      'division_to_visit' => @$post['division_to_visit']?: 0, 
 	      'purpose' => @implode(",", @$post['purpose'])?:"", 
 	      'person_to_visit' => @implode(",", @$post['person_to_visit'])?:"", 
 	      'temperature' => $this->is_decimal($post['temperature']), 
+	      'home_address' => @$post['home_address'] ?: "", 
 	      'region' => $post['region'], 
 	      'province' => @$post['province'] ?: "", 
 	      'city' => $post['city'], 
@@ -187,6 +188,25 @@ class Visitor_model extends Crud_model
 
     public function generate_pin()
     {
+	    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    // $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+	    for ($i = 0; $i < 2; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+
+	    $characters = '0123456789';
+	    $charactersLength = strlen($characters);
+	    for ($i = 0; $i < 4; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+
+	    return $randomString;
+    }
+
+    public function _old_generate_pin()
+    {
     	$pin_code = md5(uniqid("", true));
     	return substr(str_shuffle(str_repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2)), 0, 2).substr($pin_code, 0,4);
     }
@@ -201,11 +221,12 @@ class Visitor_model extends Crud_model
 
     public function send_details($data)
 	{
+		// var_dump($data->purpose, $data->division_to_visit); die();
 		#########SENDING EMAIL############
     	$ret = true;
 		$this->email->from('noreply@myoptimind.com', 'LiLo Xpress');
 		$this->email->to($data->email_address);
-		$this->email->bcc('edocampo@myoptimind.com');
+		$this->email->bcc('lsalamante@myoptimind.com');
 		$this->email->subject('LiLo Xpress: E-copy');
 		$msg = '
 		<body style="font-family: Arial, Helvetica, sans-serif;">
@@ -228,14 +249,19 @@ class Visitor_model extends Crud_model
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Email Address</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->email_address.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division_to_visit.' / '.$data->person_to_visit.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->purpose.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
+				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>';
+
+				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division_to_visit.' '. $data->person_to_visit.'</p></td></tr>';
+				
+				if ($data->purpose) {
+					$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
+				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. $data->purpose.'</p></td></tr>';
+				}
+				
+				$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->temperature.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Place of Origin</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->region.'<br>'.$data->city.'</p></td></tr>
+				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->region.', ' . $data->province . '<br>'.$data->city.'</p></td></tr>
 			</tbody>
 			<tfoot style="background: #E8FAFF;">
 				<tr>
@@ -261,7 +287,7 @@ class Visitor_model extends Crud_model
     	$ret = true;
 		$this->email->from('noreply@myoptimind.com', 'LiLo Xpress');
 		$this->email->to($data->email_address);
-		$this->email->bcc('edocampo@myoptimind.com');
+		$this->email->bcc('lsalamante@myoptimind.com');
 		$this->email->subject('LiLo Xpress: Logout E-copy ');
 		$msg = '
 		<body style="font-family: Arial, Helvetica, sans-serif;">
@@ -275,7 +301,7 @@ class Visitor_model extends Crud_model
 				</tr>
 				<tr style="background: #cdcbcb;">
 					<td>
-						<p style="margin: 0; padding: 7px; font-size: 12px; font-weight: 600;letter-spacing: 2px;">'.$data->logout_time_format.'</p>
+						<p style="margin: 0; padding: 7px; font-size: 12px; font-weight: 600;letter-spacing: 2px;">'.$data->login_time_format.'</p>
 					</td>
 				</tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;margin-top: 10px;" >Full Name</p></td></tr>
@@ -284,16 +310,19 @@ class Visitor_model extends Crud_model
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Email Address</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->email_address.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division.' / '.$data->person_visited.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->purpose.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
+				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>';
+
+				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division_to_visit.' '. $data->person_to_visit.'</p></td></tr>';
+				
+				if ($data->purpose) {
+					$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
+				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. $data->purpose.'</p></td></tr>';
+				}
+				
+				$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->temperature.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Place of Origin</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->region.'<br>'.$data->city.'</p></td></tr>
-				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Duration</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->duration.'</p></td></tr>
+				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->region.', ' . $data->province . '<br>'.$data->city.'</p></td></tr>
 			</tbody>
 			<tfoot style="background: #E8FAFF;">
 				<tr>

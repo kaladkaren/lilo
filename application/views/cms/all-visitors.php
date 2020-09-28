@@ -215,142 +215,174 @@ function calculate_duration($login, $logout)
 </section>
 <?php foreach ($cesbie_visitors as $key => $value): ?>
   <?php if ($value->visitor_type == 'GUEST'): ?>
-    <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Visit Details</h4>
-          </div>
-          <div class="panel-body">
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Login Timestamp</label>
-                  <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->f_created_at) ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Logout Timestamp</label>
-                  <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->logout_timestamp) ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Duration</label>
-                  <?php if ($value->logout_created_at): ?>
-                  <input type="text" class="form-control" value="<?php echo calculate_duration($value->created_at, $value->logout_created_at) ?>" disabled="">
-                  <?php else: ?>
-                  <input type="text" class="form-control" value="-" disabled="">
-                  <?php endif ?>
-                </div>
+      <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Visit Details</h4>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Login Timestamp</label>
+                <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->f_created_at) ?>" disabled="">
               </div>
             </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <hr>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Logout Timestamp</label>
+                <input type="text" class="form-control" value="<?php echo str_replace("<br>", "", $value->logout_timestamp) ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Duration</label>
+                <?php if ($value->logout_created_at): ?>
+                <input type="text" class="form-control" value="<?php echo calculate_duration($value->created_at, $value->logout_created_at) ?>" disabled="">
+                <?php else: ?>
+                <input type="text" class="form-control" value="-" disabled="">
+                <?php endif ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6" style="padding-left: 0px; border: 1px solid #ccc!important; margin-bottom: 15px;">
+              <center>
+              <a href="<?php echo $value->photo ?>" target="_blank">
+                <img src="<?php echo $value->photo ?>" onerror="this.onerror=null;this.src='<?php echo base_url('uploads/no-image.png') ?>';" style="width: auto;height: 150px;">
+              </a>
+              </center>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label >Visitor Name</label>
+                <input type="text" class="form-control" value="<?php echo $value->fullname ?>" disabled="">
+              </div>
+              <div class="form-group">
+                <label >Purpose</label>
+                <input type="text" class="form-control" value="<?php echo $value->purpose_name ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Person Visited</label>
+                <input type="text" class="form-control" value="<?php echo $value->person_fullname_visited ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Division</label>
+                <input type="text" class="form-control" value="<?php echo $value->division_name_visited ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <hr>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Visitor's Details</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="text" class="form-control" value="<?php echo $value->email_address ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" class="form-control" value="<?php echo $value->mobile_number ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Agency</label>
+                <input type="text" class="form-control" value="<?php echo $value->agency_name ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Attached Agency</label>
+                <input type="text" class="form-control" value="<?php echo $value->att_agency_name ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <hr>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Health Condition</label>
+                <input type="text" class="form-control" value="<?php echo $value->health_condition ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Temperature</label>
+                <input type="text" class="form-control" value="<?php echo $value->temperature ?>°C" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you had any contact with any PUI/PUM in the last 14 days?</label>
+                <input type="text" class="form-control" value="<?php echo $value->is_recent_contact? 'Yes' :'No' ?>" disabled="">
+              </div>
             </div>
             <div class="col-md-12">
-              <div class="col-md-6" style="padding-left: 0px; border: 1px solid #ccc!important; margin-bottom: 15px;">
-                <center>
-                <a href="<?php echo $value->photo ?>" target="_blank">
-                  <img src="<?php echo $value->photo ?>" onerror="this.onerror=null;this.src='<?php echo base_url('uploads/no-image.png') ?>';" style="width: auto;height: 150px;">
-                </a>
-                </center>
-              </div>
-              <div class="col-md-6" style="padding-right: 0px;">
-                <div class="form-group">
-                  <label >Visitor Name</label>
-                  <input type="text" class="form-control" value="<?php echo $value->fullname ?>" disabled="">
-                </div>
-                <div class="form-group">
-                  <label >Purpose</label>
-                  <input type="text" class="form-control" value="<?php echo $value->purpose_name ?>" disabled="">
-                </div>
+              <div class="form-group">
+                <label>Details,</label>
+                <input type="text" class="form-control" value="<?php echo $value->recent_contact_details ?>" disabled="">
               </div>
             </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Person Visited</label>
-                  <input type="text" class="form-control" value="<?php echo $value->person_fullname_visited ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Division</label>
-                  <input type="text" class="form-control" value="<?php echo $value->division_name_visited ?>" disabled="">
-                </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you travelled locally / internationally in the last 14 days??</label>
+                <input type="text" class="form-control" value="<?php echo $value->is_travelled_locally? 'Yes' :'No' ?>" disabled="">
               </div>
             </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <hr>
-            </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Visitor's Details</label>
-                </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Details,</label>
+                <input type="text" class="form-control" value="<?php echo $value->travelled_locally_details ?>" disabled="">
               </div>
             </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Email Address</label>
-                  <input type="text" class="form-control" value="<?php echo $value->email_address ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Contact Number</label>
-                  <input type="text" class="form-control" value="<?php echo $value->mobile_number ?>" disabled="">
-                </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Complete Address</label>
+                <input type="text" class="form-control" value="<?php echo $value->home_address ?>" disabled="">
               </div>
             </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Agency</label>
-                  <input type="text" class="form-control" value="<?php echo $value->agency_name ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Attached Agency</label>
-                  <input type="text" class="form-control" value="<?php echo $value->att_agency_name ?>" disabled="">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <hr>
-            </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Health Condition</label>
-                  <input type="text" class="form-control" value="<?php echo $value->health_condition ?>" disabled="">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Temperature</label>
-                  <input type="text" class="form-control" value="<?php echo $value->temperature ?>°C" disabled="">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label>Place of Origin</label>
-                  <input type="text" class="form-control" value="<?php echo $value->place_of_origin ?>" disabled="">
-                </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Place of Origin</label>
+                <input type="text" class="form-control" value="<?php echo $value->place_of_origin ?>" disabled="">
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade " id="feedback-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  </div>
+  <div class="modal fade " id="feedback-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xs">
         <div class="modal-content">
           <div class="modal-header" style="background: #f1c500;">
@@ -377,6 +409,7 @@ function calculate_duration($login, $logout)
         </div>
       </div>
     </div>
+  <!-- modal -->
   <?php else: ?>
     <div class="modal fade " id="edit-<?php echo $key ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">

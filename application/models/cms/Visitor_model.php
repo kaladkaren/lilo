@@ -478,4 +478,60 @@ class Visitor_model extends Crud_model
 				";
 		return $this->db->query($sql)->result();
 	}
+
+
+    public function get_purpose_concat($ids){
+    	if (!$ids) {
+			return "";
+		}
+    	$ids = explode(',', $ids);
+    	$this->db->select('name');
+    	$this->db->where_in('id', $ids);
+    	$services = $this->db->get('services')->result();
+    	$ret = '';
+    	foreach ($services as $value) {
+    		$ret .= $value->name . ", ";
+    	}
+    	return rtrim($ret, ", ");
+    }
+	
+	public function get_person_to_visit_concat($ids)
+	{
+		if (!$ids) {
+			return "";
+		}
+    	$ids = explode(',', $ids);
+    	$this->db->select('fullname');
+    	$this->db->where_in('id', $ids);
+    	$services = $this->db->get('staffs')->result();
+    	$ret = '';
+
+    	// var_dump($services); die();
+    	foreach ($services as $value) {
+    		$ret .= $value->fullname . ", ";
+    	}
+    	return rtrim($ret, ", ");
+	}
+
+    public function get_attach_agency_name($agency_id)
+    {
+    	$sql = "SELECT {$this->attached_agency}.*
+	    		FROM {$this->attached_agency} 
+	    		WHERE {$this->attached_agency}.id = '{$agency_id}'";
+		return $this->db->query($sql)->row()->name;
+    }
+
+    	function get_place_of_origin($region, $province, $city)
+	{
+		$array = [];
+		if ($region != "") 
+			$array[] = $region;
+		if ($province != "") 
+			$array[] = $province;
+		if ($city != "") 
+			$array[] = $city;
+
+		$str = implode(', ', $array);
+		return $str;
+	}
 }
