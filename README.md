@@ -6,7 +6,7 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 ## Table of contents
 
 1. **Visitors**
-    + [Guest Login](#guest-login) 
+    + [Guest Login](#guest-login)
     + [Cesbie Login](#cesbie-login)
 
 1. **Guest Login Steps**
@@ -14,15 +14,16 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
-    + [Get Provinces](#get-provinces) **(NEW)**
-    + [Get Cities](#get-cities) **(NEW)**
+    + [Get Provinces](#get-provinces)
+    + [Get Cities](#get-cities)
+    + [Get Provinces and Cities](#get-provinces-and-cities)
 
 1. **Cesbie Login Steps**
     + [Step 1](#step-1)
 
 1. **Guest Logout Steps**
     + [Step 1](#step-1)
-    + [Step 2](#step-2) 
+    + [Step 2](#step-2)
 
 1. **Cesbie Logout**
     + [Cesbie Logout](#cesbie-logout)
@@ -34,7 +35,7 @@ POST `api/visitors/guest-login/`
 
 ##### Payload
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | fullname        |  yes     |  varchar      |        -              |  Elline Ocampo
 | agency        |       |  varchar      |        id of from tbl.agency              |  1
@@ -102,7 +103,7 @@ POST `api/visitors/cesbie-login/`
 
 ##### Payload
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | staff_id        |  yes     |  int      |        id of from tbl.staff              |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
@@ -418,10 +419,10 @@ Get list of options for place of origin.
 }
 ```
 
-### Get Provinces 
+### Get Provinces
 POST `api/get-provinces`   
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | region        |  yes     |  text      |        -              |  Bangsamoro (BARMM)
 
@@ -464,10 +465,10 @@ Get list of cities and provinces options under a region.
 }
 ```
 
-### Get Cities 
+### Get Cities
 POST `api/get-cities`   
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | province        |  yes     |  text      |        -              |  Albay
 
@@ -493,6 +494,48 @@ Get list of cities and provinces options under a region.
       },
       {
         "name": "Jovellar"
+      },
+     ...
+    ]
+  },
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
+}
+```
+
+### Get Provinces and Cities
+POST `api/get-provinces-and-cities`   
+
+Get list of cities and provinces options under a region.
+
+##### Response
+```javascript
+200 OK
+{
+  "data": {
+    "provinces_and_cities": [
+      {
+        "city_id": "14",
+        "province_id": "1",
+        "province_and_city": "Metro Manila, Quezon",
+        "province_name": "Metro Manila",
+        "cities_name": "Quezon"
+      },
+      {
+        "city_id": "11",
+        "province_id": "1",
+        "province_and_city": "Metro Manila, Pasay",
+        "province_name": "Metro Manila",
+        "cities_name": "Pasay"
+      },
+      {
+        "city_id": "8",
+        "province_id": "1",
+        "province_and_city": "Metro Manila, Muntinlupa",
+        "province_name": "Metro Manila",
+        "cities_name": "Muntinlupa"
       },
      ...
     ]
@@ -640,7 +683,7 @@ Returns in the data response the visitor type.
 
 ##### Payload
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
 
@@ -664,7 +707,7 @@ Check the pin_code if valid.
 
 ##### Payload
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | pin_code        |  yes     |  varchar      |        pin_code either from tbl.guest_visitors or tbl.cesbie_visitors              |  zXc12365gfd123asd
 | overall_experience        |  yes     |  int      |        1 = bad, 2 = okay, 3 = good              |  1
@@ -717,7 +760,7 @@ POST `api/visitors/cesbie-logout/`
 
 ##### Payload
 
-|      Name      | Required |   Type    |    Description        |    Sample Data 
+|      Name      | Required |   Type    |    Description        |    Sample Data
 |----------------|----------|-----------|-----------------------|-----------------------
 | staff_id        |  yes     |  varchar      |        id from tbl.staffs              |  1
 

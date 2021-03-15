@@ -60,7 +60,7 @@ class Cities extends Crud_controller {
             ]
         ];
         $this->response($r_return, $status);
-    }    
+    }
 
     public function cities_post()
     {
@@ -70,6 +70,25 @@ class Cities extends Crud_controller {
         $status  = "200";
 
         $res['cities'] = $this->city_model->get_cities($region); # city only
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
+    public function provinces_and_cities_post()
+    {
+        $region = $this->post()['province'];
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res['provinces_and_cities'] = $this->city_model->get_provinces_and_cities(); # city only
 
         $r_return = (object)[
             'data' => $res,
