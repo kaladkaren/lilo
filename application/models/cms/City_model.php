@@ -86,8 +86,9 @@ class City_model extends Admin_core_model
     // ")->result();
   }
 
-  public function get_provinces_and_cities()
+  public function get_provinces_and_cities($region)
   {
+    $this->db->where('provinces.region', $region);
     $this->db->select('cities.id as city_id, provinces.id as province_id, CONCAT(provinces.name, ", ", cities.name) as province_and_city, provinces.name as province_name, cities.name as cities_name');
     $this->db->join('provinces', 'cities.province_of = provinces.key_abbr', 'left');
     $this->db->order_by('provinces.order_no', 'asc');

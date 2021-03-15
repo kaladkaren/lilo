@@ -83,12 +83,12 @@ class Cities extends Crud_controller {
 
     public function provinces_and_cities_post()
     {
-        $region = $this->post()['province'];
+        $region = $this->post()['region'];
         $res = array();
         $message = "Data found";
         $status  = "200";
 
-        $res['provinces_and_cities'] = $this->city_model->get_provinces_and_cities(); # city only
+        $res['provinces_and_cities'] = $this->city_model->get_provinces_and_cities($region); # city only
 
         $r_return = (object)[
             'data' => $res,

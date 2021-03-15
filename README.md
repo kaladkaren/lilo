@@ -509,6 +509,10 @@ Get list of cities and provinces options under a region.
 POST `api/get-provinces-and-cities`   
 
 Get list of cities and provinces options under a region.
+|      Name      | Required |   Type    |    Description        |    Sample Data
+|----------------|----------|-----------|-----------------------|-----------------------
+| region        |  yes     |  text      |        -              |  Bangsamoro (BARMM)
+
 
 ##### Response
 ```javascript
