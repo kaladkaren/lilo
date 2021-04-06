@@ -11,6 +11,7 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 
 1. **Guest Login Steps**
     + [Get Attached Agency](#get-attached-agency)
+    + [Get Attached Agency OTHERS](#get-attached-agency-others)
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
@@ -195,6 +196,7 @@ GET `api/visitors/attached_agency_others`
   }
 }
 ```
+
 ### Step 1
 GET `api/visitors/guest-login/step-1`   
 
