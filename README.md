@@ -163,112 +163,36 @@ Get list of attached agency options under agency
         {
             "id": "49",
             "name": "Bureau of Health Devices and Technology"
-        },
-        {
-            "id": "50",
-            "name": "Bureau of Health Facilities and Services"
-        },
-        {
-            "id": "51",
-            "name": "Bureau of International Health Cooperation"
-        },
-        {
-            "id": "52",
-            "name": "Bureau of Local Health Systems and Development"
-        },
-        {
-            "id": "53",
-            "name": "Bureau of Quarantine"
-        },
-        {
-            "id": "54",
-            "name": "Commission on Population"
-        },
-        {
-            "id": "55",
-            "name": "East Avenue Medical Center"
-        },
-        {
-            "id": "56",
-            "name": "Food and Drug Administration"
-        },
-        {
-            "id": "57",
-            "name": "Jose Fabella Memorial Medical Center"
-        },
-        {
-            "id": "58",
-            "name": "Jose Reyes Memorial Medical Center"
-        },
-        {
-            "id": "59",
-            "name": "Jose Rodriguez Memorial Hospital"
-        },
-        {
-            "id": "60",
-            "name": "National Center for Health Promotion"
-        },
-        {
-            "id": "61",
-            "name": "National Center for Mental Health"
-        },
-        {
-            "id": "62",
-            "name": "National Children s Hospital"
-        },
-        {
-            "id": "63",
-            "name": "National Kidney and Transplant Institute"
-        },
-        {
-            "id": "64",
-            "name": "National Nutrition Council"
-        },
-        {
-            "id": "65",
-            "name": "Philippine Health Insurance Corporation"
-        },
-        {
-            "id": "66",
-            "name": "Philippine Institute of Traditional and Alternative Healthcare"
-        },
-        {
-            "id": "67",
-            "name": "Philippine Orthopedic Center"
-        },
-        {
-            "id": "68",
-            "name": "Quirino Memorial Medical Center"
-        },
-        {
-            "id": "69",
-            "name": "Research Institute for Tropical Medicine"
-        },
-        {
-            "id": "70",
-            "name": "Rizal Medical Center"
-        },
-        {
-            "id": "71",
-            "name": "San Lazaro Hospital"
-        },
-        {
-            "id": "72",
-            "name": "San Lorenzo Ruiz Women s Hospital"
-        },
-        {
-            "id": "73",
-            "name": "Talisay District Hospital"
-        },
-        {
-            "id": "74",
-            "name": "Tondo Medical Center"
         }
+        ...
     ],
     "meta": {
         "message": "Data found",
         "status": "200"
     }
+}
+```
+
+### Get attached agency OTHERS
+GET `api/visitors/attached_agency_others`   
+
+##### Response
+```javascript
+200 OK
+{
+  "data": [
+    {
+      "name": "Test Attached Agency"
+    },
+    {
+      "name": "Test Attached Agency 2"
+    },
+    ...
+  ],
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
 }
 ```
 ### Step 1
