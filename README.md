@@ -41,6 +41,7 @@ POST `api/visitors/guest-login/`
 | fullname        |  yes     |  varchar      |        -              |  Elline Ocampo
 | agency        |       |  varchar      |        id of from tbl.agency              |  1
 | attached_agency        |       |  varchar      |        id of from tbl.agency              |   1
+| **attached_agency_others**        | optional |  varchar      |        Any string              |   Test Other Agency
 | email_address        |  yes     |  varchar      |        -              |  edocampo@myoptimind.com
 | is_have_ecopy        |       |  varchar      |        0 = none, 1 = yes              |  1
 | photo       |  yes     |  file |      |  testing.pmg
