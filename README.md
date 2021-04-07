@@ -110,9 +110,12 @@ POST `api/visitors/cesbie-login/`
 | staff_id        |  yes     |  int      |        id of from tbl.staff              |  1
 | temperature        |  yes     |  varchar      |        -              |  37.3
 | health_condition        |  yes     |  varchar      |        -              |  Normal
-| region        |  yes     |  varchar      |        -              |  IV-B
-| city        |  yes     |  varchar      |        -              |  San Mateo, Rizal
-
+| location_prior        |  yes     |  varchar      |        -              |  Others
+| location_prior_others    |  yes     |  varchar      |        -              |  Mall
+| has_contact    |  yes     |  boolean      |        -              |  1
+| has_contact_others   |  yes     |  varchar      |        -              |  Description
+| has_travelled    |  yes     |  boolean      |        -              |  1
+| has_travelled_others   |  yes     |  varchar      |        -              |  Description
 
 ##### Response
 ```javascript
