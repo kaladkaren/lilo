@@ -1,7 +1,7 @@
 <?php
 
 class Visitor_model extends Crud_model
-{   
+{
     public function __construct()
     {
         parent::__construct();
@@ -40,16 +40,16 @@ class Visitor_model extends Crud_model
 	    	$this->db->where('id', $last_row->id);
 			$update = $this->db->update($this->cesbie_visitors, $update_visitor);
 
-	    	$sql = "SELECT 
+	    	$sql = "SELECT
 		    			{$this->staffs}.fullname as fullname,
 		    			{$this->division}.name as division,
 		    			CONCAT({$this->cesbie_visitors}.temperature, '°C') as temperature,
-		    			{$this->cesbie_visitors}.place_of_origin, 
+		    			{$this->cesbie_visitors}.place_of_origin,
 		    			DATE_FORMAT({$this->cesbie_visitors}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format,
 		    			DATE_FORMAT({$this->cesbie_visitors}.logout_at, '%c/%d/%Y | %l:%i %p') as logout_time_format,
 		    			{$this->cesbie_visitors}.created_at as login_time,
-		    			{$this->cesbie_visitors}.logout_at as logout_time 
-		    		FROM {$this->cesbie_visitors} 
+		    			{$this->cesbie_visitors}.logout_at as logout_time
+		    		FROM {$this->cesbie_visitors}
 		    		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->cesbie_visitors}.staff_id
 		    		LEFT JOIN {$this->division} ON {$this->division}.id={$this->staffs}.division_id
 		    		WHERE {$this->cesbie_visitors}.staff_id = '{$staff_id}' ORDER BY {$this->cesbie_visitors}.id DESC";
@@ -68,20 +68,21 @@ class Visitor_model extends Crud_model
     public function login($post, $files)
     {
 	    $data = array(
-	      'fullname' => $post['fullname'], 
-	      'agency' => $post['agency'], 
-	      'attached_agency' => $post['attached_agency'], 
-	      'email_address' => @$post['email_address'], 
-	      'is_have_ecopy' => $post['is_have_ecopy'], 
-	      'division_to_visit' => @$post['division_to_visit']?: 0, 
-	      'purpose' => @implode(",", @$post['purpose'])?:"", 
-	      'person_to_visit' => @implode(",", @$post['person_to_visit'])?:"", 
-	      'temperature' => $this->is_decimal($post['temperature']), 
-	      'home_address' => @$post['home_address'] ?: "", 
-	      'region' => $post['region'], 
-	      'province' => @$post['province'] ?: "", 
-	      'city' => $post['city'], 
-	      'mobile_number' => $post['mobile_number'], 
+	      'fullname' => $post['fullname'],
+	      'agency' => $post['agency'],
+        'attached_agency_others' => @$post['attached_agency_others']?: '',
+	      'attached_agency' => $post['attached_agency'],
+	      'email_address' => @$post['email_address'],
+	      'is_have_ecopy' => $post['is_have_ecopy'],
+	      'division_to_visit' => @$post['division_to_visit']?: 0,
+	      'purpose' => @implode(",", @$post['purpose'])?:"",
+	      'person_to_visit' => @implode(",", @$post['person_to_visit'])?:"",
+	      'temperature' => $this->is_decimal($post['temperature']),
+	      'home_address' => @$post['home_address'] ?: "",
+	      'region' => $post['region'],
+	      'province' => @$post['province'] ?: "",
+	      'city' => $post['city'],
+	      'mobile_number' => $post['mobile_number'],
 	      'health_condition' => $post['health_condition'],
 	      'is_recent_contact' => $post['is_recent_contact'],
 	      'recent_contact_details' => @$post['recent_contact_details'] ?: "",
@@ -90,7 +91,7 @@ class Visitor_model extends Crud_model
 	    );
 		$data['place_of_origin'] = $this->get_place_of_origin($data['region'], $data['province'], $data['city']);
 
-	    $this->db->insert($this->visitors, $data);  
+	    $this->db->insert($this->visitors, $data);
 	    $visitor_id = $this->db->insert_id();
 
     	if ($visitor_id):
@@ -106,15 +107,15 @@ class Visitor_model extends Crud_model
           		$this->db->delete($this->visitors);
           		$return = false;
           	  else:
-          	  	$sql = "SELECT 
-	    			{$this->visitors}.*, 
+          	  	$sql = "SELECT
+	    			{$this->visitors}.*,
 	    			CONCAT({$this->visitors}.temperature, '°C') as temperature,
 	    			{$this->agency}.name as agency,
 	            	{$this->division}.name as division_to_visit,
 	            	{$this->visitors}.person_to_visit as person_to_visit,
 	            	{$this->visitors}.purpose as purpose,
-	    			DATE_FORMAT({$this->visitors}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format 
-	    		FROM {$this->visitors} 
+	    			DATE_FORMAT({$this->visitors}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format
+	    		FROM {$this->visitors}
 	    		LEFT JOIN {$this->agency} ON {$this->agency}.id={$this->visitors}.agency
 	      		LEFT JOIN {$this->division} ON {$this->division}.id={$this->visitors}.division_to_visit
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->visitors}.person_to_visit
@@ -122,6 +123,8 @@ class Visitor_model extends Crud_model
 	    		WHERE {$this->visitors}.id = '{$visitor_id}'";
 				$return = $this->db->query($sql)->row();
 				$return->attached_agency = $this->get_attach_agency_name($return->attached_agency);
+				$return->attached_agency_others = @$post['attached_agency_others'];
+				$return->agency = $return->agency ?: "Others";
 				// var_dump($return->purpose, $return->person_to_visit); die();
 				$return->purpose = $this->get_purpose_concat($return->purpose);
 				$return->person_to_visit = $this->get_person_to_visit_concat($return->person_to_visit);
@@ -149,7 +152,7 @@ class Visitor_model extends Crud_model
     	}
     	return rtrim($ret, ", ");
     }
-	
+
 	public function get_person_to_visit_concat($ids)
 	{
 		if (!$ids) {
@@ -170,11 +173,16 @@ class Visitor_model extends Crud_model
 
     public function get_attach_agency_name($agency_id)
     {
+      if ($agency_id == 0) {
+        return "Others";
+      }
+
     	$sql = "SELECT {$this->attached_agency}.*
-	    		FROM {$this->attached_agency} 
+	    		FROM {$this->attached_agency}
 	    		WHERE {$this->attached_agency}.id = '{$agency_id}'";
 		return $this->db->query($sql)->row()->name;
     }
+
     public function get_pincode()
     {
     	$pin_code = null;
@@ -214,7 +222,7 @@ class Visitor_model extends Crud_model
     public function check_if_pincode_exists($pin_code)
     {
     	$sql = "SELECT {$this->visitors}.*
-	    		FROM {$this->visitors} 
+	    		FROM {$this->visitors}
 	    		WHERE {$this->visitors}.pin_code = '{$pin_code}'";
 		return $this->db->query($sql)->row();
     }
@@ -228,6 +236,8 @@ class Visitor_model extends Crud_model
 		$this->email->to($data->email_address);
 		$this->email->bcc('lsalamante@myoptimind.com');
 		$this->email->subject('LiLo Xpress: E-copy');
+
+    $attached_agency_others = @$data->attached_agency_others ? " - $data->attached_agency_others": "";
 		$msg = '
 		<body style="font-family: Arial, Helvetica, sans-serif;">
 
@@ -246,18 +256,18 @@ class Visitor_model extends Crud_model
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;margin-top: 10px;" >Full Name</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->fullname.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Agency / Attached Agency</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency.'</p></td></tr>
+				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency . $attached_agency_others . '</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Email Address</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->email_address.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>';
 
 				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division_to_visit.' '. $data->person_to_visit.'</p></td></tr>';
-				
+
 				if ($data->purpose) {
 					$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. $data->purpose.'</p></td></tr>';
 				}
-				
+
 				$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->temperature.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Place of Origin</p></td></tr>
@@ -266,7 +276,7 @@ class Visitor_model extends Crud_model
 			<tfoot style="background: #E8FAFF;">
 				<tr>
 					<td style="padding: 0;"><p style="padding: 6px;margin: 0;"><label style="letter-spacing: 2px;margin:0;font-size: 12px;color: gray;">PIN CODE</label><br><label style="font-size: 20px;letter-spacing: 8px; font-family: Consolas; font-weight: 900;">'.$data->pin_code.'</label></p></td>
-				</tr>	
+				</tr>
 			</tfoot>
 		</table>
 		</body>
@@ -289,6 +299,9 @@ class Visitor_model extends Crud_model
 		$this->email->to($data->email_address);
 		$this->email->bcc('lsalamante@myoptimind.com');
 		$this->email->subject('LiLo Xpress: Logout E-copy ');
+
+
+    $attached_agency_others = @$data->attached_agency_others ? " - $data->attached_agency_others": "";
 		$msg = '
 		<body style="font-family: Arial, Helvetica, sans-serif;">
 
@@ -307,18 +320,18 @@ class Visitor_model extends Crud_model
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;margin-top: 10px;" >Full Name</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->fullname.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Agency / Attached Agency</p></td></tr>
-				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency.'</p></td></tr>
+        <tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->agency.'<br>'.$data->attached_agency . $attached_agency_others . '</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Email Address</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->email_address.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>';
 
-				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->division_to_visit.' '. $data->person_to_visit.'</p></td></tr>';
-				
+				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. @$data->division_to_visit.' '. @$data->person_to_visit.'</p></td></tr>';
+
 				if ($data->purpose) {
 					$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. $data->purpose.'</p></td></tr>';
 				}
-				
+
 				$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Temperature</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->temperature.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Place of Origin</p></td></tr>
@@ -327,7 +340,7 @@ class Visitor_model extends Crud_model
 			<tfoot style="background: #E8FAFF;">
 				<tr>
 					<td style="padding: 0;"><p style="padding: 6px;margin: 0;"><label style="letter-spacing: 2px;margin:0;font-size: 12px;color: gray;">PIN CODE</label><br><label style="font-size: 20px;letter-spacing: 8px; font-family: Consolas; font-weight: 900;">'.$data->pin_code.'</label></p></td>
-				</tr>	
+				</tr>
 			</tfoot>
 		</table>
 		</body>
@@ -346,11 +359,19 @@ class Visitor_model extends Crud_model
     {
     	$return = false;
 	    $data = array(
-	      'staff_id' => $post['staff_id'], 
-	      'temperature' => $this->is_decimal($post['temperature']), 
-	      'health_condition' => $post['health_condition'], 
-	      'region' => $post['region'], 
-	      'city' => $post['city']
+	      'staff_id' => $post['staff_id'],
+	      'temperature' => $this->is_decimal($post['temperature']),
+	      'health_condition' => $post['health_condition'],
+	      'region' => "",
+	      'city' => "",
+        'location_prior' => @$post['location_prior'],
+        'location_prior_others' => @$post['location_prior_others'],
+        'has_contact' => @$post['has_contact'],
+        'has_contact_others' => @$post['has_contact_others'],
+        'has_travelled' => @$post['has_travelled'],
+        'has_travelled_others' => @$post['has_travelled_others'],
+	      // 'region' => $post['region'],
+	      // 'city' => $post['city']
 	    );
 	    $this->db->insert($this->cesbie_visitors, $data);
 
@@ -360,11 +381,11 @@ class Visitor_model extends Crud_model
 	    	$update_visitor['pin_code'] = strtoupper(substr(str_replace(' ', '', $fullname), rand(0, strlen(str_replace(' ', '', $fullname))-1), 2).date('is')).sprintf('%05d', $visitor_id).'C';
 		  	$this->db->where('id', $visitor_id);
 	      	$this->db->update($this->cesbie_visitors, $update_visitor);
-	      	$sql = "SELECT 
-	    			{$this->cesbie_visitors}.*, 
+	      	$sql = "SELECT
+	    			{$this->cesbie_visitors}.*,
 	    			CONCAT({$this->cesbie_visitors}.temperature, '°C') as temperature,
-	    			DATE_FORMAT({$this->cesbie_visitors}.created_at, '%c/%d/%Y  |  %l:%i %p') as login_time_format 
-	    		FROM {$this->cesbie_visitors} 
+	    			DATE_FORMAT({$this->cesbie_visitors}.created_at, '%c/%d/%Y  |  %l:%i %p') as login_time_format
+	    		FROM {$this->cesbie_visitors}
 	    		WHERE {$this->cesbie_visitors}.id = '{$visitor_id}'";
 			$return = $this->db->query($sql)->row();
 	    endif;
@@ -391,7 +412,7 @@ class Visitor_model extends Crud_model
 	}
 
 	public function search_pin_validity($pin_code, $valid = '')
-	{	
+	{
 		if($valid == ''):
 			$feedbacks = $this->db->get_where($this->feedbacks, array('pin_code' => $pin_code))->row();
 			if($feedbacks):
@@ -421,12 +442,13 @@ class Visitor_model extends Crud_model
 		$visitor_type = $this->search_pin_validity($pin_code, true);
 		if($visitor_type == 'guest_visitors'):
 			$sql = "
-	      		SELECT 
+	      		SELECT
 	            	DATE_FORMAT({$this->$visitor_type}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format,
 	            	DATE_FORMAT({$this->feedbacks}.created_at, '%c/%d/%Y | %l:%i %p') as logout_time_format,
 	            	{$this->$visitor_type}.fullname,
 	            	{$this->agency}.name as agency,
 	            	{$this->$visitor_type}.attached_agency,
+	            	{$this->$visitor_type}.attached_agency_others,
 	            	{$this->$visitor_type}.email_address,
 	            	{$this->division}.name as division,
 	            	{$this->$visitor_type}.is_have_ecopy,
@@ -450,7 +472,7 @@ class Visitor_model extends Crud_model
 	      	";
 		elseif($visitor_type == 'cesbie_visitors'):
 			$sql = "
-	      		SELECT 
+	      		SELECT
 	            	DATE_FORMAT({$this->$visitor_type}.created_at, '%c/%d/%Y | %l:%i %p') as login_time_format,
 	            	DATE_FORMAT({$this->feedbacks}.created_at, '%c/%d/%Y | %l:%i %p') as logout_time_format,
 	            	{$this->division}.name as division,
@@ -472,6 +494,8 @@ class Visitor_model extends Crud_model
 
 		$res = $this->db->query($sql)->row();
 		if ($visitor_type == 'guest_visitors') {
+
+			$res->agency = $res->agency?: "Others";
 			$res->attached_agency = $this->get_attach_agency_name($res->attached_agency);
 			$res->purpose = $this->get_purpose_concat($res->purpose);
 			$res->person_to_visit = $this->get_person_to_visit_concat($res->person_visited);
@@ -484,11 +508,11 @@ class Visitor_model extends Crud_model
 	function get_place_of_origin($region, $province, $city)
 	{
 		$array = [];
-		if ($region != "") 
+		if ($region != "")
 			$array[] = $region;
-		if ($province != "") 
+		if ($province != "")
 			$array[] = $province;
-		if ($city != "") 
+		if ($city != "")
 			$array[] = $city;
 
 		$str = implode(', ', $array);
@@ -519,7 +543,7 @@ class Visitor_model extends Crud_model
 		else:
 			$return_str .= $minutes ." {$mins_str}, ";
 		endif;
-		
+
 
 		return rtrim($return_str, ', ');
 	}

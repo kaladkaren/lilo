@@ -1,4 +1,4 @@
-<?php 
+<?php
 function calculate_duration($login, $logout)
 {
   $return_str = '';
@@ -172,7 +172,7 @@ function calculate_duration($login, $logout)
                 <tbody>
                   <?php if ($cesbie_visitors): ?>
                     <?php foreach ($cesbie_visitors as $key => $value): ?>
-                      
+
                       <tr>
                         <td>
                           <?php echo @$this->uri->segment(5) + ($key + 1);  ?>
@@ -257,6 +257,62 @@ function calculate_duration($login, $logout)
               </div>
             </div>
           </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <hr>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Location Prior</label>
+                <input type="text" class="form-control" value="<?php echo $value->location_prior ?>" disabled="">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Please specify</label>
+                <input type="text" class="form-control" value="<?php echo $value->location_prior_others ?>" disabled="">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you had any contact with any PUI/PUM in the last 14 days?</label>
+                <input type="text" class="form-control" value="<?php echo $value->has_contact ? 'Yes':'No' ?>" disabled="">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Details</label>
+                <input type="text" class="form-control" value="<?php echo $value->has_contact_others ?:'-' ?>" disabled="">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Have you travelled locally/internationally in the last 14 days?</label>
+                <input type="text" class="form-control" value="<?php echo $value->has_travelled ? 'Yes':'No' ?>" disabled="">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Details</label>
+                <input type="text" class="form-control" value="<?php echo $value->has_travelled_others ?:'-' ?>" disabled="">
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

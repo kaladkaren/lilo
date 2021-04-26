@@ -1,4 +1,4 @@
-<?php 
+<?php
 function calculate_duration($login, $logout)
 {
   $return_str = '';
@@ -174,7 +174,7 @@ function calculate_duration($login, $logout)
                 <tbody>
                   <?php if ($cesbie_visitors): ?>
                     <?php foreach ($cesbie_visitors as $key => $value): ?>
-                      
+
                       <tr>
                         <td>
                           <?php echo @$this->uri->segment(5) + ($key + 1);  ?>
@@ -315,13 +315,19 @@ function calculate_duration($login, $logout)
             <div class="col-md-6">
               <div class="form-group">
                 <label>Agency</label>
-                <input type="text" class="form-control" value="<?php echo $value->agency_name ?>" disabled="">
+                <input type="text" class="form-control" value="<?php echo $value->agency_name?: 'Others' ?>" disabled="">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Attached Agency</label>
-                <input type="text" class="form-control" value="<?php echo $value->att_agency_name ?>" disabled="">
+                <input type="text" class="form-control" value="<?php echo $value->att_agency_name?: 'Others' ?>" disabled="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Attached Agency (Others)</label>
+                <input type="text" class="form-control" value="<?php echo @$value->attached_agency_others ?>" disabled="">
               </div>
             </div>
           </div>

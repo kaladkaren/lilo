@@ -29,18 +29,34 @@ class Visitors extends Admin_core_controller {
             $this->db->where('id', $value->id);
             $visitor = $this->db->get('guest_visitors')->row();
             // var_dump($visitor->purpose, $visitor->person_to_visit); die();
-            $value->attached_agency = $this->visitor_model->get_attach_agency_name($visitor->attached_agency);
+            $value->agency_name = $value->agency_name?: 'Others';
+            $value->att_agency_name = $value->att_agency_name?: 'Others';
+            $value->attached_agency_others = $visitor->attached_agency_others;
+            $value->attached_agency = $this->visitor_model->get_attach_agency_name($visitor->attached_agency) ?: 'Others';
             $value->purpose_name = $this->visitor_model->get_purpose_concat($visitor->purpose);
             $value->person_fullname_visited = $this->visitor_model->get_person_to_visit_concat($visitor->person_to_visit);
-            $value->place_of_origin = $this->visitor_model->get_place_of_origin($visitor->region, $visitor->province, $visitor->city);  
+            $value->place_of_origin = $this->visitor_model->get_place_of_origin($visitor->region, $visitor->province, $visitor->city);
 
-            $value->is_recent_contact = $visitor->is_recent_contact;      
-            $value->recent_contact_details = $visitor->recent_contact_details;      
-            $value->is_travelled_locally = $visitor->is_travelled_locally;      
-            $value->travelled_locally_details = $visitor->travelled_locally_details;      
-            $value->home_address = $visitor->home_address;      
-        }    
+            $value->is_recent_contact = $visitor->is_recent_contact;
+            $value->recent_contact_details = $visitor->recent_contact_details;
+            $value->is_travelled_locally = $visitor->is_travelled_locally;
+            $value->travelled_locally_details = $visitor->travelled_locally_details;
+            $value->home_address = $visitor->home_address;
+        } else if ($value->visitor_type == 'CESBIE') {
+          $this->db->where('id', $value->id);
+          $visitor = $this->db->get('cesbie_visitors')->row();
+          // var_dump($visitor->purpose, $visitor->person_to_visit); die();
+          $value->location_prior = $visitor->location_prior?: '-';
+          $value->location_prior_others = $visitor->location_prior_others?: '-';
+          $value->has_travelled = $visitor->has_travelled?: '-';
+          $value->has_travelled_others = $visitor->has_travelled_others?: '-';
+          $value->has_contact = $visitor->has_contact?: '-';
+          $value->has_contact_others = $visitor->has_contact_others?: '-';
+
+          // var_dump($value); die();
+        }
     }
+    // var_dump($data); die();
 
     // var_dump($data['cesbie_visitors']); die();
     $data['place_of_origin'] = $this->visitor_model->get_cities();

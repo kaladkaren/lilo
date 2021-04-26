@@ -184,7 +184,7 @@ class Visitors extends Crud_controller {
     public function cesbie_login_get()
     {
         $select = array('id', 'fullname');
-        
+
         $res['staff'] = $this->cesbie_model->get_all_staff($select);
         $res['place_of_origin'] = $this->city_model->get_all();
 
@@ -208,7 +208,28 @@ class Visitors extends Crud_controller {
         $status  = "200";
 
         $res['agency'] = $this->agency_model->get_all();
+        $res['agency'] = array_merge($res['agency'],[(object)['id' => "0", 'name' =>'Others']]);
+        // var_dump($res['agency']); die();
         $res['attached_agency'] = [];
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
+    public function attached_agency_others_get()
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res = $this->agency_model->get_all_other_attached_agencies();
+        $res = array_merge($res,[(object)['name' =>'Others']]);
 
         $r_return = (object)[
             'data' => $res,

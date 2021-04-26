@@ -1,7 +1,7 @@
 <?php
 
 class Visitor_model extends Crud_model
-{   
+{
     public function __construct()
     {
         parent::__construct();
@@ -111,7 +111,7 @@ class Visitor_model extends Crud_model
 	    if($this->uri->segment(4) !== NULL){
 	      $limit = $this->uri->segment(4);
 	    }
-	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
+	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";
 
 	    $limit2 = 0;
 	    if($this->uri->segment(4) !== NULL){
@@ -132,7 +132,7 @@ class Visitor_model extends Crud_model
 		          break;
 		        case 'date_logout':
 		          $order_by = "logout_timestamp";
-		          break; 
+		          break;
 		        case 'date_reg':
 		        default:
 		          $order_by = "created_at";
@@ -151,11 +151,11 @@ class Visitor_model extends Crud_model
 		    $order_str = "ORDER BY {$order_by} {$order}";
 	    	$sql = "
 				SELECT {$this->table}.id,
-					   {$this->staffs}.fullname as fullname, 
-					   {$this->staffs}.email_address as email_address, 
-					   '' as mobile_number, 
+					   {$this->staffs}.fullname as fullname,
+					   {$this->staffs}.email_address as email_address,
+					   '' as mobile_number,
 					   {$this->table}.health_condition as health_condition,
-	      			   {$this->table}.temperature, 
+	      			   {$this->table}.temperature,
 	      			   CASE
 						    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
 						    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
@@ -182,23 +182,23 @@ class Visitor_model extends Crud_model
 						    WHEN {$this->table}.logout_at != '' THEN DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y <br>%l:%i:%S %p')
 						    ELSE '-'
 					   END as logout_timestamp
-	      		FROM {$this->table} 
+	      		FROM {$this->table}
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
 				{$where}
 
-				UNION 
+				UNION
 
-				SELECT {$this->guest_visitors}.id, 
-					   {$this->guest_visitors}.fullname as fullname, 
-					   {$this->guest_visitors}.email_address as email_address, 
-					   {$this->guest_visitors}.mobile_number as mobile_number, 
-					   {$this->guest_visitors}.health_condition as health_condition, 
-					   {$this->guest_visitors}.temperature, 
+				SELECT {$this->guest_visitors}.id,
+					   {$this->guest_visitors}.fullname as fullname,
+					   {$this->guest_visitors}.email_address as email_address,
+					   {$this->guest_visitors}.mobile_number as mobile_number,
+					   {$this->guest_visitors}.health_condition as health_condition,
+					   {$this->guest_visitors}.temperature,
 					   CASE
 						    WHEN {$this->guest_visitors}.place_of_origin != '' THEN {$this->guest_visitors}.place_of_origin
 						    ELSE CONCAT({$this->guest_visitors}.region, ' - ', {$this->guest_visitors}.city)
 					   END as place_of_origin,
-					   {$this->guest_visitors}.fullname as staff_fullname, 
+					   {$this->guest_visitors}.fullname as staff_fullname,
 					   {$this->guest_visitors}.created_at,
 					   {$this->guest_visitors}.pin_code,
 	      			   DATE_FORMAT({$this->guest_visitors}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
@@ -210,15 +210,19 @@ class Visitor_model extends Crud_model
 		            	{$this->services}.name as purpose_name,
 		            	REPLACE(CONCAT('{$upload_photo}', {$this->guest_visitors}.photo), ' ', '_') as photo,
 		            	CASE
-						    WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Stressed'
-						    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Okay'
-						    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Good'
+						    WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Bad'
+						    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Fair'
+						    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Okay'
+						    WHEN {$this->feedbacks}.overall_experience = '4' THEN 'Good'
+						    WHEN {$this->feedbacks}.overall_experience = '5' THEN 'Excellent'
 						    ELSE ''
 						END as overall_experience,
 						CASE
-						    WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'Stressed.png')
-						    WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Okay.png')
-						    WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Happy.png')
+						    WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'disastrous_on.png')
+						    WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Stressed.png')
+						    WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Okay.png')
+						    WHEN {$this->feedbacks}.overall_experience = '4' THEN CONCAT('{$expi_png}', 'Happy.png')
+						    WHEN {$this->feedbacks}.overall_experience = '5' THEN CONCAT('{$expi_png}', 'excellent_on.png')
 						    ELSE ''
 						END as overall_experience_png,
 		            	{$this->feedbacks}.feedback as feedback,
@@ -245,7 +249,7 @@ class Visitor_model extends Crud_model
 	    }elseif(strtolower($_GET['v_type']) == 'cesbie'){
 	    	$sql = "
 				SELECT {$this->table}.id,
-	      			   {$this->table}.temperature, 
+	      			   {$this->table}.temperature,
 	      			   {$this->table}.health_condition as health_condition,
 	      			   CASE
 						    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
@@ -264,23 +268,23 @@ class Visitor_model extends Crud_model
 						    WHEN {$this->table}.logout_at != '' THEN DATE_FORMAT({$this->table}.logout_at, '%M %d, %Y <br>%l:%i:%S %p')
 						    ELSE '-'
 					   END as logout_timestamp
-	      		FROM {$this->table} 
+	      		FROM {$this->table}
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
 	      		LEFT JOIN {$this->feedbacks} ON {$this->feedbacks}.pin_code={$this->table}.pin_code
 				{$where} {$order_str} {$limit_str}";
 	    }else{
 	    	$sql = "
-				SELECT {$this->guest_visitors}.id, 
-					   {$this->guest_visitors}.fullname as fullname, 
-					   {$this->guest_visitors}.email_address as email_address, 
-					   {$this->guest_visitors}.mobile_number as mobile_number, 
-					   {$this->guest_visitors}.health_condition as health_condition, 
-					   {$this->guest_visitors}.temperature, 
+				SELECT {$this->guest_visitors}.id,
+					   {$this->guest_visitors}.fullname as fullname,
+					   {$this->guest_visitors}.email_address as email_address,
+					   {$this->guest_visitors}.mobile_number as mobile_number,
+					   {$this->guest_visitors}.health_condition as health_condition,
+					   {$this->guest_visitors}.temperature,
 					   CASE
 						    WHEN {$this->guest_visitors}.place_of_origin != '' THEN {$this->guest_visitors}.place_of_origin
 						    ELSE CONCAT({$this->guest_visitors}.region, ' - ', {$this->guest_visitors}.city)
 					   END as place_of_origin,
-					   {$this->guest_visitors}.fullname as staff_fullname, 
+					   {$this->guest_visitors}.fullname as staff_fullname,
 					   {$this->guest_visitors}.created_at,
 					   {$this->guest_visitors}.pin_code,
 	      			   DATE_FORMAT({$this->guest_visitors}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
@@ -291,15 +295,19 @@ class Visitor_model extends Crud_model
 		            	{$this->attached_agency}.name as att_agency_name,
 		            	{$this->services}.name as purpose_name,
 		            	CASE
-						    WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Stressed'
-						    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Okay'
-						    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Good'
+                  WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Bad'
+  						    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Stressed'
+  						    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Okay'
+  						    WHEN {$this->feedbacks}.overall_experience = '4' THEN 'Good'
+  						    WHEN {$this->feedbacks}.overall_experience = '5' THEN 'Excellent'
 						    ELSE ''
 						END as overall_experience,
 						CASE
-						    WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'Stressed.png')
-						    WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Okay.png')
-						    WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Happy.png')
+              WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'disastrous_on.png')
+              WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Stressed.png')
+              WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Okay.png')
+              WHEN {$this->feedbacks}.overall_experience = '4' THEN CONCAT('{$expi_png}', 'Happy.png')
+              WHEN {$this->feedbacks}.overall_experience = '5' THEN CONCAT('{$expi_png}', 'excellent_on.png')
 						    ELSE ''
 						END as overall_experience_png,
 		            	{$this->feedbacks}.feedback as feedback,
@@ -322,8 +330,10 @@ class Visitor_model extends Crud_model
 				{$where2} {$order_str2} {$limit_str2}";
 	    }
     	$res = $this->db->query($sql)->result();
+      // var_dump($res); die();
     	return $res;
   	}
+
   	public function all_total()
   	{
   		$where = ' WHERE 1=1 ';
@@ -365,23 +375,23 @@ class Visitor_model extends Crud_model
 	    if ((isset($_GET['v_type']) && strtolower($_GET['v_type']) == 'all') || !isset($_GET['v_type'])) {
 	    	$sql = "
 				SELECT {$this->table}.id,
-	      			   {$this->table}.temperature, 
+	      			   {$this->table}.temperature,
 	      			   {$this->table}.place_of_origin,
 	      			   {$this->staffs}.fullname as staff_fullname,
 	      			   {$this->table}.created_at,
 	      			   {$this->table}.pin_code,
 	      			   DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
 	      			   'CESBIE' as visitor_type
-	      		FROM {$this->table} 
+	      		FROM {$this->table}
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
 				{$where}
 
-				UNION 
+				UNION
 
-				SELECT {$this->guest_visitors}.id, 
-					   {$this->guest_visitors}.temperature, 
-					   {$this->guest_visitors}.place_of_origin, 
-					   {$this->guest_visitors}.fullname as staff_fullname, 
+				SELECT {$this->guest_visitors}.id,
+					   {$this->guest_visitors}.temperature,
+					   {$this->guest_visitors}.place_of_origin,
+					   {$this->guest_visitors}.fullname as staff_fullname,
 					   {$this->guest_visitors}.created_at,
 					   {$this->guest_visitors}.pin_code,
 	      			   DATE_FORMAT({$this->guest_visitors}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
@@ -395,22 +405,22 @@ class Visitor_model extends Crud_model
 	    }elseif(strtolower($_GET['v_type']) == 'cesbie'){
 	    	$sql = "
 				SELECT {$this->table}.id,
-	      			   {$this->table}.temperature, 
+	      			   {$this->table}.temperature,
 	      			   {$this->table}.place_of_origin,
 	      			   {$this->staffs}.fullname as staff_fullname,
 	      			   {$this->table}.created_at,
 	      			   {$this->table}.pin_code,
 	      			   DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
 	      			   'CESBIE' as visitor_type
-	      		FROM {$this->table} 
+	      		FROM {$this->table}
 	      		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.staff_id
 				{$where}";
 	    }else{
 	    	$sql = "
-				SELECT {$this->guest_visitors}.id, 
-					   {$this->guest_visitors}.temperature, 
-					   {$this->guest_visitors}.place_of_origin, 
-					   {$this->guest_visitors}.fullname as staff_fullname, 
+				SELECT {$this->guest_visitors}.id,
+					   {$this->guest_visitors}.temperature,
+					   {$this->guest_visitors}.place_of_origin,
+					   {$this->guest_visitors}.fullname as staff_fullname,
 					   {$this->guest_visitors}.created_at,
 					   {$this->guest_visitors}.pin_code,
 	      			   DATE_FORMAT({$this->guest_visitors}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at,
@@ -457,16 +467,16 @@ class Visitor_model extends Crud_model
   	}
   	public function get_cities()
 	{
-		$sql = "SELECT 
+		$sql = "SELECT
 					CASE
 					    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
 					    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
 				    END as place_of_origin
 	      		FROM {$this->table}
 
-				UNION 
+				UNION
 
-				SELECT 
+				SELECT
 					CASE
 					    WHEN {$this->guest_visitors}.place_of_origin != '' THEN {$this->guest_visitors}.place_of_origin
 					    ELSE CONCAT({$this->guest_visitors}.region, ' - ', {$this->guest_visitors}.city)
@@ -494,7 +504,7 @@ class Visitor_model extends Crud_model
     	}
     	return rtrim($ret, ", ");
     }
-	
+
 	public function get_person_to_visit_concat($ids)
 	{
 		if (!$ids) {
@@ -516,19 +526,19 @@ class Visitor_model extends Crud_model
     public function get_attach_agency_name($agency_id)
     {
     	$sql = "SELECT {$this->attached_agency}.*
-	    		FROM {$this->attached_agency} 
+	    		FROM {$this->attached_agency}
 	    		WHERE {$this->attached_agency}.id = '{$agency_id}'";
-		return $this->db->query($sql)->row()->name;
+		return @$this->db->query($sql)->row()->name;
     }
 
     	function get_place_of_origin($region, $province, $city)
 	{
 		$array = [];
-		if ($region != "") 
+		if ($region != "")
 			$array[] = $region;
-		if ($province != "") 
+		if ($province != "")
 			$array[] = $province;
-		if ($city != "") 
+		if ($city != "")
 			$array[] = $city;
 
 		$str = implode(', ', $array);

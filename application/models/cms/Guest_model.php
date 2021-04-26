@@ -1,7 +1,7 @@
 <?php
 
 class Guest_model extends Crud_model
-{   
+{
     public function __construct()
     {
         parent::__construct();
@@ -86,11 +86,11 @@ class Guest_model extends Crud_model
 	    if($this->uri->segment(5) !== NULL){
 	      $limit = $this->uri->segment(5);
 	    }
-	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";	
+	    $limit_str = "LIMIT {$this->per_rows} OFFSET {$limit}";
 	    $upload_photo = base_url('uploads/'.$this->uploade_dir_visitors.'/');
 	    $expi_png = base_url('public/admin/img/');
     	$res = $this->db->query("
-      		SELECT {$this->table}.*, 
+      		SELECT {$this->table}.*,
       			CASE
 				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
 				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
@@ -103,15 +103,19 @@ class Guest_model extends Crud_model
             	{$this->services}.name as purpose_name,
             	REPLACE(CONCAT('{$upload_photo}', {$this->table}.photo), ' ', '_') as photo,
             	CASE
-				    WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Stressed'
-				    WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Okay'
-				    WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Good'
+                WHEN {$this->feedbacks}.overall_experience = '1' THEN 'Bad'
+                WHEN {$this->feedbacks}.overall_experience = '2' THEN 'Fair'
+                WHEN {$this->feedbacks}.overall_experience = '3' THEN 'Okay'
+                WHEN {$this->feedbacks}.overall_experience = '4' THEN 'Good'
+                WHEN {$this->feedbacks}.overall_experience = '5' THEN 'Excellent'
 				    ELSE ''
 				END as overall_experience,
 				CASE
-				    WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'Stressed.png')
-				    WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Okay.png')
-				    WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Happy.png')
+          WHEN {$this->feedbacks}.overall_experience = '1' THEN CONCAT('{$expi_png}', 'disastrous_on.png')
+          WHEN {$this->feedbacks}.overall_experience = '2' THEN CONCAT('{$expi_png}', 'Stressed.png')
+          WHEN {$this->feedbacks}.overall_experience = '3' THEN CONCAT('{$expi_png}', 'Okay.png')
+          WHEN {$this->feedbacks}.overall_experience = '4' THEN CONCAT('{$expi_png}', 'Happy.png')
+          WHEN {$this->feedbacks}.overall_experience = '5' THEN CONCAT('{$expi_png}', 'excellent_on.png')
 				    ELSE ''
 				END as overall_experience_png,
             	{$this->feedbacks}.feedback as feedback,
@@ -154,7 +158,7 @@ class Guest_model extends Crud_model
 	    endif;
 
     	return $this->db->query("
-      		SELECT {$this->table}.*, 
+      		SELECT {$this->table}.*,
             	DATE_FORMAT({$this->table}.created_at, '%M %d, %Y <br>%l:%i:%S %p') as f_created_at
       		FROM {$this->table}
       		LEFT JOIN {$this->staffs} ON {$this->staffs}.id={$this->table}.person_to_visit
@@ -165,7 +169,7 @@ class Guest_model extends Crud_model
   	public function get_cities()
 	{
 		return $this->db->query("
-      		SELECT 
+      		SELECT
       			CASE
 				    WHEN {$this->table}.place_of_origin != '' THEN {$this->table}.place_of_origin
 				    ELSE CONCAT({$this->table}.region, ' - ', {$this->table}.city)
