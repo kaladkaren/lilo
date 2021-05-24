@@ -12,6 +12,8 @@ X-Api-Key `AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe`
 1. **Guest Login Steps**
     + [Get Attached Agency](#get-attached-agency)
     + [Get Attached Agency OTHERS](#get-attached-agency-others)
+    + [Get Division](#get-division)
+    + [Get Services by division](#get-services-by-division)
     + [Step 1](#step-1)
     + [Step 2](#step-2)
     + [Get Regions - Step 3](#step-3)
@@ -193,6 +195,93 @@ GET `api/visitors/attached_agency_others`
       "name": "Test Attached Agency 2"
     },
     ...
+  ],
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
+}
+```
+### Get Division
+GET `api/visitors/division`
+
+Get list of options for divisions
+
+##### Response
+```javascript
+200 OK
+{
+  "data": [
+    {
+      "id": "2",
+      "name": "Eligibility and Rank Appointment"
+    },
+    {
+      "id": "6",
+      "name": "Finance and Administrative Division"
+    },
+    {
+      "id": "1",
+      "name": "Office of the Executive Director"
+    },
+    {
+      "id": "4",
+      "name": "Performance Management and Assistance Division"
+    },
+    {
+      "id": "5",
+      "name": "Policy, Planning and Legal Division"
+    },
+    {
+      "id": "3",
+      "name": "Professional Development Division"
+    }
+  ],
+  "meta": {
+    "message": "Data found",
+    "status": "200"
+  }
+}
+```
+
+### Get services by division
+GET `api/visitors/services/:division_id`
+
+Get list of options for services by division
+
+##### Response
+```javascript
+200 OK
+{
+  "data": [
+    {
+      "id": "35",
+      "name": "Human Resource Management and Development"
+    },
+    {
+      "id": "36",
+      "name": "Financial Management"
+    },
+    {
+      "id": "37",
+      "name": "Supplies and Property Management"
+    },
+    {
+      "id": "38",
+      "name": "Information and Records Management"
+    },
+    {
+      "id": "39",
+      "name": "General Services, Building and Grounds"
+    },
+    {
+      "id": "40",
+      "name": "Job Order Services"
+    },
+    {
+      "id": "41",
+      "name": "Administrative Concerns"
+    }
   ],
   "meta": {
     "message": "Data found",

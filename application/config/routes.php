@@ -103,6 +103,10 @@ $route['api/get-provinces-and-cities'] = 'api/cities/provinces_and_cities';
 $route['api/visitors/guest-login'] = 'api/visitors/guest_login';
 $route['api/visitors/guest-login/step-1'] = 'api/visitors/guest_login_step_one';
 $route['api/visitors/guest-login/step-2'] = 'api/visitors/guest_login_step_two';
+# karen new endpoint
+$route['api/visitors/division'] = 'api/visitors/divisions';
+$route['api/visitors/services/(:num)'] = 'api/visitors/service_by_division/$1';
+# end
 $route['api/visitors/guest-login/step-3'] = 'api/visitors/guest_login_step_three';
 $route['api/visitors/cesbie-login'] = 'api/visitors/cesbie_login';
 $route['api/example/(:num)'] = 'api/example/single/$1';

@@ -118,23 +118,28 @@ body .markdown-body
   padding: 0;
 }
 
-.markdown-body .codehilitetable {
+.markdown-body .codehilitetable,
+.markdown-body .highlighttable {
   border: 0;
   border-spacing: 0;
 }
 
-.markdown-body .codehilitetable tr {
+.markdown-body .codehilitetable tr,
+.markdown-body .highlighttable {
   border: 0;
 }
 
 .markdown-body .codehilitetable pre,
-.markdown-body .codehilitetable div.codehilite {
+.markdown-body .codehilitetable div.codehilite,
+.markdown-body .highlighttable pre,
+.markdown-body .highlighttable div.highlight {
   margin: 0;
 }
 
 .markdown-body .linenos,
 .markdown-body .code,
-.markdown-body .codehilitetable td {
+.markdown-body .codehilitetable td,
+.markdown-body .highlighttable td {
   border: 0;
   padding: 0;
 }
@@ -517,11 +522,13 @@ body .markdown-body
   border: 0;
 }
 
-.markdown-body .codehilite {
+.markdown-body .codehilite,
+.markdown-body .highlight {
   margin-bottom: 16px;
 }
 
 .markdown-body .codehilite pre,
+.markdown-body .highlight pre,
 .markdown-body pre {
   padding: 16px;
   overflow: auto;
@@ -531,7 +538,8 @@ body .markdown-body
   border-radius: 3px;
 }
 
-.markdown-body .codehilite pre {
+.markdown-body .codehilite pre,
+.markdown-body .highlight pre {
   margin-bottom: 0;
   word-break: normal;
 }
@@ -993,68 +1001,68 @@ body .markdown-body
   }
 }
 </style><style>/*GitHub*/
-.codehilite {background-color:#fff;color:#333333;}
-.codehilite .hll {background-color:#ffffcc;}
-.codehilite .c{color:#999988;font-style:italic}
-.codehilite .err{color:#a61717;background-color:#e3d2d2}
-.codehilite .k{font-weight:bold}
-.codehilite .o{font-weight:bold}
-.codehilite .cm{color:#999988;font-style:italic}
-.codehilite .cp{color:#999999;font-weight:bold}
-.codehilite .c1{color:#999988;font-style:italic}
-.codehilite .cs{color:#999999;font-weight:bold;font-style:italic}
-.codehilite .gd{color:#000000;background-color:#ffdddd}
-.codehilite .ge{font-style:italic}
-.codehilite .gr{color:#aa0000}
-.codehilite .gh{color:#999999}
-.codehilite .gi{color:#000000;background-color:#ddffdd}
-.codehilite .go{color:#888888}
-.codehilite .gp{color:#555555}
-.codehilite .gs{font-weight:bold}
-.codehilite .gu{color:#800080;font-weight:bold}
-.codehilite .gt{color:#aa0000}
-.codehilite .kc{font-weight:bold}
-.codehilite .kd{font-weight:bold}
-.codehilite .kn{font-weight:bold}
-.codehilite .kp{font-weight:bold}
-.codehilite .kr{font-weight:bold}
-.codehilite .kt{color:#445588;font-weight:bold}
-.codehilite .m{color:#009999}
-.codehilite .s{color:#dd1144}
-.codehilite .n{color:#333333}
-.codehilite .na{color:teal}
-.codehilite .nb{color:#0086b3}
-.codehilite .nc{color:#445588;font-weight:bold}
-.codehilite .no{color:teal}
-.codehilite .ni{color:purple}
-.codehilite .ne{color:#990000;font-weight:bold}
-.codehilite .nf{color:#990000;font-weight:bold}
-.codehilite .nn{color:#555555}
-.codehilite .nt{color:navy}
-.codehilite .nv{color:teal}
-.codehilite .ow{font-weight:bold}
-.codehilite .w{color:#bbbbbb}
-.codehilite .mf{color:#009999}
-.codehilite .mh{color:#009999}
-.codehilite .mi{color:#009999}
-.codehilite .mo{color:#009999}
-.codehilite .sb{color:#dd1144}
-.codehilite .sc{color:#dd1144}
-.codehilite .sd{color:#dd1144}
-.codehilite .s2{color:#dd1144}
-.codehilite .se{color:#dd1144}
-.codehilite .sh{color:#dd1144}
-.codehilite .si{color:#dd1144}
-.codehilite .sx{color:#dd1144}
-.codehilite .sr{color:#009926}
-.codehilite .s1{color:#dd1144}
-.codehilite .ss{color:#990073}
-.codehilite .bp{color:#999999}
-.codehilite .vc{color:teal}
-.codehilite .vg{color:teal}
-.codehilite .vi{color:teal}
-.codehilite .il{color:#009999}
-.codehilite .gc{color:#999;background-color:#EAF2F5}
+.highlight {background-color:#fff;color:#333333;}
+.highlight .hll {background-color:#ffffcc;}
+.highlight .c{color:#999988;font-style:italic}
+.highlight .err{color:#a61717;background-color:#e3d2d2}
+.highlight .k{font-weight:bold}
+.highlight .o{font-weight:bold}
+.highlight .cm{color:#999988;font-style:italic}
+.highlight .cp{color:#999999;font-weight:bold}
+.highlight .c1{color:#999988;font-style:italic}
+.highlight .cs{color:#999999;font-weight:bold;font-style:italic}
+.highlight .gd{color:#000000;background-color:#ffdddd}
+.highlight .ge{font-style:italic}
+.highlight .gr{color:#aa0000}
+.highlight .gh{color:#999999}
+.highlight .gi{color:#000000;background-color:#ddffdd}
+.highlight .go{color:#888888}
+.highlight .gp{color:#555555}
+.highlight .gs{font-weight:bold}
+.highlight .gu{color:#800080;font-weight:bold}
+.highlight .gt{color:#aa0000}
+.highlight .kc{font-weight:bold}
+.highlight .kd{font-weight:bold}
+.highlight .kn{font-weight:bold}
+.highlight .kp{font-weight:bold}
+.highlight .kr{font-weight:bold}
+.highlight .kt{color:#445588;font-weight:bold}
+.highlight .m{color:#009999}
+.highlight .s{color:#dd1144}
+.highlight .n{color:#333333}
+.highlight .na{color:teal}
+.highlight .nb{color:#0086b3}
+.highlight .nc{color:#445588;font-weight:bold}
+.highlight .no{color:teal}
+.highlight .ni{color:purple}
+.highlight .ne{color:#990000;font-weight:bold}
+.highlight .nf{color:#990000;font-weight:bold}
+.highlight .nn{color:#555555}
+.highlight .nt{color:navy}
+.highlight .nv{color:teal}
+.highlight .ow{font-weight:bold}
+.highlight .w{color:#bbbbbb}
+.highlight .mf{color:#009999}
+.highlight .mh{color:#009999}
+.highlight .mi{color:#009999}
+.highlight .mo{color:#009999}
+.highlight .sb{color:#dd1144}
+.highlight .sc{color:#dd1144}
+.highlight .sd{color:#dd1144}
+.highlight .s2{color:#dd1144}
+.highlight .se{color:#dd1144}
+.highlight .sh{color:#dd1144}
+.highlight .si{color:#dd1144}
+.highlight .sx{color:#dd1144}
+.highlight .sr{color:#009926}
+.highlight .s1{color:#dd1144}
+.highlight .ss{color:#990073}
+.highlight .bp{color:#999999}
+.highlight .vc{color:teal}
+.highlight .vg{color:teal}
+.highlight .vi{color:teal}
+.highlight .il{color:#009999}
+.highlight .gc{color:#999;background-color:#EAF2F5}
 </style><title>README</title></head><body><article class="markdown-body"><h1 id="liloapp">liloapp<a class="headerlink" href="#liloapp" title="Permanent link"></a></h1>
 <p>URL : <a href="http://lilo.blitzworx.com/api/">http://lilo.blitzworx.com/api/</a></p>
 <p>X-Api-Key <code>AQLlSvDbvCAI9a!uduCy_FgCNcWNsV8oiEUe</code></p>
@@ -1063,7 +1071,7 @@ body .markdown-body
 <li>
 <p><strong>Visitors</strong></p>
 <ul>
-<li><a href="#guest-login">Guest Login</a> <strong>(UPDATED)</strong></li>
+<li><a href="#guest-login">Guest Login</a></li>
 <li><a href="#cesbie-login">Cesbie Login</a></li>
 </ul>
 </li>
@@ -1071,10 +1079,15 @@ body .markdown-body
 <p><strong>Guest Login Steps</strong></p>
 <ul>
 <li><a href="#get-attached-agency">Get Attached Agency</a></li>
+<li><a href="#get-attached-agency-others">Get Attached Agency OTHERS</a></li>
+<li><a href="#get-division">Get Division</a></li>
+<li><a href="#get-services-by-division">Get Services by division</a></li>
 <li><a href="#step-1">Step 1</a></li>
 <li><a href="#step-2">Step 2</a></li>
 <li><a href="#step-3">Get Regions - Step 3</a></li>
-<li><a href="#get-provinces-cities">Get Provinces &amp; Cities</a> <strong>(NEW)</strong></li>
+<li><a href="#get-provinces">Get Provinces</a></li>
+<li><a href="#get-cities">Get Cities</a></li>
+<li><a href="#get-provinces-and-cities">Get Provinces and Cities</a></li>
 </ul>
 </li>
 <li>
@@ -1087,7 +1100,7 @@ body .markdown-body
 <p><strong>Guest Logout Steps</strong></p>
 <ul>
 <li><a href="#step-1">Step 1</a></li>
-<li><a href="#step-2">Step 2</a> <strong>(UPDATED)</strong></li>
+<li><a href="#step-2">Step 2</a></li>
 </ul>
 </li>
 <li>
@@ -1132,6 +1145,13 @@ body .markdown-body
 <td>varchar</td>
 <td>id of from tbl.agency</td>
 <td>1</td>
+</tr>
+<tr>
+<td><strong>attached_agency_others</strong></td>
+<td>optional</td>
+<td>varchar</td>
+<td>Any string</td>
+<td>Test Other Agency</td>
 </tr>
 <tr>
 <td>email_address</td>
@@ -1255,7 +1275,7 @@ body .markdown-body
 </tbody>
 </table>
 <h5 id="response">Response<a class="headerlink" href="#response" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">201</span> <span class="nx">OK</span>
+<div class="highlight"><pre><span class="mi">201</span> <span class="nx">OK</span>
 <span class="p">{</span>
   <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;298&quot;</span><span class="p">,</span>
@@ -1328,23 +1348,51 @@ body .markdown-body
 <td>Normal</td>
 </tr>
 <tr>
-<td>region</td>
+<td>location_prior</td>
 <td>yes</td>
 <td>varchar</td>
 <td>-</td>
-<td>IV-B</td>
+<td>Others</td>
 </tr>
 <tr>
-<td>city</td>
+<td>location_prior_others</td>
 <td>yes</td>
 <td>varchar</td>
 <td>-</td>
-<td>San Mateo, Rizal</td>
+<td>Mall</td>
+</tr>
+<tr>
+<td>has_contact</td>
+<td>yes</td>
+<td>boolean</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>has_contact_others</td>
+<td>yes</td>
+<td>varchar</td>
+<td>-</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>has_travelled</td>
+<td>yes</td>
+<td>boolean</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>has_travelled_others</td>
+<td>yes</td>
+<td>varchar</td>
+<td>-</td>
+<td>Description</td>
 </tr>
 </tbody>
 </table>
 <h5 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">201</span> <span class="nx">OK</span>
+<div class="highlight"><pre><span class="mi">201</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;18&quot;</span><span class="p">,</span>
@@ -1379,7 +1427,7 @@ body .markdown-body
 <p>GET <code>api/visitors/attached-agency/{agency_id}</code>   </p>
 <p>Get list of attached agency options under agency</p>
 <h5 id="response_2">Response<a class="headerlink" href="#response_2" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">[</span>
         <span class="p">{</span>
@@ -1389,107 +1437,8 @@ body .markdown-body
         <span class="p">{</span>
             <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;49&quot;</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bureau of Health Devices and Technology&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bureau of Health Facilities and Services&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;51&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bureau of International Health Cooperation&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;52&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bureau of Local Health Systems and Development&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;53&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bureau of Quarantine&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;54&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Commission on Population&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;55&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;East Avenue Medical Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;56&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Food and Drug Administration&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;57&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Jose Fabella Memorial Medical Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;58&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Jose Reyes Memorial Medical Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;59&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Jose Rodriguez Memorial Hospital&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;60&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;National Center for Health Promotion&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;61&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;National Center for Mental Health&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;62&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;National Children s Hospital&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;63&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;National Kidney and Transplant Institute&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;64&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;National Nutrition Council&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;65&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Philippine Health Insurance Corporation&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;66&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Philippine Institute of Traditional and Alternative Healthcare&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;67&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Philippine Orthopedic Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;68&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Quirino Memorial Medical Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;69&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Research Institute for Tropical Medicine&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;70&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Rizal Medical Center&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;71&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;San Lazaro Hospital&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;72&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;San Lorenzo Ruiz Women s Hospital&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;73&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Talisay District Hospital&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;74&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Tondo Medical Center&quot;</span>
         <span class="p">}</span>
+        <span class="p">...</span>
     <span class="p">],</span>
     <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
@@ -1498,11 +1447,114 @@ body .markdown-body
 <span class="p">}</span>
 </pre></div>
 
+<h3 id="get-attached-agency-others">Get attached agency OTHERS<a class="headerlink" href="#get-attached-agency-others" title="Permanent link"></a></h3>
+<p>GET <code>api/visitors/attached_agency_others</code>   </p>
+<h5 id="response_3">Response<a class="headerlink" href="#response_3" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<span class="p">{</span>
+  <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Test Attached Agency&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Test Attached Agency 2&quot;</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;200&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3 id="get-division">Get Division<a class="headerlink" href="#get-division" title="Permanent link"></a></h3>
+<p>GET <code>api/visitors/division</code></p>
+<p>Get list of options for divisions</p>
+<h5 id="response_4">Response<a class="headerlink" href="#response_4" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<span class="p">{</span>
+  <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Eligibility and Rank Appointment&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Finance and Administrative Division&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Office of the Executive Director&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Performance Management and Assistance Division&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Policy, Planning and Legal Division&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Professional Development Division&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;200&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3 id="get-services-by-division">Get services by division<a class="headerlink" href="#get-services-by-division" title="Permanent link"></a></h3>
+<p>GET <code>api/visitors/services/:division_id</code></p>
+<p>Get list of options for services by division</p>
+<h5 id="response_5">Response<a class="headerlink" href="#response_5" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<span class="p">{</span>
+  <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;35&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Human Resource Management and Development&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;36&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Financial Management&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;37&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Supplies and Property Management&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;38&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Information and Records Management&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;39&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;General Services, Building and Grounds&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;40&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Job Order Services&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;41&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Administrative Concerns&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;200&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
 <h3 id="step-1">Step 1<a class="headerlink" href="#step-1" title="Permanent link"></a></h3>
 <p>GET <code>api/visitors/guest-login/step-1</code>   </p>
 <p>Get list of options for agency</p>
-<h5 id="response_3">Response<a class="headerlink" href="#response_3" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_6">Response<a class="headerlink" href="#response_6" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;agency&quot;</span><span class="o">:</span> <span class="p">[</span>
@@ -1527,8 +1579,8 @@ body .markdown-body
 <h3 id="step-2">Step 2<a class="headerlink" href="#step-2" title="Permanent link"></a></h3>
 <p>GET <code>api/visitors/guest-login/step-2</code>   </p>
 <p>Get list of options for division, purpose, person to visit.</p>
-<h5 id="response_4">Response<a class="headerlink" href="#response_4" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_7">Response<a class="headerlink" href="#response_7" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;division&quot;</span><span class="o">:</span> <span class="p">[</span>
@@ -1572,8 +1624,8 @@ body .markdown-body
 <h3 id="step-3">Step 3<a class="headerlink" href="#step-3" title="Permanent link"></a></h3>
 <p>GET <code>api/visitors/guest-login/step-3</code>   </p>
 <p>Get list of options for place of origin.</p>
-<h5 id="response_5">Response<a class="headerlink" href="#response_5" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_8">Response<a class="headerlink" href="#response_8" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
   <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;place_of_origin&quot;</span><span class="o">:</span> <span class="p">[</span>
@@ -1637,8 +1689,8 @@ body .markdown-body
 <span class="p">}</span>
 </pre></div>
 
-<h3 id="get-provinces-cities">Get Provinces Cities<a class="headerlink" href="#get-provinces-cities" title="Permanent link"></a></h3>
-<p>POST <code>api/get-provinces-cities</code>   </p>
+<h3 id="get-provinces">Get Provinces<a class="headerlink" href="#get-provinces" title="Permanent link"></a></h3>
+<p>POST <code>api/get-provinces</code>   </p>
 <table>
 <thead>
 <tr>
@@ -1660,8 +1712,8 @@ body .markdown-body
 </tbody>
 </table>
 <p>Get list of cities and provinces options under a region.</p>
-<h5 id="response_6">Response<a class="headerlink" href="#response_6" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_9">Response<a class="headerlink" href="#response_9" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
   <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;provinces&quot;</span><span class="o">:</span> <span class="p">[</span>
@@ -1687,22 +1739,101 @@ body .markdown-body
         <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Calatagan&quot;</span>
       <span class="p">},</span>
       <span class="p">...</span>
-    <span class="p">],</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;200&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3 id="get-cities">Get Cities<a class="headerlink" href="#get-cities" title="Permanent link"></a></h3>
+<p>POST <code>api/get-cities</code>   </p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+<th>Sample Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>province</td>
+<td>yes</td>
+<td>text</td>
+<td>-</td>
+<td>Albay</td>
+</tr>
+</tbody>
+</table>
+<p>Get list of cities and provinces options under a region.</p>
+<h5 id="response_10">Response<a class="headerlink" href="#response_10" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<span class="p">{</span>
+  <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;cities&quot;</span><span class="o">:</span> <span class="p">[</span>
       <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Batangas&quot;</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bacacay&quot;</span>
       <span class="p">},</span>
       <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Lipa&quot;</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Camalig&quot;</span>
       <span class="p">},</span>
       <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Tanauan&quot;</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Daraga&quot;</span>
       <span class="p">},</span>
       <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Bacoor&quot;</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Guinobatan&quot;</span>
       <span class="p">},</span>
       <span class="p">{</span>
-      <span class="p">...</span>
+        <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Jovellar&quot;</span>
+      <span class="p">},</span>
+     <span class="p">...</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;Data found&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;200&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3 id="get-provinces-and-cities">Get Provinces and Cities<a class="headerlink" href="#get-provinces-and-cities" title="Permanent link"></a></h3>
+<p>POST <code>api/get-provinces-and-cities</code>   </p>
+<p>Get list of cities and provinces options under a region.
+|      Name      | Required |   Type    |    Description        |    Sample Data
+|----------------|----------|-----------|-----------------------|-----------------------
+| region        |  yes     |  text      |        -              |  Bangsamoro (BARMM)</p>
+<h5 id="response_11">Response<a class="headerlink" href="#response_11" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<span class="p">{</span>
+  <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;provinces_and_cities&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;city_id&quot;</span><span class="o">:</span> <span class="s2">&quot;14&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_id&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_and_city&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila, Quezon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cities_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Quezon&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;city_id&quot;</span><span class="o">:</span> <span class="s2">&quot;11&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_id&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_and_city&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila, Pasay&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cities_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Pasay&quot;</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;city_id&quot;</span><span class="o">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_id&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_and_city&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila, Muntinlupa&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;province_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Metro Manila&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cities_name&quot;</span><span class="o">:</span> <span class="s2">&quot;Muntinlupa&quot;</span>
+      <span class="p">},</span>
+     <span class="p">...</span>
     <span class="p">]</span>
   <span class="p">},</span>
   <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
@@ -1716,8 +1847,8 @@ body .markdown-body
 <h3 id="step-1_1">Step 1<a class="headerlink" href="#step-1_1" title="Permanent link"></a></h3>
 <p>GET <code>api/visitors/cesbie-login/</code>   </p>
 <p>Get list of options for cesbie fullname, and place of origin.</p>
-<h5 id="response_7">Response<a class="headerlink" href="#response_7" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_12">Response<a class="headerlink" href="#response_12" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;staff&quot;</span><span class="o">:</span> <span class="p">[</span>
@@ -1859,8 +1990,8 @@ body .markdown-body
 </tr>
 </tbody>
 </table>
-<h5 id="response_8">Response<a class="headerlink" href="#response_8" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_13">Response<a class="headerlink" href="#response_13" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="s2">&quot;guest_visitors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>
@@ -1908,8 +2039,8 @@ body .markdown-body
 </tr>
 </tbody>
 </table>
-<h5 id="response_9">Response<a class="headerlink" href="#response_9" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">201</span> <span class="nx">OK</span>
+<h5 id="response_14">Response<a class="headerlink" href="#response_14" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">201</span> <span class="nx">OK</span>
 <span class="p">{</span>
   <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;login_time_format&quot;</span><span class="o">:</span> <span class="s2">&quot;9\/14\/2020 | 4:28 PM&quot;</span><span class="p">,</span>
@@ -1970,8 +2101,8 @@ body .markdown-body
 </tr>
 </tbody>
 </table>
-<h5 id="response_10">Response<a class="headerlink" href="#response_10" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">200</span> <span class="nx">OK</span>
+<h5 id="response_15">Response<a class="headerlink" href="#response_15" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">200</span> <span class="nx">OK</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="s2">&quot;fullname&quot;</span><span class="o">:</span> <span class="s2">&quot;Lorenzo Salamante&quot;</span><span class="p">,</span>
@@ -1991,8 +2122,8 @@ body .markdown-body
 <span class="p">}</span>
 </pre></div>
 
-<h5 id="response_11">Response<a class="headerlink" href="#response_11" title="Permanent link"></a></h5>
-<div class="codehilite"><pre><span class="mi">404</span> <span class="nx">Data</span> <span class="nx">not</span> <span class="nx">found</span>
+<h5 id="response_16">Response<a class="headerlink" href="#response_16" title="Permanent link"></a></h5>
+<div class="highlight"><pre><span class="mi">404</span> <span class="nx">Data</span> <span class="nx">not</span> <span class="nx">found</span>
 <span class="p">{</span>
     <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">[],</span>
     <span class="s2">&quot;meta&quot;</span><span class="o">:</span> <span class="p">{</span>

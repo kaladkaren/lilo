@@ -17,4 +17,11 @@ class Service_model extends Crud_model
           ORDER BY {$this->table}.name ASC
           ")->result();
     }
+
+    public function getByDivision($division_id)
+    {
+      $this->db->select('id,name');
+      $this->db->where('division_id', $division_id);
+      return $this->db->get('services')->result();
+    }
 }

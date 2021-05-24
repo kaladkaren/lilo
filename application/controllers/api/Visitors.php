@@ -320,4 +320,40 @@ class Visitors extends Crud_controller {
         $this->response($r_return, $status);
     }
 
+    public function divisions_get()
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res = $this->division_model->get_all();
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
+    public function service_by_division_get($division_id)
+    {
+        $res = array();
+        $message = "Data found";
+        $status  = "200";
+
+        $res = $this->service_model->getByDivision($division_id);
+
+        $r_return = (object)[
+            'data' => $res,
+            'meta' => (object)[
+                'message' => $message,
+                'status' => $status
+            ]
+        ];
+        $this->response($r_return, $status);
+    }
+
 }
