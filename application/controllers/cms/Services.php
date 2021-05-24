@@ -20,6 +20,7 @@ class Services extends Admin_core_controller {
   public function service()
   {
     $data['service'] = $this->service_model->all();
+    $data['all_divison'] = $this->service_model->allDivision();
     # Pagination
     $pag_conf['base_url'] = base_url("/cms/services/index");
     $pag_conf['total_rows'] = $data['total_results'] = $this->service_model->all_total();
@@ -54,6 +55,7 @@ class Services extends Admin_core_controller {
     $url = '';
     $data['x_clear_stat'] = '';
     $data['x_clear_keyword'] = $this->service_model->strip_param_from_url($url, 'name', base_url('cms/services'));
+    $data['x_clear_cat_division'] = $this->service_model->strip_param_from_url($url, 'cat_division', base_url('cms/services'));
     ### SORTING BUTTONS
     $data['order'] = $this->service_model->strip_param_from_url($url, 'order', base_url('cms/services'));
     $data['order_by'] = $this->service_model->strip_param_from_url($url, 'order_by', base_url('cms/services'));

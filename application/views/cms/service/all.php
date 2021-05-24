@@ -71,8 +71,31 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+                  <form>
+                    <div class="input-group m-bot15">
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">Filter by Division</button>
+                      </div>
+                      <select class="form-control" name="cat_division">
+                        <option value="">All</option>
+                        <?php foreach ($all_divison as $key => $value): ?>
+                          <option value="<?php echo $value->id ?>" <?php echo (isset($_GET['cat_division']) && $_GET['cat_division'] == $value->id) ? "selected=''":""; ?>><?php echo $value->name ?></option>
+                        <?php endforeach ?>
+                      </select>
+                      <div class="input-group-btn">
+                        <button tabindex="-1" class="btn btn-white" type="button">
+                          <a href="<?php echo @$x_clear_cat_division ?>">X</a>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
               </div>
-              <div class="alert alert-info fade in">
+
+              <div class="alert alert-info fade in" style="margin-top: 100px;">
                 <p><strong style="margin-right: 10px;">Legend: </strong>
                   <span class="label label-danger" style="background-color: #fff;color: black;">ACTIVE</span>
                   <span class="label label-warning" style="background-color: #8a8a8a;">INACTIVE</span>
@@ -129,6 +152,16 @@
             <div class="panel-body">
               <form role="form" method="post" action="<?php echo base_url('cms/services/add_service/') ?>">
                 <div class="form-group">
+                  <label >Division</label>
+                  <select name="division_id" class="form-control" required="">
+                    <option value="" disabled="" selected="">Select Division</option>
+                    <?php foreach ($all_divison as $key => $value): ?>
+                      <option <?php echo ($value->is_active) ? '':'disabled="disabled" style="background-color:gray;color:white;"'; ?> value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
+                    <?php endforeach ?>
+                  </select>
+
+                </div>
+                <div class="form-group">
                   <label >Service Name</label>
                   <input type="text" class="form-control" name="name" required="">
                 </div>
@@ -163,6 +196,17 @@
         </div>
         <div class="panel-body">
           <form role="form" method="post" action="<?php echo base_url('cms/services/update_service/'.$value->id) ?>" enctype="multipart/form-data">
+            
+            <div class="form-group">
+              <label >Division</label>
+              <select name="division_id" class="form-control" required="">
+                <option value="" disabled="" selected="">Select Division</option>
+                <?php foreach ($all_divison as $division): ?>
+                  <option <?php echo ($division->id == $value->division_id) ? 'selected=""':''; ?> value="<?php echo $division->id ?>"><?php echo $division->name ?></option>
+                <?php endforeach ?>
+              </select>
+
+            </div>
             <div class="form-group">
               <label >Service Name</label>
               <input type="text" class="form-control" name="name" required="" value="<?php echo $value->name ?>">
@@ -193,6 +237,9 @@
     }
     $('button#search_keyword').on('click', function(e){
       window.location.href='<?php echo $x_clear_keyword ?>&name='+$('input[name=keyword]').val();
+    });
+    $('select[name=cat_division]').on('change', function(e){
+      window.location.href='<?php echo $x_clear_cat_division ?>&cat_division='+$(this).children('option:selected').val();
     });
   });
 </script>

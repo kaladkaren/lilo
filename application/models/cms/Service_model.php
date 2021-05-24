@@ -40,6 +40,10 @@ class Service_model extends Crud_model
           endif;
         endif;
 
+        if (isset($_GET['cat_division'])):
+            $where .= "AND {$this->table}.division_id = '{$_GET['cat_division']}' ";
+        endif;
+
         $order_str = "ORDER BY {$order_by} {$order}";
 
         $limit_str = '';
@@ -67,6 +71,11 @@ class Service_model extends Crud_model
         if (isset($_GET['name'])):
             $where .= "AND {$this->table}.name LIKE '%{$_GET['name']}%' ";
         endif;
+
+        if (isset($_GET['cat_division'])):
+            $where .= "AND {$this->table}.division_id = '{$_GET['cat_division']}' ";
+        endif;
+
         return $this->db->query("
           SELECT {$this->table}.*
           FROM {$this->table} 
@@ -139,5 +148,10 @@ class Service_model extends Crud_model
         unset( $parameters['srch'] );               // Delete the one you want
         $new_query = http_build_query($parameters); // Rebuilt query string
         return $current_page.'?srch=1&'.$new_query;            // Finally url is ready
+      }
+
+      public function allDivision()
+      {
+        return $this->db->get('division')->result();
       }
 }

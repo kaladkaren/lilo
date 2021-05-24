@@ -232,9 +232,9 @@ class Visitor_model extends Crud_model
 		// var_dump($data->purpose, $data->division_to_visit); die();
 		#########SENDING EMAIL############
     	$ret = true;
-		$this->email->from('noreply@myoptimind.com', 'LiLo Xpress');
+		$this->email->from('liloxpress@cesboard.gov.ph', 'LiLo Xpress');
 		$this->email->to($data->email_address);
-		$this->email->bcc('lsalamante@myoptimind.com');
+		$this->email->bcc('kmorales@myoptimind.com');
 		$this->email->subject('LiLo Xpress: E-copy');
 
     $attached_agency_others = @$data->attached_agency_others ? " - $data->attached_agency_others": "";
@@ -295,9 +295,9 @@ class Visitor_model extends Crud_model
 	{
 		#########SENDING EMAIL############
     	$ret = true;
-		$this->email->from('noreply@myoptimind.com', 'LiLo Xpress');
+		$this->email->from('liloxpress@cesboard.gov.ph', 'LiLo Xpress');
 		$this->email->to($data->email_address);
-		$this->email->bcc('lsalamante@myoptimind.com');
+		$this->email->bcc('kmorales@myoptimind.com');
 		$this->email->subject('LiLo Xpress: Logout E-copy ');
 
 
@@ -336,6 +336,16 @@ class Visitor_model extends Crud_model
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->temperature.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Place of Origin</p></td></tr>
 				<tr class="field-value"><td><p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">'.$data->region.', ' . $data->province . '<br>'.$data->city.'</p></td></tr>
+				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Summary of Visit</p></td></tr>
+				<tr class="field-value">
+					<td>
+						<p style="padding: 0px 30px 0px 30px;margin:0px 0px 20px 0px;font-weight: 700;">
+							Login: '.$data->login_time_format.'<br>
+							Logout: '.$data->logout_time_format.'<br>
+							Duration: '.$data->duration.'
+						</p>
+					</td>
+				</tr>
 			</tbody>
 			<tfoot style="background: #E8FAFF;">
 				<tr>
