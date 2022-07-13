@@ -325,7 +325,7 @@ class Visitor_model extends Crud_model
 				<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'.$data->email_address.'</p></td></tr>
 				<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Division / Person Visited</p></td></tr>';
 
-				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. @$data->division_to_visit.' '. @$data->person_to_visit.'</p></td></tr>';
+				$msg .= '<tr class="field-value"><td><p style="padding: 0px 50px 0px 50px;margin:0px 0px 10px 0px;font-weight: 700;">'. @$data->division.' '. @$data->person_to_visit.'</p></td></tr>';
 
 				if ($data->purpose) {
 					$msg .= '<tr class="field"><td><p style="margin:0;font-size: 12px;letter-spacing: 2px; color: gray;">Purpose of Visit</p></td></tr>
